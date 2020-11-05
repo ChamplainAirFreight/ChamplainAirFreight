@@ -1,6 +1,7 @@
 edu\cco\ChamplainAirFreight\FlightsPage.class
 edu\cco\ChamplainAirFreight\Styles.class
 edu\cco\ChamplainAirFreight\HelpPage.class
+edu\cco\ChamplainAirFreight\Connection.class
 edu\cco\ChamplainAirFreight\ShipmentsPage.class
 edu\cco\ChamplainAirFreight\ContactPage.class
 edu\cco\ChamplainAirFreight\HomePage.class
