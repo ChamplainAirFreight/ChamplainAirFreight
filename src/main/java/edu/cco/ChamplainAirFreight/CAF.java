@@ -7,6 +7,9 @@ package edu.cco.ChamplainAirFreight;
  * by Dony Pierre to discuss methods for creating a functional GUI.
  */
 //Imports
+
+//ADDING A TEST COMMENT TO DEMONSTRATE PUSHING TO GITHUB! REMOVE THIS LATER
+
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
