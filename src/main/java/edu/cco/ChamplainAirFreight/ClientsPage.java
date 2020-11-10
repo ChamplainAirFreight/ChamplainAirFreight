@@ -1,7 +1,6 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -33,6 +32,7 @@ public class ClientsPage {
 
     // classes 
     Styles s = new Styles();
+    DBViewAllClient viewAllClient = new DBViewAllClient();  //view all client information 
     
 	// Client address labels
 	static Label lbName = new Label("Client Name");
@@ -159,7 +159,7 @@ public class ClientsPage {
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewClient page
-            box.setCenter(addClient());
+            box.setCenter(centerBox);
         });
 
         return box;
@@ -194,7 +194,6 @@ public class ClientsPage {
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
         GridPane gPane = new GridPane();
-        Styles s = new Styles(); //styles class for colors/fonts 
         lbName.setStyle(s.clientLB);
         lbAddress.setStyle(s.clientLB);
         lbCity.setStyle(s.clientLB);
@@ -273,17 +272,45 @@ public class ClientsPage {
 	 * change the shipment information from this shipment view.
 	 * @return
 	 */
-	private HBox getTextAreaOne() {
-		HBox hboxt = new HBox();
-		texReaOne = new TextArea();
-		hboxt.setAlignment(Pos.CENTER);
-		texReaOne.setStyle("-fx-border-color: black");
-		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(false);
-		texReaOne.setWrapText(true);
-		texReaOne.setPrefSize(900, 500);
-		hboxt.getChildren().addAll(texReaOne);
-		return hboxt;
+	private ScrollPane getTextAreaOne() {
+		ScrollPane box = new ScrollPane();
+		box.setFitToWidth(true);
+		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
+		//texReaOne = new TextArea();
+		//texReaOne.setStyle("-fx-border-color: black");
+		//texReaOne.setFont(new Font("Time New Roman", 10));
+		//texReaOne.setEditable(false);
+		//texReaOne.setWrapText(true);
+		//texReaOne.setPrefSize(900, 500);
+		
+		 GridPane gpane = new GridPane(); 
+		 gpane.setPadding(new Insets(2,20,2,20));
+		 gpane.setAlignment(Pos.TOP_CENTER); 
+		 gpane.setHgap(150);
+		 gpane.setVgap(10);
+		 		 
+		 int row = 1; 
+		 int i =0; 
+		 while(i < viewAllClient.getName().size()) {
+			 Label gridName = new Label (String.valueOf(viewAllClient.getName().get(i))); 
+			 Label gridAdress = new Label (String.valueOf(viewAllClient.getAddress1().get(i)) + " " +
+			 String.valueOf(viewAllClient.getAddress2().get(i))); 
+			 Label gridCity = new Label(String.valueOf(viewAllClient.getCity().get(i))); 
+			 Label gridState = new Label(String.valueOf(viewAllClient.getState().get(i))); 
+			 Label gridZip = new Label(String.valueOf(viewAllClient.getZip().get(i))); 
+			 
+			 gpane.add(gridName,  0,  row);
+			 gpane.add(gridAdress, 1, row); 
+			 gpane.add(gridCity,  2,  row);
+			 gpane.add(gridState,  3,  row);
+			 gpane.add(gridZip,  4,  row);
+			 
+			 row++; 
+			 i++; 
+		 }
+		
+		 box.setContent(gpane);
+		return box;
 	}
   
 } //End Subclass ClientsPage

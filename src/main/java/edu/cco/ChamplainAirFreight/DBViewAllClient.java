@@ -70,13 +70,13 @@ public void viewAll() {
 		 */
 		
 		while(rs.next()) {
-			name.add(rs.getString(1)); 
-			clientType.add(rs.getString(2)); 
-			address1.add(rs.getString(3)); 
-			address2.add(rs.getString(4)); 
-			city.add(rs.getString(5)); 
-			state.add(rs.getString(6)); 
-			zip.add(rs.getString(7));   
+			name.add(rs.getString(2)); 
+			clientType.add(rs.getString(3)); 
+			address1.add(rs.getString(7)); 
+			address2.add(rs.getString(8)); 
+			city.add(rs.getString(9)); 
+			state.add(rs.getString(10)); 
+			zip.add(rs.getString(11));   
 		}
 		
 	}catch (SQLException ex) {
@@ -93,6 +93,34 @@ public void getResults() {
 		System.out.println(name.get(i)+ "-" + clientType.get(i) + "-" + address1.get(i) 
 		+ " " + address2.get(i) + "-" + city.get(i) + "-" + state.get(i) + "-" + zip.get(i)); 
 	}
+}
+
+public ArrayList<String> getName(){
+	return name; 
+}
+
+public ArrayList<String> getClientType(){
+	return clientType; 
+}
+
+public ArrayList<String> getAddress1(){
+	return address1; 
+}
+
+public ArrayList<String> getAddress2(){
+	return address2; 
+}
+
+public ArrayList<String> getCity(){
+	return city; 
+}
+
+public ArrayList<String> getState(){
+	return state; 
+}
+
+public ArrayList<String> getZip(){
+	return zip; 
 }
 
 /**

@@ -51,6 +51,7 @@ public class FlightsPage {
 
     //classes
     Styles s = new Styles();
+    DBViewAllFlights viewAllFlights = new DBViewAllFlights(); 
 
     /**
      * Constructor - pulls the border pane from CAF (main page)
@@ -140,7 +141,7 @@ public class FlightsPage {
             box.setCenter(getClientLBs()); 
         });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs()); 
+        	box.setCenter(editFlightPane()); 
         });
         btnDelete.setOnAction(e -> {
 
@@ -231,7 +232,7 @@ public class FlightsPage {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
 		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(150);
+		hboxv.setSpacing(20);
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
@@ -264,6 +265,42 @@ public class FlightsPage {
 		texReaOne.setPrefSize(900, 500);
 		hboxt.getChildren().addAll(texReaOne);
 		return hboxt;
+	}
+	
+	/**
+	 * editFlightPane - pane will appear when user presses "Edit" - will allow user to select a flight, 
+	 * and edit the information for that flight. 
+	 * @return
+	 */
+public ScrollPane editFlightPane() {
+	ScrollPane sp = new ScrollPane(); 
+		VBox vbox = new VBox(); 
+		vbox.setAlignment(Pos.TOP_CENTER); 
+		vbox.setPadding(new Insets(3,20,3,20));
+		vbox.setSpacing(20);
+		vbox.setPrefWidth(1000); 
+		vbox.setPrefHeight(500);
+		vbox.setStyle("-fx-background-color: white; -fx-border-color: black");
+		
+		Text title = new Text("Edit Flight Information"); 
+		title.setFont(Font.font("Times New Roman", FontWeight.BOLD,
+                FontPosture.ITALIC, 25));
+		Text instructions = new Text("Select the flight you would like to edit, then "
+				+ "change what you would like to change. Press \"Enter\" when you "
+				+ "want to execute the changes. \"Cancel\" will clear your entries"); 
+		
+		ComboBox cbFlights = new ComboBox(); // will fill with flight IDs. 
+		cbFlights.getItems().addAll(viewAllFlights.getFlightID()); 
+		cbFlights.setVisibleRowCount(5);
+		
+		
+		//add edit fields (start, end location and times, etc):
+		
+		
+		vbox.getChildren().addAll(title,instructions,cbFlights); 
+		sp.isFitToWidth(); 
+		sp.setContent(vbox);
+		return sp; 		
 	}
 
 } //End Subclass FlightsPage
