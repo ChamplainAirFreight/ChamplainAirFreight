@@ -18,7 +18,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<verbose>true</verbose>
+					<verbose>false</verbose>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -26,7 +26,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.4</version>
 				<configuration>
-					<mainClass>edu.cco.ChamplainAirFreight.App</mainClass>
+					<mainClass>edu.cco.ChamplainAirFreight.CAF</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
