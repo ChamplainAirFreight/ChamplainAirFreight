@@ -39,7 +39,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>edu.cco.ChamplainAirFreight.App</mainClass>
+							<mainClass>edu.cco.ChamplainAirFreight.CAF</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
