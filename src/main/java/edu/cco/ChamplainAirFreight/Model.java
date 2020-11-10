@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -20,72 +21,71 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * @Author Name: Kelly May
+ * @Author Name: Dony Pierre
  * @Assignment Name: caf
  * @Date: Oct 30, 2020
- * @Subclass PilotPage Description: GUI panes for pilot information
+ * @Subclass FlightsPage Description: GUI panes for Model information
  */
-//Imports
-//Begin Subclass PilotPage
-public class PilotPage {
-
-	//TextArea for the view - By Pierre
+//Begin Subclass Model
+public class Model {
+	
+	//TextArea for the view -  Pierre 
 	static TextArea texReaOne = new TextArea();
     
-	// Client address labels - By Pierre
-	static Label lbfname;
-	static Label lblname;
-	static Label lbbirthdate;
-	static Label lbdatehire;
-	static Label lbdateresign;
+	// Client address labels - Pierre
+	static Label lbstartairport;
+	static Label lbendairport;
+	static Label lbflightstarttime;
+	static Label lbflightendtime;
+	static Label lbShipmentEndDate;
 
-	//Text field - By Pierre
-	static TextField txfname;
-	static TextField txlname;
-	static TextField txbirthdate;
-	static TextField txdatehire;
-	static TextField txdateresign;
+	//Text field -  Pierre
+	static TextField txstartairport;
+	static TextField txendairport;
+	static TextField txflightstarttime;
+	static TextField txflightendtime;
+	static TextField txShipmentEndDate;
 	
-    // classes 
-    Styles s = new Styles();
-
-    //passed border pane from CAF. 
+    //variables
     BorderPane bPane = new BorderPane();
 
+    //classes
+    Styles s = new Styles();
+
     /**
-     * constructor pulls the border pane from CAF
+     * Constructor - pulls the border pane from CAF (main page)
      *
      * @param bp
      */
-    PilotPage(BorderPane bp) {
+    Model(BorderPane bp) {
         bPane = bp;
     }
 
     /**
-     * getPane - this will call the pilots pane into the CAF main page.
+     * getPane - this will call the Flights pane into the CAF main page.
      *
      * @return
      */
     public VBox getPane() {
         VBox vbox = new VBox();
-        vbox.getChildren().add(pilots());
+        vbox.getChildren().add(flights());
         return vbox;
     }
 
     /**
-     * pilots - this is the main border pane for the pilots page
+     * flights - this is the main border pane for the flights page.
      *
      * @return
      */
-    private BorderPane pilots() {
+    private BorderPane flights() {
         BorderPane box = new BorderPane();
 
         //create a title pane for the top
         VBox titleBox = new VBox();
         titleBox.setAlignment(Pos.CENTER);
         titleBox.setSpacing(10);
-        Text title = new Text("Pilots");
-        Text instruct = new Text("View Pilot Information Below:");
+        Text title = new Text("Flights");
+        Text instruct = new Text("Model:");
         //style text
         title.setFill(Color.DARKBLUE);
         title.setStrokeWidth(2);
@@ -104,9 +104,9 @@ public class PilotPage {
 
         //make buttons
         Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Pilot");
-        Button btnEdit = new Button("Edit Pilot");
-        Button btnDelete = new Button("Delete Pilot");
+        Button btnAdd = new Button("Add Flight");
+        Button btnEdit = new Button("Edit Flight");
+        Button btnDelete = new Button("Delete Flight");
         Button btnEnter = new Button("Enter");
         Button btnCancel = new Button("Cancel");
         Button btnExit = new Button("Exit");
@@ -127,20 +127,20 @@ public class PilotPage {
         buttonBox.getChildren().addAll(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
                 btnCancel, btnExit);
 
-        //add title, center, and buttons to pilots pane:
+        //add title, center, and buttons to flights pane:
         box.setTop(titleBox);
-        box.setCenter(viewPilots()); //call a method to show db of pilots  
+        box.setCenter(viewFlights()); //call a method to show db of flights  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
         btnView.setOnAction(e -> {
-        	box.setCenter(getViewLBs());
+            box.setCenter(getModelLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            box.setCenter(getModelViewLBs()); 
         });
         btnEdit.setOnAction(e -> {
-        	 box.setCenter(getClientLBs()); 	
+        	box.setCenter(getModelViewLBs()); 
         });
         btnDelete.setOnAction(e -> {
 
@@ -153,19 +153,20 @@ public class PilotPage {
         });
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
-            //return to just the viewPilots page
-            box.setCenter(viewPilots());
+            //return to just the viewFlights page
+            box.setCenter(viewFlights());
         });
 
         return box;
     }
 
     /**
-     * will connect to the db to view pilot information
+     * viewFlights - generates a chart of the flight information, which can be
+     * added to flights() will have to call the database flights table
      *
      * @return
      */
-    private ScrollPane viewPilots() {
+    private ScrollPane viewFlights() {
         ScrollPane chart = new ScrollPane();
         chart.setMinHeight(360);
         chart.setMaxHeight(360);
@@ -176,79 +177,80 @@ public class PilotPage {
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
-    private HBox getClientLBs() {
+    private HBox getModelViewLBs() {
     	HBox hboxlb = new HBox();
     	hboxlb.setMinHeight(300);
     	hboxlb.setStyle("-fx-background-color: white");
     	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
+    	hboxlb.getChildren().addAll(getModelInfolb(),getModelInfotx());
     	return hboxlb;
     }   
     /*
-     * This function will display the pilot information for the pilot page
+     * This function will display the Model information for the Model page
      */
-    private VBox getClientInfolb() {
+    private VBox getModelInfolb() {
     	VBox vboxi = new VBox();
         GridPane gPane = new GridPane();
-		 lbfname = new Label("First Name");
-		 lblname = new Label("Last Name");
-		 lbbirthdate = new Label("Date of Birth");
-		 lbdatehire = new Label("Date Hired");
-		 lbdateresign  = new Label("Date Resigned");
+		 lbstartairport = new Label("Start Airport");
+		 lbendairport = new Label("End Airport");
+		 lbflightstarttime = new Label("Flight Start Time");
+		 lbShipmentEndDate = new Label("Flight End Time");
     	
-    	vboxi.getChildren().addAll(lbfname,lblname,lbbirthdate,lbdatehire,lbdateresign);
+    	vboxi.getChildren().addAll(lbstartairport,lbendairport,lbflightstarttime,lbShipmentEndDate);
     	return vboxi;
     }
 
     /*
-     * This function will display the pilot information for the pilot page
+     * This function will display the Model information for the Model page
      */
-    private VBox getClientInfotx() {
+    private VBox getModelInfotx() {
     	VBox vboxi = new VBox();
-    	 txfname = new TextField();
-    	 txlname = new TextField();
-    	 txbirthdate = new TextField();
-    	 txdatehire = new TextField();
-    	 txdateresign = new TextField();
-    	vboxi.getChildren().addAll(txfname,txlname ,txbirthdate,txdatehire,txdateresign );//, getClientInfotxZip());
+    	 txstartairport = new TextField();
+    	 txendairport = new TextField();
+    	 txflightstarttime = new TextField();
+    	 txflightendtime = new TextField();
+    	vboxi.getChildren().addAll(txstartairport,txendairport ,txflightstarttime,txflightendtime);//, getClientInfotxZip());
     	return vboxi;
     } 
+
     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
-    private VBox getViewLBs() {
+    private VBox getModelLBs() {
     	VBox vboxlb = new VBox();
     	vboxlb.setAlignment(Pos.CENTER);
-    	vboxlb.getChildren().addAll(getViewLabel(), getTextAreaOne());
+    	vboxlb.getChildren().addAll(getModelLabel(), getTextAreaOne());
     	return vboxlb;
     }
     /**
-     * This is a header section for the pilot view page. This header displays the names of the fields
+     * This is a header section for the flight view page. This header displays the names of the fields
      * @return
      */
-	private HBox getViewLabel() {
+	private HBox getModelLabel() {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
 		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(100);
+		hboxv.setSpacing(150);
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
-		 lbfname = new Label("First Name");
-		 lblname = new Label("Last Name");
-		 lbbirthdate = new Label("Date of Birth");
-		 lbdatehire = new Label("Date Hired");
-		 lbdateresign  = new Label("Date Resigned");
-   	
-		 hboxv.getChildren().addAll(lbfname,lblname,lbbirthdate,lbdatehire,lbdateresign);
+		Label lbstartairport = new Label("Start Airport");
+		Label lbtxendairport = new Label("End Airport");
+		Label lbtxflightstarttime = new Label("Flight Start Time");
+		Label lbtxflightendtime = new Label("Flight End Time");
+//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+		hboxv.getChildren().addAll(lbstartairport, lbtxendairport, lbtxflightstarttime, lbtxflightendtime);
 		return hboxv;
 	}
 
 	/**
-	 * This TextArea will display the output or result for the pilot information 
+	 * This TextArea will display the output or result for the flight information 
 	 * it will allow users to view a summary of the flight. Users will not be able to 
-	 * change the pilot information from this flight view.
+	 * change the flight information from this flight view.
 	 * @return
 	 */
 	private HBox getTextAreaOne() {
@@ -263,4 +265,5 @@ public class PilotPage {
 		hboxt.getChildren().addAll(texReaOne);
 		return hboxt;
 	}
-} //End Subclass PilotPage
+
+} //End Subclass Model

@@ -11,7 +11,7 @@ package edu.cco.ChamplainAirFreight;
 //Begin Subclass Styles
 public class Styles {
 
-    String gpane = "-fx-background-color: white; -fx-border-width: 2px;";
+    String gpane = "-fx-background-color: white; -fx-border-width: 2px";
     String button = "-fx-background-color: lightblue; -fx-border-color: darkblue; -fx-text-fill: blue";
     String redButton = "-fx-background-color: lightblue; -fx-border-color: darkblue; -fx-text-fill: red";
 
@@ -22,4 +22,6 @@ public class Styles {
             + "lightblue; " + "-fx-text-fill: red; "
             + "-fx-border-style: solid inside; " + "-fx-border-radius: 5; " + "fx-border-radius: 5";
 
+    //Adding new styles - Pierre
+    String clientLB = "-fx-background-color: blue; -fx-border-width: 2px";
 } //End Subclass Styles
