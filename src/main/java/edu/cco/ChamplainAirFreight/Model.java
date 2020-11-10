@@ -21,13 +21,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * @Author Name: Kelly May
+ * @Author Name: Dony Pierre
  * @Assignment Name: caf
  * @Date: Oct 30, 2020
- * @Subclass FlightsPage Description: GUI panes for flight information
+ * @Subclass FlightsPage Description: GUI panes for Model information
  */
-//Begin Subclass FlightsPage
-public class FlightsPage {
+//Begin Subclass Model
+public class Model {
 	
 	//TextArea for the view -  Pierre 
 	static TextArea texReaOne = new TextArea();
@@ -57,7 +57,7 @@ public class FlightsPage {
      *
      * @param bp
      */
-    FlightsPage(BorderPane bp) {
+    Model(BorderPane bp) {
         bPane = bp;
     }
 
@@ -85,7 +85,7 @@ public class FlightsPage {
         titleBox.setAlignment(Pos.CENTER);
         titleBox.setSpacing(10);
         Text title = new Text("Flights");
-        Text instruct = new Text("View Flight Information Below:");
+        Text instruct = new Text("Model:");
         //style text
         title.setFill(Color.DARKBLUE);
         title.setStrokeWidth(2);
@@ -134,13 +134,13 @@ public class FlightsPage {
 
         //add actionables to change the setCenter based on button responses:
         btnView.setOnAction(e -> {
-            box.setCenter(getViewLBs());
+            box.setCenter(getModelLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            box.setCenter(getModelViewLBs()); 
         });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs()); 
+        	box.setCenter(getModelViewLBs()); 
         });
         btnDelete.setOnAction(e -> {
 
@@ -177,18 +177,18 @@ public class FlightsPage {
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
-    private HBox getClientLBs() {
+    private HBox getModelViewLBs() {
     	HBox hboxlb = new HBox();
     	hboxlb.setMinHeight(300);
     	hboxlb.setStyle("-fx-background-color: white");
     	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
+    	hboxlb.getChildren().addAll(getModelInfolb(),getModelInfotx());
     	return hboxlb;
     }   
     /*
-     * This function will display the flight information for the flight page
+     * This function will display the Model information for the Model page
      */
-    private VBox getClientInfolb() {
+    private VBox getModelInfolb() {
     	VBox vboxi = new VBox();
         GridPane gPane = new GridPane();
 		 lbstartairport = new Label("Start Airport");
@@ -201,9 +201,9 @@ public class FlightsPage {
     }
 
     /*
-     * This function will display the flight information for the flight page
+     * This function will display the Model information for the Model page
      */
-    private VBox getClientInfotx() {
+    private VBox getModelInfotx() {
     	VBox vboxi = new VBox();
     	 txstartairport = new TextField();
     	 txendairport = new TextField();
@@ -217,17 +217,17 @@ public class FlightsPage {
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
-    private VBox getViewLBs() {
+    private VBox getModelLBs() {
     	VBox vboxlb = new VBox();
     	vboxlb.setAlignment(Pos.CENTER);
-    	vboxlb.getChildren().addAll(getViewLabel(), getTextAreaOne());
+    	vboxlb.getChildren().addAll(getModelLabel(), getTextAreaOne());
     	return vboxlb;
     }
     /**
      * This is a header section for the flight view page. This header displays the names of the fields
      * @return
      */
-	private HBox getViewLabel() {
+	private HBox getModelLabel() {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
 		hboxv.setPadding(new Insets(3, 20, 3, 20));
@@ -266,4 +266,4 @@ public class FlightsPage {
 		return hboxt;
 	}
 
-} //End Subclass FlightsPage
+} //End Subclass Model

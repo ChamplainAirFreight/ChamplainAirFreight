@@ -7,9 +7,6 @@ package edu.cco.ChamplainAirFreight;
  * by Dony Pierre to discuss methods for creating a functional GUI.
  */
 //Imports
-
-//ADDING A TEST COMMENT TO DEMONSTRATE PUSHING TO GITHUB! REMOVE THIS LATER
-
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,6 +32,7 @@ import java.io.IOException;
 public class CAF extends Application {
 
 	   BorderPane bPane = new BorderPane();
+	   //TESTTEST
 
 	    //Buttons:
 	    static Button btonhomepage = new Button("HOMEPAGE");
@@ -45,6 +43,7 @@ public class CAF extends Application {
 	    static Button btonhelp = new Button("HELP - FAQ PAGE");
 	    static Button btoncontact = new Button("CONTACT US");
 	    static Button btonexit = new Button("EXIT");
+	    static Button btonmodel = new Button("Model");
 
 	    // Classes:
 	    Styles s = new Styles(); //styles class for colors/fonts 
@@ -55,147 +54,184 @@ public class CAF extends Application {
 	    PilotPage pilotPage = new PilotPage(bPane); //pilots page 
 	    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
 	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
+	    Model model = new Model(bPane); //Model page 
+	    
+	    //Database classes
+	    DBConnection connection = new DBConnection(); 
+	    DBViewAllClient allClient = new DBViewAllClient(); 
 
-	    /**
-	     * start - this is the main pane of the GUI. Holds the outer shell for all
-	     * other panes.
-	     *
-	     * @param primaryStage
-	     * @throws Exception
-	     */
-	    @Override
-	    public void start(Stage primaryStage) throws Exception {
-	        bPane.setTop(topNavigation()); // navigation buttons in here
-	        bPane.setCenter(homePage.getPane()); // change the center pane to each new page
-	        bPane.setBottom(bottomCreds()); // bottom credentials/copyright
 
-	        //button actionables:
-	        btonhomepage.setOnAction(e -> {
-	            bPane.setCenter(homePage.getPane());
-	        });
+/**
+ * start - this is the main pane of the GUI. Holds the outer shell for all
+ * other panes.
+ *
+ * @param primaryStage
+ * @throws Exception
+ */
+@Override
+public void start(Stage primaryStage) throws Exception {
+		
+    bPane.setTop(topNavigation()); // navigation buttons in here
+    bPane.setCenter(homePage.getPane()); // change the center pane to each new page
+    bPane.setBottom(bottomCreds()); // bottom credentials/copyright
 
-	        btonclients.setOnAction(e -> {
-	            bPane.setCenter(clientsPage.getPane());
-	        });
+    //button actionables:
+    btonhomepage.setOnAction(e -> {
+        bPane.setCenter(homePage.getPane());
+    });
 
-	        btonflights.setOnAction(e -> {
-	            // set center to flights page
-	            bPane.setCenter(flightsPage.getPane());
-	        });
+    btonclients.setOnAction(e -> {
+        bPane.setCenter(clientsPage.getPane());
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Testing database connection
+      	allClient.getResults(); 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    });
 
-	        btonpilot.setOnAction(e -> {
-	            // set center to pilot page
-	            bPane.setCenter(pilotPage.getPane());
-	        });
 
-	        btonshipment.setOnAction(e -> {
-	            // set center to shipment page
-	            bPane.setCenter(shipPage.getPane());
-	        });
+    btonflights.setOnAction(e -> {
+        // set center to flights page
+        bPane.setCenter(flightsPage.getPane());
+    });
 
-	        btonhelp.setOnAction(e -> {
-	            // set center to help page
-	            bPane.setCenter(helpPage.getPane());
-	        });
+    btonpilot.setOnAction(e -> {
+        // set center to pilot page
+        bPane.setCenter(pilotPage.getPane());
+    });
 
-	        btoncontact.setOnAction(e -> {
-	            // set center to contact page
-	            bPane.setCenter(contactPage.getPane());
-	        });
+    btonshipment.setOnAction(e -> {
+        // set center to shipment page
+        bPane.setCenter(shipPage.getPane());
+    });
 
-	        btonexit.setOnAction(e -> {
-	            // add log-out actions
-	            Platform.exit(); //leave CAF
-	        });
+    btonhelp.setOnAction(e -> {
+        // set center to help page
+        bPane.setCenter(helpPage.getPane());
+    });
 
-	        Scene scene = new Scene(bPane, 1000, 700);
-	        primaryStage.setTitle("Champlain Air Freight");
-	        primaryStage.setScene(scene);
-	        primaryStage.show();
-	    }
+    btoncontact.setOnAction(e -> {
+        // set center to contact page
+        bPane.setCenter(contactPage.getPane());
+    });
 
-	    /**
-	     * topNavigation - this houses the name of the program, and the navigation
-	     * buttons.
-	     *
-	     * @return
-	     */
-	    private VBox topNavigation() {
-	        VBox vboxt = new VBox();
-	        vboxt.setAlignment(Pos.CENTER);
-	        vboxt.setMinHeight(90);
-	        // hboxt.setPadding(new Insets(10,10,10,10));  
-	        vboxt.setStyle("-fx-background-color: lightblue");
-	        Text headertex = new Text("CHAMPLAIN AIR FREIGHT");
-	        headertex.setFill(Color.BLUE);
-	        headertex.setStrokeWidth(2);
-	        headertex.setFont(Font.font("Times New Roman", FontWeight.BOLD,
-	                FontPosture.REGULAR, 30));
-	        vboxt.getChildren().addAll(headertex);
-	        vboxt.getChildren().add(getNavButtons());
+    btonexit.setOnAction(e -> {
+        // add log-out actions
+        Platform.exit(); //leave CAF
+    });
 
-	        return vboxt;
-	    }
-
-	    /**
-	     * getNavButtons - this holds all the navigation buttons for the top pane.
-	     *
-	     * @return
-	     */
-	    private HBox getNavButtons() {
-	        HBox hboxnv = new HBox();
-	        hboxnv.setStyle("-fx-background-color: lightblue");
-	        hboxnv.setSpacing(20);
-	        hboxnv.setPadding(new Insets(10, 10, 10, 10));
-	        hboxnv.setPrefSize(1000, 60);
-	        hboxnv.setAlignment(Pos.CENTER);
-
-	        //add color, height and font to all buttons:
-	        Arrays.asList(btonhomepage, btonclients, btonflights,
-	                btonpilot, btonshipment, btonhelp, btoncontact).stream().map((b) -> {
-	                    b.setStyle(s.button);
-	                    return b;
-	                }).map((b) -> {
-	            b.setMinHeight(30);
-	            return b;
-	        }).forEachOrdered((b) -> {
-	            b.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 14));
-	        });
-	        // exit button is different:
-	        btonexit.setStyle(s.redButton);
-	        btonexit.setMinHeight(30);
-	        btonexit.setFont(Font.font("Times New Roman", FontWeight.BOLD,
-	                FontPosture.REGULAR, 14));
-
-	        hboxnv.getChildren().addAll(btonhomepage, btonclients, btonflights,
-	                btonpilot, btonshipment, btonhelp, btoncontact, btonexit);
-	        return hboxnv;
-	    }
-
-	    /**
-	     * bottomCreds - this holds the information at the bottom of the page, such
-	     * as copyright and general group info.
-	     *
-	     * @return
-	     */
-	    private VBox bottomCreds() {
-	        VBox vboxb = new VBox();
-	        vboxb.setMinSize(1000, 150);
-	        vboxb.setStyle("-fx-background-color: black");
-	        Text toptext = new Text("Copyright © 2020 · All Rights Reserved:  "
-	                + "Champlain Air-Freight");
-	        // toptext.setMargin(new Insets(20,20,20,20));
-	        toptext.setFill(Color.WHITE);
-	        Text bottext = new Text("Designed by: Group 1");
-	        toptext.setFont(Font.font("Times New Roman", FontWeight.NORMAL,
-	                FontPosture.REGULAR, 15));
-	        bottext.setFont(Font.font("Times New Roman", FontWeight.NORMAL,
-	                FontPosture.REGULAR, 15));
-	        bottext.setFill(Color.WHITE);
-	        vboxb.setAlignment(Pos.CENTER);
-	        VBox.setMargin(toptext, new Insets(0, 0, 20, 0));
-	        vboxb.getChildren().addAll(toptext, bottext);
-	        return vboxb;
-	    }
-
+    Scene scene = new Scene(bPane, 1000, 700);
+    primaryStage.setTitle("Champlain Air Freight");
+    primaryStage.setScene(scene);
+    primaryStage.show();
 }
+
+/**
+ * topNavigation - this houses the name of the program, and the navigation
+ * buttons.
+ *
+ * @return
+ */
+private VBox topNavigation() {
+    VBox vboxt = new VBox();
+    vboxt.setAlignment(Pos.CENTER);
+    vboxt.setMinHeight(90);
+    // hboxt.setPadding(new Insets(10,10,10,10));  
+    vboxt.setStyle("-fx-background-color: lightblue");
+    Text headertex = new Text("CHAMPLAIN AIR FREIGHT");
+    headertex.setFill(Color.BLUE);
+    headertex.setStrokeWidth(2);
+    headertex.setFont(Font.font("Times New Roman", FontWeight.BOLD,
+            FontPosture.REGULAR, 30));
+    vboxt.getChildren().addAll(headertex);
+    vboxt.getChildren().add(getNavButtons());
+
+    return vboxt;
+}
+
+/**
+ * getNavButtons - this holds all the navigation buttons for the top pane.
+ *
+ * @return
+ */
+private HBox getNavButtons() {
+    HBox hboxnv = new HBox();
+    hboxnv.setStyle("-fx-background-color: lightblue");
+    hboxnv.setSpacing(20);
+    hboxnv.setPadding(new Insets(10, 10, 10, 10));
+    hboxnv.setPrefSize(1000, 60);
+    hboxnv.setAlignment(Pos.CENTER);
+
+    //add color, height and font to all buttons:
+    Arrays.asList(btonhomepage, btonclients, btonflights,
+            btonpilot, btonshipment, btonhelp, btoncontact, btonmodel).stream().map((b) -> {
+                b.setStyle(s.button);
+                return b;
+            }).map((b) -> {
+        b.setMinHeight(30);
+        return b;
+    }).forEachOrdered((b) -> {
+        b.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 14));
+    });
+    // exit button is different:
+    btonexit.setStyle(s.redButton);
+    btonexit.setMinHeight(30);
+    btonexit.setFont(Font.font("Times New Roman", FontWeight.BOLD,
+            FontPosture.REGULAR, 14));
+
+    hboxnv.getChildren().addAll(btonhomepage, btonclients, btonflights,
+            btonpilot, btonshipment, btonhelp, btoncontact, btonexit);
+    return hboxnv;
+}
+
+/**
+ * bottomCreds - this holds the information at the bottom of the page, such
+ * as copyright and general group info.
+ *
+ * @return
+ */
+private VBox bottomCreds() {
+    VBox vboxb = new VBox();
+    vboxb.setMinSize(1000, 150);
+    vboxb.setStyle("-fx-background-color: black");
+    Text toptext = new Text("Copyright © 2020 · All Rights Reserved:  "
+            + "Champlain Air-Freight");
+    // toptext.setMargin(new Insets(20,20,20,20));
+    toptext.setFill(Color.WHITE);
+    Text bottext = new Text("Designed by: Group 1");
+    toptext.setFont(Font.font("Times New Roman", FontWeight.NORMAL,
+            FontPosture.REGULAR, 15));
+    bottext.setFont(Font.font("Times New Roman", FontWeight.NORMAL,
+            FontPosture.REGULAR, 15));
+    bottext.setFill(Color.WHITE);
+    vboxb.setAlignment(Pos.CENTER);
+    VBox.setMargin(toptext, new Insets(0, 0, 20, 0));
+    vboxb.getChildren().addAll(toptext, bottext);
+    return vboxb;
+}
+
+/**
+ * Each different pane will house each component of our project. We will
+ * need the following extra panes:
+ *
+ * 1. contactUsPane (Pierre) 
+ * 2. helpPane (Pierre) 
+ * 3. shipmentPane (Pierre)
+ * 4. shipmentViewPane (Pierre) - this will be a subpage to shipmentPane 
+ * 5. clientsViewPane (Pierre) - this will be a subpage to clientsPage()
+ *
+ * 6. flightsPane (Kelly) 
+ * 7. flightsViewPane (Kelly) - this will be a subpage to flightsPane 
+ * 8. pilotPane (Kelly) 
+ * 9. pilotViewPane (Kelly) - this will be a subpage to pilotPane 
+ * 10. aircraftInformationPane (Kelly)
+ * 11. aircraftInformaitonViewPane (Kelly) - this will be a subpage to
+ * AircraftInformationPane
+ *
+ * 12. cargoInformationPane (Matt) 
+ * 13. cargoInformationViewPane (Matt) 
+ * 14. aircraftModulePane (Matt) 
+ * 15. aircraftModuleViewPane(Matt) - this will be
+ * a subpage to aircraftModulePane
+ *
+ */
+} //End Class CAF
