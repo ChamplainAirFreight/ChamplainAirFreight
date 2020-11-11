@@ -46,7 +46,7 @@ public DBAddAircraft(int modelNumber) {
 * 11/11/2020
 * Database structure:
 * ACModelID int
-*
+*  
 */
 public void insertSQL(int modelID) {
 	try {
