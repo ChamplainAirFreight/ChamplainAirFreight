@@ -143,9 +143,12 @@ public class ClientsPage {
         });
         btnAdd.setOnAction(e -> {
             box.setCenter(getClientLBs()); 
-        });
+           
+         });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs()); 
+        	box.setCenter(getClientLBs());        	
+        	
+ 
         });
         btnDelete.setOnAction(e -> {
 
@@ -286,8 +289,8 @@ public class ClientsPage {
 		 GridPane gpane = new GridPane(); 
 		 gpane.setPadding(new Insets(2,20,2,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
-		 gpane.setHgap(150);
-		 gpane.setVgap(10);
+		 gpane.setHgap(110);
+		 gpane.setVgap(5);
 		 		 
 		 int row = 1; 
 		 int i =0; 
