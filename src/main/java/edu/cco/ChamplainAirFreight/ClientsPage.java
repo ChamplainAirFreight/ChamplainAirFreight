@@ -111,7 +111,7 @@ public class ClientsPage {
         });
         btnAdd.setOnAction(e -> {
         	String name="Smith White";
-        	String phone ="315-638-9597";
+        	String phone ="225-632-2597";
         	int type=1;
         	
         	DBAddClient add=new DBAddClient(name, type, phone);
