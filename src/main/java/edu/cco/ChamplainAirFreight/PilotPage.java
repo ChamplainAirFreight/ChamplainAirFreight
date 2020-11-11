@@ -120,18 +120,16 @@ public class PilotPage {
         btnAdd.setOnAction(e -> {
         	String fName="Freddy";
         	String lName="Right";  
-        	Date dob =new Date(1990/10/21);
-            
+        	Date dob =new Date(1990/10/21);            
         	String number ="345TGHT";
-        	Date hire = new Date(2011/11/11);
-        	Date left=null;
+        	Date hire = new Date(2011/11/11);        	
         	
-        	DBAddPilot addP=new DBAddPilot(fName,lName,dob,number,hire,left);
+        	DBAddPilot addP=new DBAddPilot(fName,lName,dob,number,hire);
         	addP.pFirstName=fName;
         	addP.pLastName=lName;
         	addP.pDOB=dob;
         	addP.pHireDate=hire;
-        	addP.pLeftDate=left;
+        	
         	
             //box.setCenter(addPilot()); 
         });

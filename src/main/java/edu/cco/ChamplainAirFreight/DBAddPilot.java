@@ -22,24 +22,24 @@ public class DBAddPilot extends DBConnection{
 	public Date pDOB;
 	public String pNumber;
 	public Date pHireDate;
-	public Date pLeftDate;
+	
 	
 /**
 * Default Constructor
 * Matt Ridgway 
 * 11/11/2020
 */
-public DBAddPilot(String fName, String lName, Date dob, String eNumber,Date hire,Date left) {
+public DBAddPilot(String fName, String lName, Date dob, String eNumber,Date hire) {
 			try {
 				this.pFirstName=fName;
 				this.pLastName=lName;
 				this.pDOB=dob;
 				this.pNumber=eNumber;
 				this.pHireDate=hire;
-				this.pLeftDate=left;
+				
 				String storedP = "{call CAFDB.dbo.Add_Pilot}"; 
 				callable = connection.prepareCall(storedP);
-				insertSQL(pFirstName, pLastName, pDOB, pNumber, pHireDate, pLeftDate);			
+				insertSQL(pFirstName, pLastName, pDOB, pNumber, pHireDate);			
 			}
 			catch (SQLException ex) {
 				Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,16 +64,16 @@ public DBAddPilot(String fName, String lName, Date dob, String eNumber,Date hire
 * 7 date leftCAF date
 *
 */
-public void insertSQL(String fName, String lName, Date dob, String eNumber,Date hire,Date left){
+public void insertSQL(String fName, String lName, Date dob, String eNumber,Date hire){
 		try {
-			String sql = "{call CAFDB.dbo.Add_Pilot(?,?,?,?,?,?)}";
+			String sql = "{call CAFDB.dbo.Add_Pilot(?,?,?,?,?)}";
 			callable=connection.prepareCall(sql);
 			callable.setString(1,  fName);
 			callable.setString(2, lName);
 			callable.setDate(3, dob);
 			callable.setString(4, eNumber);
 			callable.setDate(5,hire);
-			callable.setDate(6,left);
+			
 			//Execute Stored Procedure
 			callable.executeQuery();
 			
