@@ -110,8 +110,8 @@ public class ClientsPage {
             box.setCenter(viewClient());
         });
         btnAdd.setOnAction(e -> {
-        	String name="Tom White";
-        	String phone ="515-658-9595";
+        	String name="Smith White";
+        	String phone ="315-638-9597";
         	int type=1;
         	
         	DBAddClient add=new DBAddClient(name, type, phone);

@@ -1,6 +1,10 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -114,6 +118,21 @@ public class PilotPage {
             box.setCenter(viewPilots());
         });
         btnAdd.setOnAction(e -> {
+        	String fName="Freddy";
+        	String lName="Right";  
+        	Date dob =new Date(1990/10/21);
+            
+        	String number ="345TGHT";
+        	Date hire = new Date(2011/11/11);
+        	Date left=null;
+        	
+        	DBAddPilot addP=new DBAddPilot(fName,lName,dob,number,hire,left);
+        	addP.pFirstName=fName;
+        	addP.pLastName=lName;
+        	addP.pDOB=dob;
+        	addP.pHireDate=hire;
+        	addP.pLeftDate=left;
+        	
             //box.setCenter(addPilot()); 
         });
         btnEdit.setOnAction(e -> {

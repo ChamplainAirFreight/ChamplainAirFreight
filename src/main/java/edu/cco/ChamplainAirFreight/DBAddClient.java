@@ -10,8 +10,6 @@ package edu.cco.ChamplainAirFreight;
 
 // Imports:
 import java.sql.CallableStatement;
-
-import java.sql.ResultSet; 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,8 +35,7 @@ public DBAddClient(String clientName, int clientType, String clientPhone) {
 			this.phone=clientPhone;
 			String storedP = "{call CAFDB.dbo.Add_Client}"; 
 			callable = connection.prepareCall(storedP);
-			insertSQL(name,type,phone);
-		
+			insertSQL(name,type,phone);		
 		}
 		catch (SQLException ex) {
 			Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,27 +44,26 @@ public DBAddClient(String clientName, int clientType, String clientPhone) {
 			System.out.println("Problem adding New Client"); 
 		}
 		
-	}
-		//End Default Constructor
+}//End Default Constructor
 
 /**
 * insertSQL Method 
 * Matt Ridgway 
 * 11/11/2020
- * Database structure:
+* Database structure:
  * 1 ClientID int
- * 2 ClientName string
- * 3 ClientTypeID int
- * 4 ClientPhoneNumber string
- *
+* 2 ClientName string
+* 3 ClientTypeID int
+* 4 ClientPhoneNumber string
+*
 */
 public void insertSQL(String clientName, int clientType, String clientPhone) {
 	try {
 		String sql = "{call CAFDB.dbo.Add_Client(?,?,?)}";
 		callable=connection.prepareCall(sql);
-		callable.setString(2,  clientName);
-		callable.setInt(3, clientType);
-		callable.setString(4, clientPhone);
+		callable.setString(1,  clientName);
+		callable.setInt(2, clientType);
+		callable.setString(3, clientPhone);
 		//Execute Stored Procedure
 		callable.executeQuery();
 		
