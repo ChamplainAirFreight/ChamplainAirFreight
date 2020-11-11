@@ -110,6 +110,16 @@ public class ClientsPage {
             box.setCenter(viewClient());
         });
         btnAdd.setOnAction(e -> {
+        	String name="Tom White";
+        	String phone ="515-658-9595";
+        	int type=1;
+        	
+        	DBAddClient add=new DBAddClient(name, type, phone);
+        	add.name=name;
+        	add.type=type;
+        	add.phone=phone;
+        	
+        	
             //box.setCenter(addClient()); 
         });
         btnEdit.setOnAction(e -> {

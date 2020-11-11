@@ -10,20 +10,12 @@ package edu.cco.ChamplainAirFreight;
 
 // Imports:
 import java.sql.CallableStatement;
-import java.sql.Date;
+
 import java.sql.ResultSet; 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- * Database structure:
- * 1 ClientID int
- * 2 ClientName string
- * 3 ClientTypeID int
- * 4 ClientPhoneNumber string
- *
- */
+
 public class DBAddClient extends DBConnection{
 	//Variables
 	public CallableStatement callable = null;
@@ -38,39 +30,51 @@ public class DBAddClient extends DBConnection{
 * Matt Ridgway 
 * 11/11/2020
 */
-public DBAddClient() {
-	
-	try {
-		statement=connection.createStatement();
-		insertClient(name, type, phone);
-	}
-	catch(SQLException ex){
-		System.out.println("Database connection failed for DBAddClient !");
+public DBAddClient(String clientName, int clientType, String clientPhone) {
+		try {
+			this.name=clientName;
+			this.type=clientType;
+			this.phone=clientPhone;
+			String storedP = "{call CAFDB.dbo.Add_Client}"; 
+			callable = connection.prepareCall(storedP);
+			insertSQL(name,type,phone);
+		
+		}
+		catch (SQLException ex) {
+			Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Problem adding New Client"); 
+		}
 		
 	}
-}//End Default Constructor
+		//End Default Constructor
 
 /**
-* insertClient Method calls the stored procedure Add_Client in the SQL database
+* insertSQL Method 
 * Matt Ridgway 
 * 11/11/2020
+ * Database structure:
+ * 1 ClientID int
+ * 2 ClientName string
+ * 3 ClientTypeID int
+ * 4 ClientPhoneNumber string
+ *
 */
-public void insertClient(String clientName, int clientType, String clientPhone) {
+public void insertSQL(String clientName, int clientType, String clientPhone) {
 	try {
-		String storedP = "{call CAFDB.dbo.Add_Client}"; 
-		callable = connection.prepareCall(storedP);
-		String sql= "INSERT INTO Clients VALUES (clientName,clientType, clientPhone)";
-		statement.addBatch(sql);
+		String sql = "{call CAFDB.dbo.Add_Client(?,?,?)}";
+		callable=connection.prepareCall(sql);
+		callable.setString(2,  clientName);
+		callable.setInt(3, clientType);
+		callable.setString(4, clientPhone);
+		//Execute Stored Procedure
+		callable.executeQuery();
 		
-		
-	}
-	catch (SQLException ex) {
-		Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
-	} catch(Exception e) {
-		e.printStackTrace();
-		System.out.println("Problem adding New Client"); 
-	}
+	} catch (SQLException ex) {
+        System.out.println("Insert Client Problem !");
+    }
 	
-}
-	
+}//end insertSQL
+
 }
