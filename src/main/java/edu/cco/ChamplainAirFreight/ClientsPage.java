@@ -110,15 +110,28 @@ public class ClientsPage {
             box.setCenter(viewClient());
         });
         btnAdd.setOnAction(e -> {
-        	String name="Smith White";
-        	String phone ="225-632-2597";
+        	String name="Fred Logon";
+        	String phone ="323-637-2577";
         	int type=1;
         	
         	DBAddClient add=new DBAddClient(name, type, phone);
         	add.name=name;
         	add.type=type;
         	add.phone=phone;
-        	
+        	String add1="123 rd sw eagle";
+        	String add2="Appartment 999";
+        	String city="Maple Hills";
+        	String state="WA";
+        	int zip=98038;
+        	int id=19;
+        	//add client and add address
+        	DBAddClientAddress clientAdd=new DBAddClientAddress(add1,add2,city,state,zip,id);
+        	clientAdd.clientAdd1=add1;
+        	clientAdd.clientAdd2=add2;
+        	clientAdd.clientCity=city;
+        	clientAdd.clientState=state;
+        	clientAdd.clientZip=zip;
+        	clientAdd.clientID=id;
         	
             //box.setCenter(addClient()); 
         });
