@@ -42,7 +42,7 @@ public DBAddPilot(String fName, String lName, Date dob, String eNumber,Date hire
 				insertSQL(pFirstName, pLastName, pDOB, pNumber, pHireDate);			
 			}
 			catch (SQLException ex) {
-				Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(DBAddPilot.class.getName()).log(Level.SEVERE, null, ex);
 			} catch(Exception e) {
 				e.printStackTrace();
 				System.out.println("Problem adding New Pilot"); 

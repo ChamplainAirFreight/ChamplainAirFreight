@@ -45,7 +45,7 @@ public DBAddFlight(int aID,int pID,int startAirport, int endAirport, Date start,
 		insertSQL(aircraftID,pilotID,startAirportID,endAirportID, start,end);		
 	}
 	catch (SQLException ex) {
-		Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(DBAddFlight.class.getName()).log(Level.SEVERE, null, ex);
 	} catch(Exception e) {
 		e.printStackTrace();
 		System.out.println("Problem adding New Client"); 

@@ -5,6 +5,7 @@ package edu.cco.ChamplainAirFreight;
  * @Date: Nov 11, 2020
  * @Description: DBAddAircraftModel - class to interact with the database and the GUI page to insert a new Aircraft Model
  * using the stored procedure Add_AircraftModel.
+ * @MODDIFIED: 11/12/2020
  */
 
 // Imports:
@@ -43,7 +44,7 @@ public DBAddAircraftModel(String make, String model, String range, String rangeC
 		insertSQL(aMake,aModel,aRange,aRangeClass,aPayload,aVolume);	
 	}
 	catch (SQLException ex) {
-		Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(DBAddAircraftModel.class.getName()).log(Level.SEVERE, null, ex);
 	} catch(Exception e) {
 		e.printStackTrace();
 		System.out.println("Problem adding New AirCraft Model"); 

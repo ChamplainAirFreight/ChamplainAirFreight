@@ -10,6 +10,7 @@ import java.util.logging.Logger;
  * @Date: Nov 11, 2020
  * @Description: DBAddAirport - class to interact with the database and the GUI page to insert a new Airport
  * using the stored procedure Add_Airport.
+ * @MODDIFIED: 11/12/2020
  */
 
 
@@ -37,7 +38,7 @@ public DBAddAirport(String name, String location, Boolean hub, float distance) {
 		
 	}
 	catch (SQLException ex) {
-		Logger.getLogger(DBAddClient.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(DBAddAirport.class.getName()).log(Level.SEVERE, null, ex);
 	} catch(Exception e) {
 		e.printStackTrace();
 		System.out.println("Problem adding New AirPort"); 
