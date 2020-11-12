@@ -13,7 +13,8 @@ import java.sql.Time;
  * @author Kelly
  *@Date Nov 10, 2020
  *@Description - class that calls on the AWS database, and uses the View_All_Flights stored procedure
- *to fill arraylists with flight information. 
+ *to fill arraylists with flight information.
+ *TESTED STATUS - not tested 
  */
 public class DBViewAllFlights extends DBConnection{
 	//global variables
