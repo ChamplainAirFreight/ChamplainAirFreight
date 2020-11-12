@@ -14,17 +14,18 @@ import java.sql.Time;
  *@Date Nov 10, 2020
  *@Description - class that calls on the AWS database, and uses the View_All_Flights stored procedure
  *to fill arraylists with flight information.
- *TESTED STATUS - not tested 
+ *TESTED STATUS - confirmed
  */
 public class DBViewAllFlights extends DBConnection{
 	//global variables
-	public CallableStatement callable = null; 
-	public ArrayList<Integer> id = new ArrayList<>(); //flightID
-	public ArrayList<Integer> aircraftID = new ArrayList<>(); //aircraftID
-	public ArrayList<Integer> start = new ArrayList<>(); //StartAirport
-	public ArrayList<Integer> end = new ArrayList<>(); //EndAirport
-	public ArrayList<Time> startTime = new ArrayList<>(); //start time
-	public ArrayList<Time> endTime = new ArrayList<>(); // end time
+	private CallableStatement callable = null; 
+	private ArrayList<Integer> id = new ArrayList<>(); //flightID
+	private ArrayList<Integer> aircraftID = new ArrayList<>(); //aircraftID
+	private ArrayList<Integer> pilotID = new ArrayList<>(); 
+	private ArrayList<Integer> start = new ArrayList<>(); //StartAirport
+	private ArrayList<Integer> end = new ArrayList<>(); //EndAirport
+	private ArrayList<Time> startTime = new ArrayList<>(); //start time
+	private ArrayList<Time> endTime = new ArrayList<>(); // end time
 	
 	
 	/**
@@ -65,6 +66,7 @@ public class DBViewAllFlights extends DBConnection{
 				//fill arraylists
 				id.add(rs.getInt(1)); 
 				aircraftID.add(rs.getInt(2)); 
+				pilotID.add(rs.getInt(3)); 
 				start.add(rs.getInt(4)); 
 				end.add(rs.getInt(5)); 
 				startTime.add(rs.getTime(6)); 
@@ -87,6 +89,9 @@ public class DBViewAllFlights extends DBConnection{
 	public ArrayList<Integer> getAircraftID(){
 		return aircraftID; 
 	}
+	public ArrayList<Integer> getPilotID(){
+		return pilotID; 
+	}
 	public ArrayList<Integer> getStartLocation(){
 		return start; 
 	}
@@ -98,6 +103,21 @@ public class DBViewAllFlights extends DBConnection{
 	}
 	public ArrayList<Time> getEndTime(){
 		return endTime; 
+	}
+	
+	/**
+	 * clearFlights - clears all the ArrayLists with flight information 
+	 * Kelly May
+	 * 11/11/2020
+	 */
+	public void clearFlights() {
+		id.clear(); 
+		aircraftID.clear(); 
+		pilotID.clear(); 
+		start.clear(); 
+		end.clear(); 
+		startTime.clear(); 
+		endTime.clear(); 
 	}
 
 }

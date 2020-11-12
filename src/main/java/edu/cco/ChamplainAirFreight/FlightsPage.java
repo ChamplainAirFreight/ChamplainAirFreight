@@ -232,19 +232,28 @@ public class FlightsPage {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
 		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(20);
+		hboxv.setSpacing(60);
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
-		Label lbstartairport = new Label("Start Airport");
-		Label lbtxendairport = new Label("End Airport");
-		Label lbtxflightstarttime = new Label("Flight Start Time");
-		Label lbtxflightendtime = new Label("Flight End Time");
+		//these labels no longer work with database info --- should remove 
+		//Label lbstartairport = new Label("Start Airport");
+		//Label lbtxendairport = new Label("End Airport");
+		//Label lbtxflightstarttime = new Label("Flight Start Time");
+		//Label lbtxflightendtime = new Label("Flight End Time");
+		
+		Label lbFlightID = new Label ("Flight ID"); 
+		Label lbACID = new Label("Aircraft ID"); 
+		Label lbPilotID = new Label("Pilot ID"); 
+		Label lbStartLoc = new Label("Start Location"); 
+		Label lbStartTime = new Label("Start Time"); 
+		Label lbEndLoc = new Label ("End Location"); 
+		Label lbEndTime = new Label("End Time"); 
 //		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		hboxv.getChildren().addAll(lbstartairport, lbtxendairport, lbtxflightstarttime, lbtxflightendtime);
+		hboxv.getChildren().addAll(lbFlightID, lbACID, lbPilotID, lbStartLoc, lbStartTime, lbEndLoc, lbEndTime);
 		return hboxv;
 	}
 
@@ -253,18 +262,47 @@ public class FlightsPage {
 	 * it will allow users to view a summary of the flight. Users will not be able to 
 	 * change the flight information from this flight view.
 	 * @return
+	 * ** added database functionality 11/11/2020 - Kelly May
 	 */
-	private HBox getTextAreaOne() {
-		HBox hboxt = new HBox();
-		texReaOne = new TextArea();
-		hboxt.setAlignment(Pos.CENTER);
-		texReaOne.setStyle("-fx-border-color: black");
-		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(false);
-		texReaOne.setWrapText(true);
-		texReaOne.setPrefSize(900, 500);
-		hboxt.getChildren().addAll(texReaOne);
-		return hboxt;
+	private ScrollPane getTextAreaOne() {
+		ScrollPane box = new ScrollPane(); 
+		box.setStyle("-fx-border-color: black");
+		box.setFitToWidth(true);
+		
+		GridPane gpane = new GridPane(); 
+		gpane.setAlignment(Pos.TOP_CENTER);
+		gpane.setPadding(new Insets(2,20,2,20)); 
+		gpane.setHgap(90);
+		gpane.setVgap(5);
+		
+		// dynamically add values from the database to the gridpane table 
+		int row = 1; 
+		 int i =0; 
+		 while(i < viewAllFlights.getFlightID().size()) {
+			 Label gridFlightID = new Label (String.valueOf(viewAllFlights.getFlightID().get(i))); 
+			 Label gridACID = new Label (String.valueOf(viewAllFlights.getAircraftID().get(i))); 
+			 Label gridPilotID = new Label(String.valueOf(viewAllFlights.getPilotID().get(i))); 
+			 Label gridStartLoc = new Label(String.valueOf(viewAllFlights.getStartLocation().get(i))); 
+			 Label gridStartTime = new Label(String.valueOf(viewAllFlights.getStartTime().get(i))); 
+			 Label gridEndLoc = new Label(String.valueOf(viewAllFlights.getEndLocation().get(i))); 
+			 Label gridEndTime = new Label(String.valueOf(viewAllFlights.getEndTime().get(i))); 
+			 
+			 
+			 gpane.add(gridFlightID,  0,  row);
+			 gpane.add(gridACID, 1, row); 
+			 gpane.add(gridPilotID,  2,  row);
+			 gpane.add(gridStartLoc,  3,  row);
+			 gpane.add(gridStartTime,  4,  row);
+			 gpane.add(gridEndLoc,  5,  row);
+			 gpane.add(gridEndTime,  6,  row);
+			 
+			 
+			 row++; 
+			 i++; 
+		 }
+		
+		box.setContent(gpane); 
+		return box;
 	}
 	
 	/**
