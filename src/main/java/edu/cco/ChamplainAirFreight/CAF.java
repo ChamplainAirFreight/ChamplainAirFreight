@@ -33,6 +33,9 @@ public class CAF extends Application {
 
 	   BorderPane bPane = new BorderPane();
 
+	   //TESTTEST
+
+
 	    //Buttons:
 	    static Button btonhomepage = new Button("HOMEPAGE");
 	    static Button btonclients = new Button("CLIENTS");
@@ -54,7 +57,10 @@ public class CAF extends Application {
 	    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
 	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    Model model = new Model(bPane); //Model page 
-
+	    
+	    //Database classes
+	    DBConnection connection = new DBConnection(); 
+	    DBViewAllClient allClient = new DBViewAllClient(); 
 
 /**
  * start - this is the main pane of the GUI. Holds the outer shell for all
@@ -65,6 +71,7 @@ public class CAF extends Application {
  */
 @Override
 public void start(Stage primaryStage) throws Exception {
+
     bPane.setTop(topNavigation()); // navigation buttons in here
     bPane.setCenter(homePage.getPane()); // change the center pane to each new page
     bPane.setBottom(bottomCreds()); // bottom credentials/copyright

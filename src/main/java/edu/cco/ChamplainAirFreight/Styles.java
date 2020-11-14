@@ -19,6 +19,7 @@ public class Styles {
             + "lightblue; -fx-text-fill: black + -fx-border-style: solid inside; "
             + "-fx-border-radius: 5; " + "fx-border-radius: 5";
     String redEntryButtons = "-fx-background-color: white; " + "-fx-border-color: "
+//<<<<<<< dPierre
             + "lightblue; " + "-fx-text-fill: red"
             + "-fx-border-style: solid inside; " + "-fx-border-radius: 5; " + "fx-border-radius: 5";
 

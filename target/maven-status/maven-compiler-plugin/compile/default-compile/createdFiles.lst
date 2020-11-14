@@ -1,0 +1,13 @@
+edu\cco\ChamplainAirFreight\FlightsPage.class
+edu\cco\ChamplainAirFreight\HelpPage.class
+edu\cco\ChamplainAirFreight\DBConnection.class
+edu\cco\ChamplainAirFreight\ShipmentsPage.class
+edu\cco\ChamplainAirFreight\PilotPage.class
+edu\cco\ChamplainAirFreight\DBViewAllFlights.class
+edu\cco\ChamplainAirFreight\Styles.class
+edu\cco\ChamplainAirFreight\ContactPage.class
+edu\cco\ChamplainAirFreight\HomePage.class
+edu\cco\ChamplainAirFreight\ClientsPage.class
+edu\cco\ChamplainAirFreight\CAF.class
+edu\cco\ChamplainAirFreight\DBViewAllClient.class
+edu\cco\ChamplainAirFreight\Model.class
