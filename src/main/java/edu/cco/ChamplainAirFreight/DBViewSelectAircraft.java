@@ -51,7 +51,7 @@ public class DBViewSelectAircraft extends DBConnection {
 		ResultSet rs = callable.executeQuery(); 
 		
 		/**
-		 * Output from View_All_Aircraft:
+		 * Output from View_Selected_Aircraft:
 		 * 1 = AircraftID - int
 		 * 2 = ACModelID - int
 		 * 3 = AircraftStatusID - int

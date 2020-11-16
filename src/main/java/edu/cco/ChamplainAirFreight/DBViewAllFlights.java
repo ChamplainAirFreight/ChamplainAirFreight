@@ -82,6 +82,10 @@ public class DBViewAllFlights extends DBConnection{
 		
 	}
 	
+	/**
+	 * multiple getter methods to get each variable independently 
+	 * @return
+	 */
 	public ArrayList<Integer> getFlightID(){
 		return id; 
 	}
