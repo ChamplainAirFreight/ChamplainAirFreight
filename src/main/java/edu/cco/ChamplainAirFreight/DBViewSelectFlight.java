@@ -41,6 +41,8 @@ public class DBViewSelectFlight extends DBConnection {
 	
 	/**
 	 * viewSelected - method to view a flight based on the Flight ID
+	 * Kelly May
+	 * 11/16/2020
 	 */
 	public void viewSelected(int fID) {
 		try {
