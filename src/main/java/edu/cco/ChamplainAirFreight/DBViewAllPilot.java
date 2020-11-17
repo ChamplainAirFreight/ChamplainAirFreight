@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * @Date Nov 11, 2020
  * @Description - class that pulls DBConnection in order to view all the pilot information, using the View_All_Pilot 
  * stored procedure
- * @TEST_STATUS - not tested
+ * @TEST_STATUS - confirmed
  */
 
 public class DBViewAllPilot extends DBConnection{

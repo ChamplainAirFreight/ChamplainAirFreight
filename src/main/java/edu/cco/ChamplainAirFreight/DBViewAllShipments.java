@@ -14,14 +14,14 @@ import java.util.logging.Logger;
  * @Date Nov 13, 2020
  * @Description - class that pulls DBConnection in order to view all the shipment information, using the View_All_Shipment  
  * stored procedure
- * @TEST_STATUS - not tested
+ * @TEST_STATUS - confirmed
  */
 public class DBViewAllShipments extends DBConnection {
 	private CallableStatement callable = null;
 	private ArrayList<Integer> shipID = new ArrayList<>(); 
 	private ArrayList<Integer> clientID = new ArrayList<>(); 
-	private ArrayList<Integer> shipVolume = new ArrayList<>(); 
-	private ArrayList<Integer> shipWeight = new ArrayList<>(); 
+	private ArrayList<Double> shipVolume = new ArrayList<>(); 
+	private ArrayList<Double> shipWeight = new ArrayList<>(); 
 	private ArrayList<Integer> shipStatusID = new ArrayList<>(); 
 	private ArrayList<Date> shipStartDate = new ArrayList<>(); 
 	private ArrayList<Date> shipEndDate = new ArrayList<>(); 
@@ -47,7 +47,7 @@ public class DBViewAllShipments extends DBConnection {
 	 */
 	public void viewAll() {
 		try {
-			String method = "{call CAFDB.dbo.View_All_Aircraft}"; 
+			String method = "{call CAFDB.dbo.View_All_Shipments}"; 
 			callable = connection.prepareCall(method); 
 			
 			//execute the query
@@ -67,8 +67,8 @@ public class DBViewAllShipments extends DBConnection {
 			while(rs.next()) {
 				shipID.add(rs.getInt(1));
 				clientID.add(rs.getInt(2)); 
-				shipVolume.add(rs.getInt(3)); 
-				shipWeight.add(rs.getInt(4)); 
+				shipVolume.add(rs.getDouble(3)); 
+				shipWeight.add(rs.getDouble(4)); 
 				shipStatusID.add(rs.getInt(5)); 
 				shipStartDate.add(rs.getDate(6)); 
 				shipEndDate.add(rs.getDate(7)); 
@@ -94,11 +94,11 @@ public ArrayList<Integer> getClientID(){
 	return clientID; 
 }
 
-public ArrayList<Integer> getShipVolume(){
+public ArrayList<Double> getShipVolume(){
 	return shipVolume; 
 }
 
-public ArrayList<Integer> getShipWeight(){
+public ArrayList<Double> getShipWeight(){
 	return shipWeight; 
 }
 

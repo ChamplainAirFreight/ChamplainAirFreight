@@ -40,6 +40,7 @@ public class CAF extends Application {
 	    static Button btonflights = new Button("FLIGHTS");
 	    static Button btonpilot = new Button("PILOT");
 	    static Button btonshipment = new Button("SHIPMENT");
+	    //static Button btonaircraft = new Button("AIRCRAFT"); 
 	    static Button btonhelp = new Button("HELP - FAQ PAGE");
 	    static Button btoncontact = new Button("CONTACT US");
 	    static Button btonexit = new Button("EXIT");
@@ -53,6 +54,7 @@ public class CAF extends Application {
 	    ShipmentsPage shipPage = new ShipmentsPage(bPane); //shipments panes
 	    PilotPage pilotPage = new PilotPage(bPane); //pilots page 
 	    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
+	    //AircraftPage aircraftPage = new AircraftPage(bPane); //
 	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    Model model = new Model(bPane); //Model page 
 	    
@@ -99,6 +101,11 @@ public void start(Stage primaryStage) throws Exception {
         // set center to shipment page
         bPane.setCenter(shipPage.getPane());
     });
+   /*
+    btonaircraft.setOnAction(e->{
+   	bPane.setCenter(aircraftPage.getPane());
+    });
+    */
 
     btonhelp.setOnAction(e -> {
         // set center to help page
@@ -159,7 +166,7 @@ private HBox getNavButtons() {
 
     //add color, height and font to all buttons:
     Arrays.asList(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, btonhelp, btoncontact, btonmodel).stream().map((b) -> {
+            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonmodel).stream().map((b) -> {
                 b.setStyle(s.button);
                 return b;
             }).map((b) -> {
@@ -175,7 +182,7 @@ private HBox getNavButtons() {
             FontPosture.REGULAR, 14));
 
     hboxnv.getChildren().addAll(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, btonhelp, btoncontact, btonexit);
+            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonexit);
     return hboxnv;
 }
 

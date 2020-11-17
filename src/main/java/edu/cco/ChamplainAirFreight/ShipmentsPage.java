@@ -196,12 +196,13 @@ public class ShipmentsPage {
      */
     private VBox getShipInfolb() {
     	VBox vboxi = new VBox();
+    	Label lbShipmentID = new Label("Shipment ID"); 
 		Label lbShipmentVolume = new Label("Shipment Volume");
 		Label lbShipmentWeight = new Label("Shipment Weight");
 		Label lbShipmentStartDate = new Label("Shipment Start Date");
 		Label lbShipmentEndDate = new Label("Shipment End Date");
 		Label lbShipmentNotes = new Label("Shipment Notes");
-    	vboxi.getChildren().addAll(lbShipmentVolume, lbShipmentWeight, lbShipmentStartDate,
+    	vboxi.getChildren().addAll(lbShipmentID, lbShipmentVolume, lbShipmentWeight, lbShipmentStartDate,
     			lbShipmentEndDate, lbShipmentNotes);
     	return vboxi;
     }
@@ -243,38 +244,66 @@ public class ShipmentsPage {
 	private HBox getViewLabel() {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
-		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(150);
+		hboxv.setPadding(new Insets(2,20,2,20));
+		hboxv.setSpacing(100);
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
-		Label name = new Label("Volume");
-		Label Address = new Label("Start Date");
-		Label City = new Label("End Date");
-		Label State = new Label("State");
+		Label id = new Label("ID"); 
+		Label volume = new Label("Volume");
+		Label weight = new Label("Weight"); 
+		Label startDate = new Label("Start Date");
+		Label endDate = new Label("End Date");
+		Label notes = new Label("Notes");
 //		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 //		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-		hboxv.getChildren().addAll(name, Address, City, State);
+		hboxv.getChildren().addAll(id, volume, weight, startDate, endDate, notes);
 		return hboxv;
 	}
+	
 	/**
 	 * This TextArea will display the output or result for the shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 
 	 * change the shipment information from this shipment view.
 	 * @return
 	 */
-	private HBox getTextAreaOne() {
-		HBox hboxt = new HBox();
-		texReaOne = new TextArea();
-		hboxt.setAlignment(Pos.CENTER);
-		texReaOne.setStyle("-fx-border-color: black");
-		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(false);
-		texReaOne.setWrapText(true);
-		texReaOne.setPrefSize(900, 500);
-		hboxt.getChildren().addAll(texReaOne);
-		return hboxt;
+	private ScrollPane getTextAreaOne() {
+		DBViewAllShipments view = new DBViewAllShipments();  //view all client information 
+		ScrollPane box = new ScrollPane();
+		box.setFitToWidth(true);
+		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
+		
+		
+		 GridPane gpane = new GridPane(); 
+		 gpane.setPadding(new Insets(2,20,2,20));
+		 gpane.setAlignment(Pos.TOP_CENTER); 
+		 gpane.setHgap(100);
+		 gpane.setVgap(5);
+		 		 
+		 int row = 1; 
+		 int i =0; 
+		 while(i < view.getShipID().size()) {
+			 Label gridShipID = new Label(String.valueOf(view.getShipID().get(i))); 
+			 Label gridShipVol = new Label(String.valueOf(view.getShipVolume().get(i))); 
+			 Label gridShipWeight = new Label(String.valueOf(view.getShipWeight().get(i))); 
+			 Label gridShipStart = new Label(String.valueOf(view.getStartDate().get(i))); 
+			 Label gridShipEnd = new Label(String.valueOf(view.getEndDate().get(i))); 
+			 Label gridShipNotes = new Label(String.valueOf(view.getNotes().get(i))); 
+			 
+			 gpane.add(gridShipID, 0, row);
+			 gpane.add(gridShipVol, 1, row);
+			 gpane.add(gridShipWeight, 2, row);
+			 gpane.add(gridShipStart, 3, row);
+			 gpane.add(gridShipEnd, 4, row);
+			 gpane.add(gridShipNotes, 5, row);
+			 
+			 row++; 
+			 i++; 
+		 }
+		
+		 box.setContent(gpane);
+		return box;
 	}
 } //End Subclass ShipmentsPage
