@@ -20,7 +20,9 @@ public class DBViewAllClient extends DBConnection {
 	
 	//variables
 public CallableStatement callable = null; 
-private ArrayList<String> name = new ArrayList<>(); 
+private ArrayList<Integer> id = new ArrayList<>(); 
+private ArrayList<String> name = new ArrayList<>();
+private ArrayList<String> phone =  new ArrayList<>(); 
 private ArrayList<String> clientType = new ArrayList<>(); 
 private ArrayList<String> address1 = new ArrayList<>(); 
 private ArrayList<String> address2 = new ArrayList<>(); 
@@ -70,8 +72,10 @@ public void viewAll() {
 		 */
 		
 		while(rs.next()) {
+			id.add(rs.getInt(1)); 
 			name.add(rs.getString(2)); 
 			clientType.add(rs.getString(3)); 
+			phone.add(rs.getString(4)); 
 			address1.add(rs.getString(7)); 
 			address2.add(rs.getString(8)); 
 			city.add(rs.getString(9)); 
@@ -95,12 +99,19 @@ public void getResults() {
 	}
 }
 
+public ArrayList<Integer> getID(){
+	return id; 
+}
 public ArrayList<String> getName(){
 	return name; 
 }
 
 public ArrayList<String> getClientType(){
 	return clientType; 
+}
+
+public ArrayList<String> getClientPhone(){
+	return phone; 
 }
 
 public ArrayList<String> getAddress1(){

@@ -24,6 +24,7 @@ public class DBViewSelectClient extends DBConnection {
 	private String city; 
 	private String state; 
 	private String zip; 
+	private String phone; 
 
 	/**
 	 * Default Constructor
@@ -68,6 +69,7 @@ public class DBViewSelectClient extends DBConnection {
 			clientID = rs.getInt(1); 
 			clientName = rs.getString(2); 
 			clientType = rs.getString(3); 
+			phone = rs.getString(4); 
 			address1 = rs.getString(7); 
 			address2 = rs.getString(8); 
 			city = rs.getString(9);
@@ -110,6 +112,21 @@ public class DBViewSelectClient extends DBConnection {
 	}
 	public String getZip() {
 		return zip; 
+	}
+	public String getPhone() {
+		return phone; 
+	}
+	
+	public void clearAll() {
+		clientID = 0; 
+		clientName = ""; 
+		clientType = ""; 
+		address1 =""; 
+		address2 =""; 
+		city = ""; 
+		state = ""; 
+		zip = ""; 
+		phone = ""; 				
 	}
 	
 } //end class 

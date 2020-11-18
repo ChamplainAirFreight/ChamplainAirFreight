@@ -1,6 +1,8 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
+
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -93,12 +95,7 @@ public class ClientsPage {
         //add titles to titlebox. 
         titleBox.getChildren().addAll(title, instruct);
 
-        //creating center box to add client information - Pierre
-        HBox centerBox = new HBox();
-        centerBox.setAlignment(Pos.CENTER_LEFT);
-        centerBox.setMinHeight(300);
-        centerBox.setStyle("-fx-background-color: white");
-        centerBox.getChildren().addAll();
+        
         
         //create button HBox:
         HBox buttonBox = new HBox();
@@ -132,7 +129,7 @@ public class ClientsPage {
 
         //add title, center, and buttons to clients pane:
         box.setTop(titleBox);
-        box.setCenter(centerBox); //call a method to show db of clients  
+        box.setCenter(getViewSelected()); //call a method to show db of clients  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
@@ -161,7 +158,7 @@ public class ClientsPage {
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewClient page
-            box.setCenter(centerBox);
+            box.setCenter(getViewSelected());
         });
 
         return box;
@@ -261,16 +258,12 @@ public class ClientsPage {
 		Label City = new Label("City");
 		Label State = new Label("State");
 		Label Zip = new Label("Zip Code");
-//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		hboxv.getChildren().addAll(name, Address, City, State,Zip);
 		return hboxv;
 	}
 	
 	/**
-	 * This TextArea will display the output or result for the shipment information 
+	 * This TextArea will display the output or result for the View All shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 
 	 * change the shipment information from this shipment view.
 	 * @return
@@ -280,13 +273,7 @@ public class ClientsPage {
 		ScrollPane box = new ScrollPane();
 		box.setFitToWidth(true);
 		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
-		//texReaOne = new TextArea();
-		//texReaOne.setStyle("-fx-border-color: black");
-		//texReaOne.setFont(new Font("Time New Roman", 10));
-		//texReaOne.setEditable(false);
-		//texReaOne.setWrapText(true);
-		//texReaOne.setPrefSize(900, 500);
-		
+				
 		 GridPane gpane = new GridPane(); 
 		 gpane.setPadding(new Insets(2,20,2,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
@@ -315,6 +302,93 @@ public class ClientsPage {
 		
 		 box.setContent(gpane);
 		return box;
+	}
+	
+	/**
+	 * getViewSelected - the initial pane for the ViewClients page. Will hold a feature 
+	 * to view an individual client with the DBViewSelectClient class 
+	 * @return
+	 */
+	private VBox getViewSelected() {
+	DBViewAllClient all = new DBViewAllClient(); // for filling the combo box
+		
+    VBox centerBox = new VBox();
+    centerBox.setAlignment(Pos.TOP_CENTER);
+    centerBox.setMinHeight(300);
+    centerBox.setStyle("-fx-background-color: white");
+    
+    /**
+     * Add title and subtitle for instructions
+     */
+    Text title = new Text("View Selected Client"); 
+    Text instructions = new Text("Use the scroll bar to select a client, then click SEARCH. \n"
+    		+ "This will allow you to view all client information for selected client."); 
+    
+    // add a combobox and fill with all client names
+    HBox selection = new HBox(); 
+    selection.setAlignment(Pos.CENTER);
+    ComboBox clientSelect = new ComboBox(FXCollections.observableArrayList(all.getName())); 
+    clientSelect.setVisibleRowCount(5); 
+    Button clientSearch = new Button("Search"); 
+    selection.getChildren().addAll(clientSelect, clientSearch); 
+    
+    //grid of information: 
+    GridPane grid = new GridPane(); 
+    grid.setAlignment(Pos.CENTER);
+    Label lbName = new Label("Client Name: "); 
+    grid.add(lbName, 0, 0);
+    Label lbType = new Label ("Client Type: "); 
+    grid.add(lbType, 0, 1);
+    Label lbPhone = new Label("Client Phone: "); 
+    grid.add(lbPhone, 0, 2);
+    Label lbAddress = new Label("Address: "); 
+    grid.add(lbAddress, 0, 3);
+    Label lbCity = new Label("City: "); 
+    grid.add(lbCity, 0, 4);
+    Label lbState = new Label("State: "); 
+    grid.add(lbState, 0, 5);
+    Label lbZip = new Label("Zip: "); 
+    grid.add(lbZip,  0,  6);
+    
+    Text txtSelectName = new Text(); 
+	grid.add(txtSelectName, 1, 0);
+	Text txtSelectType = new Text(); 
+	grid.add(txtSelectType, 1, 1);
+	Text txtSelectPhone = new Text(); 
+	grid.add(txtSelectPhone, 1, 2);
+	Text txtSelectAddress = new Text(); 
+	grid.add(txtSelectAddress, 1, 3);
+	Text txtSelectCity = new Text(); 
+	grid.add(txtSelectCity, 1, 4);
+	Text txtSelectState = new Text(); 
+	grid.add(txtSelectState, 1, 5);
+	Text txtSelectZip = new Text();
+	grid.add(txtSelectZip, 1,  6); 
+    
+   clientSearch.setOnAction(e->{
+	   try {
+		DBViewSelectClient view = new DBViewSelectClient(); //to view a select Client
+		String entry = ""; 
+    	entry = clientSelect.getValue().toString();
+    	int id = all.getName().indexOf(entry); //get the index of arraylist where = entry 
+    	view.viewSelected(all.getID().get(id));
+
+    	txtSelectName.setText(view.getClientName());
+    	txtSelectType.setText(view.getClientType());
+    	txtSelectPhone.setText(view.getPhone());
+    	txtSelectAddress.setText(view.getAddress1()+ " " + view.getAddress2());
+    	txtSelectCity.setText(view.getCity());
+    	txtSelectState.setText(view.getState());
+    	txtSelectZip.setText(view.getZip());
+    	
+	   } catch(Exception ex) {
+		   clientSelect.requestFocus(); 
+	   }
+	   
+    });
+    centerBox.getChildren().addAll(title, instructions, selection, grid);
+    
+    return centerBox; 
 	}
   
 } //End Subclass ClientsPage
