@@ -317,9 +317,7 @@ public class ClientsPage {
     centerBox.setMinHeight(300);
     centerBox.setStyle("-fx-background-color: white");
     
-    /**
-     * Add title and subtitle for instructions
-     */
+    // add title and subtitle instructions 
     Text title = new Text("View Selected Client"); 
     Text instructions = new Text("Use the scroll bar to select a client, then click SEARCH. \n"
     		+ "This will allow you to view all client information for selected client."); 

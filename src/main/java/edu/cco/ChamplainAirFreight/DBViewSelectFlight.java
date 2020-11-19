@@ -83,11 +83,11 @@ public class DBViewSelectFlight extends DBConnection {
 			 * 19 = Airport Name (start)
 			 * 20 = Airport Location (start)
 			 * 21 = Airport Hub
-			 * 22 = Airport Distance from hub
-			 * 23 = Airport Name (end)
-			 * 24 = Airport Location (end)
-			 * 25 = Airport Hub 
-			 * 26 = Airport Distance From Hub
+			 * 23 = Airport Distance from hub
+			 * 24 = Airport Name (end)
+			 * 25 = Airport Location (end)
+			 * 26 = Airport Hub 
+			 * 27 = Airport Distance From Hub
 			 */
 			while(rs.next()) {
 				flightID = rs.getInt(1); 
