@@ -24,8 +24,15 @@ public class DBViewSelectFlight extends DBConnection {
 	private int pilotID; 
 	private int startAirport; 
 	private int endAirport; 
-	private Date flightStartTime; 
-	private Date flightEndTime; 
+	private String flightStartTime; 
+	private String flightEndTime; 
+	private String pilotName; 
+	private String startName; 
+	private String startLoc; 
+	private String endName; 
+	private String endLoc; 
+	private String hubDist; 
+	
 	
 /**
  * Default Constructor
@@ -62,7 +69,25 @@ public class DBViewSelectFlight extends DBConnection {
 			 * 5 = EndAirport - int
 			 * 6 = FlightStartTime - smalldatetime
 			 * 7 = FlightEndTime - smalldatetime
-			 * * There are more that print out from the SP, but focusing on top 7
+			 * 8 = AircraftID
+			 * 9 = ACModelID
+			 * 10 = AircraftStatusID
+			 * 11 = PilotID
+			 * 12 = First Name
+			 * 13 = Last Name
+			 * 14 = DateOfBirth
+			 * 15 = EmployeeNumber
+			 * 16 = Date of Hire
+			 * 17 = DateLeftCAF
+			 * 18 = AirportID
+			 * 19 = Airport Name (start)
+			 * 20 = Airport Location (start)
+			 * 21 = Airport Hub
+			 * 22 = Airport Distance from hub
+			 * 23 = Airport Name (end)
+			 * 24 = Airport Location (end)
+			 * 25 = Airport Hub 
+			 * 26 = Airport Distance From Hub
 			 */
 			while(rs.next()) {
 				flightID = rs.getInt(1); 
@@ -70,8 +95,14 @@ public class DBViewSelectFlight extends DBConnection {
 				pilotID = rs.getInt(3); 
 				startAirport = rs.getInt(4); 
 				endAirport = rs.getInt(5); 
-				flightStartTime = rs.getDate(6);
-				flightEndTime = rs.getDate(7); 
+				flightStartTime = rs.getString(6);
+				flightEndTime = rs.getString(7); 
+				pilotName = rs.getString(13) + ", " + rs.getString(12); 
+				startName = rs.getString(19); 
+				startLoc = rs.getString(20); 
+				endName = rs.getString(24); 
+				endLoc = rs.getString(25); 
+				hubDist = rs.getString(27); 
 				 
 			}
 			
@@ -101,10 +132,28 @@ public class DBViewSelectFlight extends DBConnection {
 	public int getEndAirport() {
 		return endAirport; 
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return flightStartTime; 
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return flightEndTime; 
+	}
+	public String getPilotName() {
+		return pilotName; 
+	}
+	public String getStartName() {
+		return startName; 
+	}
+	public String getStartLoc() {
+		return startLoc; 
+	}
+	public String getEndName() {
+		return endName; 
+	}
+	public String getEndLoc() {
+		return endLoc; 
+	}
+	public String getHubDist() {
+		return hubDist; 
 	}
 }

@@ -1,7 +1,9 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.sql.Date;
 import java.util.Arrays;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -130,7 +132,7 @@ public class FlightsPage {
 
         //add title, center, and buttons to flights pane:
         box.setTop(titleBox);
-        box.setCenter(viewFlights()); //call a method to show db of flights  
+        box.setCenter(getViewSelected()); //call a method to show db of flights  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
@@ -155,7 +157,7 @@ public class FlightsPage {
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewFlights page
-            box.setCenter(viewFlights());
+            box.setCenter(getViewSelected());
         });
 
         return box;
@@ -340,5 +342,110 @@ public ScrollPane editFlightPane() {
 		sp.setContent(vbox);
 		return sp; 		
 	}
+
+/**
+ * getViewSelected - the initial pane for the Flights page. Will hold a feature to view an 
+ * individual flight with the DBViewSelectFlight class
+ * Kelly May
+ * 11/18/2020
+ * @return
+ */
+private VBox getViewSelected() {
+	DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
+	
+    VBox centerBox = new VBox();
+    centerBox.setAlignment(Pos.TOP_CENTER);
+    centerBox.setMinHeight(300);
+    centerBox.setStyle("-fx-background-color: white");
+    
+    /**
+     * Add title and subtitle for instructions
+     */
+    Text title = new Text("View Selected Flight"); 
+    Text instructions = new Text("Use the scroll bar to select a flight, then click SEARCH. \n"
+    		+ "This will allow you to view all client information for selected client."); 
+    
+    // add a combobox and fill with all client names
+    HBox selection = new HBox(); 
+    selection.setAlignment(Pos.CENTER);
+    ComboBox flightSelect = new ComboBox(FXCollections.observableArrayList(all.getFlightID())); 
+    flightSelect.setVisibleRowCount(5); 
+    Button flightSearch = new Button("Search"); 
+    selection.getChildren().addAll(flightSelect, flightSearch); 
+    
+    //grid of information: 
+    GridPane grid = new GridPane(); 
+    grid.setAlignment(Pos.CENTER);
+    Label lbID = new Label("Flight ID: "); 
+	Text txtID = new Text(); 
+	Label lbAirID = new Label("Aircraft ID: "); 
+	Text txtAirID = new Text(); 
+    Label lblStartTime = new Label("Start Time: "); 
+    Text txtStartTime = new Text();  
+    Label lblEndTime = new Label("End Time: "); 
+    Text txtEndTime = new Text();  
+    Label lblPilotName = new Label("Pilot Name: "); 
+    Text txtPilotName = new Text();  
+    Label lblStartAirportName = new Label("Start Airport Name: "); 
+    Text txtStartAirportName = new Text(); 
+    Label lblStartAirportLoc = new Label("Start Airport Location: "); 
+    Text txtStartAirportLoc = new Text();  
+    Label lblEndAirportName = new Label("End Airport Name: "); 
+    Text txtEndAirportName = new Text(); 
+    Label lblEndAirportLoc = new Label("End Airport Location: "); 
+    Text txtEndAirportLoc = new Text(); 
+    Label lblDistanceHub = new Label("Distance from Hub: "); 
+    Text txtDistanceHub = new Text(); 
+    
+    grid.add(lbID, 0,  0);
+    grid.add(txtID, 1,  0);
+    grid.add(lbAirID, 0, 1);
+    grid.add(txtAirID, 1,  1);
+    grid.add(lblStartTime, 0,  2);
+    grid.add(txtStartTime, 1,  2);
+    grid.add(lblEndTime, 0, 3);
+    grid.add(txtEndTime, 1, 3);
+    grid.add(lblPilotName, 0, 4);
+    grid.add(txtPilotName,1 ,4);
+    grid.add(lblStartAirportName, 0, 5);
+    grid.add(txtStartAirportName, 1, 5);
+    grid.add(lblStartAirportLoc, 0, 6);
+    grid.add(txtStartAirportLoc, 1, 6);
+    grid.add(lblEndAirportName, 0, 7);
+    grid.add(txtEndAirportName, 1, 7);
+    grid.add(lblEndAirportLoc,  0,  8);
+    grid.add(txtEndAirportLoc, 1, 8);
+    grid.add(lblDistanceHub, 0,  9);
+    grid.add(txtDistanceHub, 1, 9);
+    
+   // fill text with selected flight information
+    flightSearch.setOnAction(e->{
+	   try {
+		DBViewSelectFlight view = new DBViewSelectFlight(); //to view a select flight
+		
+    	int id = Integer.parseInt(flightSelect.getValue().toString()); 
+    	view.viewSelected(id);
+
+    	txtID.setText(Integer.toString(view.getFlightID()));
+    	txtAirID.setText(Integer.toString(view.getAircraftID()));
+    	txtStartTime.setText(view.getStartTime());
+    	txtEndTime.setText(view.getEndTime()); 
+    	txtPilotName.setText(view.getPilotName());
+    	txtStartAirportName.setText(view.getStartName());
+    	txtStartAirportLoc.setText(view.getStartLoc());
+    	txtEndAirportName.setText(view.getEndName()); 
+    	txtEndAirportLoc.setText(view.getEndLoc()); 
+    	txtDistanceHub.setText(view.getHubDist());
+    	
+    	
+	   } catch(Exception ex) {
+		   flightSelect.requestFocus(); 
+	   }
+	   
+    });
+    centerBox.getChildren().addAll(title, instructions, selection, grid);
+    
+    return centerBox; 
+}
 
 } //End Subclass FlightsPage
