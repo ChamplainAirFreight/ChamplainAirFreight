@@ -110,7 +110,7 @@ public class ClientsPage {
             box.setCenter(viewClient());
         });
         btnAdd.setOnAction(e -> {
-        	String name="Fred Logon";
+        	String name="Clark Logon";
         	String phone ="323-637-2577";
         	int type=1;
         	
@@ -118,12 +118,12 @@ public class ClientsPage {
         	add.name=name;
         	add.type=type;
         	add.phone=phone;
-        	String add1="123 rd sw eagle";
+        	String add1="1323 rd sw eagle";
         	String add2="Appartment 999";
-        	String city="Maple Hills";
-        	String state="WA";
+        	String city="Valley Hills";
+        	String state="CA";
         	int zip=98038;
-        	int id=19;
+        	int id=20;
         	//add client and add address
         	DBAddClientAddress clientAdd=new DBAddClientAddress(add1,add2,city,state,zip,id);
         	clientAdd.clientAdd1=add1;

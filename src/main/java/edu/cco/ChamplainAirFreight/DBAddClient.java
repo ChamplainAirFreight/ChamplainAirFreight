@@ -10,6 +10,7 @@ package edu.cco.ChamplainAirFreight;
 
 // Imports:
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +66,7 @@ public void insertSQL(String clientName, int clientType, String clientPhone) {
 		callable.setInt(2, clientType);
 		callable.setString(3, clientPhone);
 		//Execute Stored Procedure
-		callable.executeQuery();
+		ResultSet rs=callable.executeQuery();
 		
 	} catch (SQLException ex) {
         System.out.println("Insert Client Problem !");

@@ -59,8 +59,7 @@ public void insertSQL(String user, String pass) {
 		callable=connection.prepareCall(sql);
 		callable.setString(1,  user);
 		callable.setString(2,  pass);	
-		
-		
+				
 		//Execute Stored Procedure
 		callable.executeQuery();
 		
