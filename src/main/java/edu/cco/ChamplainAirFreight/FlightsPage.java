@@ -363,7 +363,7 @@ private VBox getViewSelected() {
      */
     Text title = new Text("View Selected Flight"); 
     Text instructions = new Text("Use the scroll bar to select a flight ID, then click SEARCH. \n"
-    		+ "This will allow you to view all client information for selected client."); 
+    		+ "This will allow you to view all flight information for selected flight."); 
     
     // add a combobox and fill with all client names
     HBox selection = new HBox(); 
