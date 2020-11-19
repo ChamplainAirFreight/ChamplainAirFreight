@@ -1,7 +1,10 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -93,14 +96,7 @@ public class ShipmentsPage {
         instruct.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
         //add titles to titlebox. 
         titleBox.getChildren().addAll(title, instruct);
-
-        //creating center box to add client information - Pierre
-        HBox centerBox = new HBox();
-        centerBox.setAlignment(Pos.CENTER_LEFT);
-        centerBox.setMinHeight(300);
-        centerBox.setStyle("-fx-background-color: white");
-        centerBox.getChildren().addAll();
-      
+        
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -133,7 +129,7 @@ public class ShipmentsPage {
 
         //add title, center, and buttons to shipment pane:
         box.setTop(titleBox);
-        box.setCenter(centerBox); //call a method to show db of shipments  
+        box.setCenter(getViewSelected()); //call a method to show db of shipments  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
@@ -158,7 +154,7 @@ public class ShipmentsPage {
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewShipments page
-            box.setCenter(addShipments());
+            box.setCenter(getViewSelected());
         });
 
         return box;
@@ -255,10 +251,7 @@ public class ShipmentsPage {
 		Label startDate = new Label("Start Date");
 		Label endDate = new Label("End Date");
 		Label notes = new Label("Notes");
-//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+
 		hboxv.getChildren().addAll(id, volume, weight, startDate, endDate, notes);
 		return hboxv;
 	}
@@ -306,4 +299,96 @@ public class ShipmentsPage {
 		 box.setContent(gpane);
 		return box;
 	}
+	
+	/**
+	 * getViewSelected - the initial pane for the Shipment Page. will hold a feature to view an 
+	 * individual shipment with the DBViewSelectShipment class
+	 * Kelly May
+	 * 11/18/2020
+	 */
+	private VBox getViewSelected() {
+DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
+		
+	    VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("View Selected Shipment"); 
+	    Text instructions = new Text("Use the scroll bar to select a Shipment ID, then click SEARCH. \n"
+	    		+ "This will allow you to view all Shipment information for selected shipment."); 
+	    
+	    // add a combobox and fill with all client names
+	    HBox selection = new HBox(); 
+	    selection.setAlignment(Pos.CENTER);
+	   
+	    ComboBox shipSelect = new ComboBox(FXCollections.observableArrayList(all.getShipID())); 
+	   shipSelect.setVisibleRowCount(5); 
+	    
+	    Button shipSearch = new Button("Search"); 
+	    selection.getChildren().addAll(shipSelect, shipSearch); 
+	    
+	    //grid of information: 
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    Label lbID = new Label("Shipment ID: "); 
+		Text txtID = new Text(); 
+		Label lbVolume = new Label("Shipment Volume: "); 
+		Text txtVolume = new Text(); 
+	    Label lblWeight = new Label("Shipment Weight: "); 
+	    Text txtWeight = new Text();  
+	    Label lblStatus = new Label("Shipment Status: "); 
+	    Text txtStatus = new Text();  
+	    Label lblStart = new Label("Start Date: "); 
+	    Text txtStart = new Text();  
+	    Label lblEnd = new Label("End Date: "); 
+	    Text txtEnd = new Text(); 
+	    Label lblNotes = new Label("Notes: "); 
+	    Text txtNotes = new Text();  
+	     
+	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(txtID, 1,  0);
+	    grid.add(lbVolume, 0, 1);
+	    grid.add(txtVolume, 1,  1);
+	    grid.add(lblWeight, 0,  2);
+	    grid.add(txtWeight, 1,  2);
+	    grid.add(lblStatus, 0, 3);
+	    grid.add(txtStatus, 1, 3);
+	    grid.add(lblStart, 0, 4);
+	    grid.add(txtStart,1 ,4);
+	    grid.add(lblEnd, 0, 5);
+	    grid.add(txtEnd, 1, 5);
+	    grid.add(lblNotes, 0, 6);
+	    grid.add(txtNotes, 1, 6);
+	   
+	    
+	   // fill text with selected flight information
+	    shipSearch.setOnAction(e->{
+		   try {
+			DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
+			String index = shipSelect.getValue().toString(); 
+	    	int id = Integer.parseInt(index);  
+	    	view.viewSelected(id);
+
+	    	txtID.setText(Integer.toString(view.getShipID()));
+	    	txtVolume.setText(Double.toString(view.getShipVolume()));
+	    	txtWeight.setText(Double.toString(view.getShipWeight()));
+	    	txtStatus.setText(Integer.toString(view.getStatusID()));
+	    	txtStart.setText(String.valueOf(view.getStartDate()));
+	    	txtEnd.setText(String.valueOf(view.getEndDate()));
+	    	txtNotes.setText(view.getNotes());    	   	
+	    	
+		   } catch(Exception ex) {
+			   shipSelect.requestFocus(); 
+		   }
+		   
+	    });
+	    centerBox.getChildren().addAll(title, instructions, selection, grid);
+	    
+	    return centerBox; 
+	}
+	
 } //End Subclass ShipmentsPage

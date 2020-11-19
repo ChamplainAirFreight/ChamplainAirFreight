@@ -308,7 +308,7 @@ public class PilotPage {
 	    // Add title and subtitle for instructions
 	    Text title = new Text("View Selected Pilot"); 
 	    Text instructions = new Text("Use the scroll bar to select a Pilot Name, then click SEARCH. \n"
-	    		+ "This will allow you to view all client information for selected client."); 
+	    		+ "This will allow you to view all pilot information for selected pilot."); 
 	    
 	    // add a combobox and fill with all client names
 	    HBox selection = new HBox(); 
