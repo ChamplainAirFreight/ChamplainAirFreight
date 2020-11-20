@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class DBUpdateClientAddress  extends DBConnection {
 	//Variables
 	public CallableStatement callable = null;
-	public ArrayList<Integer> addressID=new ArrayList<>();
 	public ArrayList<Integer> clientID=new ArrayList<>();
 	public String clientAdd1;
 	public String clientAdd2;
@@ -32,7 +31,6 @@ public class DBUpdateClientAddress  extends DBConnection {
 	
 	private int id;
 
-
 /**
 * Default Constructor
 * Matt Ridgway 
@@ -42,18 +40,18 @@ public class DBUpdateClientAddress  extends DBConnection {
 		
 		try {
 			statement=connection.createStatement();
-			setClient();
+			setClientAddress();
 		}catch (SQLException e) {
 		    System.out.println("Could Not Connect to DataBase!");
 		}
 }//end default constructor
 /**
-* setClient pulls clientID put's into a String with comma spacing
+* setClientAddress pulls clientID put's into a String with comma spacing
 * Matt Ridgway 
 * 11/20/2020
 */
 
-public void setClient() {
+public void setClientAddress() {
 	
 	try {
 		String sql="SELECT ClientID FROM ClientAddress";
@@ -70,16 +68,16 @@ public void setClient() {
         System.out.println("Could Not View Clients Address");
     }
 	
-	setClientArray();
+	setClientAddressArray();
 	
 }//end setClient
 /**
-* setClientArray
+* setClientAddressArray
 * Matt Ridgway 
 * 11/20/2020
 * split string clientInfo by comma into list. Loop through and put into clientID List
 */	
-public void setClientArray() {
+public void setClientAddressArray() {
 	
 	List<String> clientList=new ArrayList<>(Arrays.asList(clientInfo.split(",")));
 	for(String strg : clientList) {
@@ -89,12 +87,12 @@ public void setClientArray() {
 	
 }//end setClientArray
 /**
-* clearClient
+* clearClientAddress
 * Clear List and String
 * Matt Ridgway 
 * 11/20/2020
 */	
-public void clearClient() {
+public void clearClientAddress() {
 	
 	clientID.clear();
 	clientInfo="";
@@ -129,4 +127,101 @@ public void setClientAddressSQL(int clientSelected) {
     }
 	
 }//end setClientSQL
+/** RESULTSET
+* updateClientAddress
+* 
+* Matt Ridgway 
+* 11/20/2020
+* @param cID
+* @param add1
+* @param add2
+* @param city
+* @param state
+* @param zip
+* 
+*/
+public ResultSet updateClientAddress(int cID, String add1, String add2,String city,String state,int zip, int input) {
+	 ResultSet results = null;
+	 try {
+		 String sqlState="SELECT ClientID FROM ClientAddresses WHERE ClientID=?";
+		 PreparedStatement preparedStatement;
+       preparedStatement = connection.prepareStatement(sqlState);
+       preparedStatement.setInt(1, input);
+       ResultSet resultS = preparedStatement.executeQuery();
+      while (resultS.next()) {
+          id = resultS.getInt(1);
+      }
+	}catch (SQLException ex) {
+     Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+ }
+	 try {
+      String SQL = "UPDATE ClientAddresses SET ClientAddressLine1 = ?, "
+      		+ "ClientAddressLine2 = ?,"
+      		+ "ClientAddressCity = ?,"
+      		+ "ClientAddressState =?,"
+      		+ "ClientAddressZip=?";
+      	
+      callable = connection.prepareCall(SQL);
+      callable.setString(3, add1);
+      callable.setString(4, add2);
+      callable.setString(5, city);
+      callable.setString(6, state);
+      callable.setInt(7, zip);
+      results = callable.executeQuery();
+
+      System.out.println(results);
+
+  } catch (SQLException ex) {
+      System.out.println("Results Not Returned");
+  }
+  
+  return results;
+}//end ResultSet
+/**
+* updateClientAddress
+* Matt Ridgway 
+* 11/20/2020
+*/
+public void updateClientAddress() {
+    try {
+    	String storedP = "{call CAFDB.dbo.Update_Client_Addresses}"; 
+        PreparedStatement ps;
+        ps = connection.prepareStatement(storedP);
+        callable = connection.prepareCall(storedP);
+
+        ResultSet rs = callable.executeQuery(); 
+
+    } catch (SQLException ex) {
+        System.out.println("Update Client Address Problem!");
+    }
+}//end updateClientAddress
+/**
+* Getters
+* Matt Ridgway 
+* 11/20/2020
+*/
+public ArrayList<Integer> getClientID() {
+	return clientID;
+}
+public String getClientAdd1() {
+	return clientAdd1;
+}
+public String getClientAdd2() {
+	return clientAdd2;
+}
+public String getClientCity() {
+	return clientCity;
+}
+public String getClientState() {
+	return clientState;
+}
+public String getClientInfo() {
+	return clientInfo;
+}
+public int getClientZip() {
+	return clientZip;
+}
+public int getId() {
+	return id;
+}
 }//end class

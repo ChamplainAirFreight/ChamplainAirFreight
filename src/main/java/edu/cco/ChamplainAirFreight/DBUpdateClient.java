@@ -172,7 +172,7 @@ public ResultSet updateClient(int cID, String cName, int cIDType, String cPhone,
 * Matt Ridgway 
 * 11/20/2020
 */
-public void updateAirport() {
+public void updateClient() {
     try {
     	String storedP = "{call CAFDB.dbo.Update_Client}"; 
         PreparedStatement ps;
