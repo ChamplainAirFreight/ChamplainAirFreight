@@ -249,18 +249,41 @@ public class PilotPage {
 	 * This TextArea will display the output or result for the pilot information 
 	 * it will allow users to view a summary of the flight. Users will not be able to 
 	 * change the pilot information from this flight view.
+	 * calls the DBViewAllPilot class
 	 * @return
 	 */
-	private HBox getTextAreaOne() {
-		HBox hboxt = new HBox();
-		texReaOne = new TextArea();
-		hboxt.setAlignment(Pos.CENTER);
-		texReaOne.setStyle("-fx-border-color: black");
-		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(false);
-		texReaOne.setWrapText(true);
-		texReaOne.setPrefSize(900, 500);
-		hboxt.getChildren().addAll(texReaOne);
-		return hboxt;
+	private ScrollPane getTextAreaOne() {
+		DBViewAllPilot view = new DBViewAllPilot(); // call the view all class for pilot
+		ScrollPane box = new ScrollPane(); 
+		box.setFitToWidth(true);
+		box.setStyle("-fx-background-color: white; -fx-border-color: black");
+		
+		GridPane gpane = new GridPane(); 
+		gpane.setPadding(new Insets(2,20,2,20));
+		gpane.setAlignment(Pos.TOP_CENTER);
+		gpane.setHgap(110);
+		gpane.setVgap(5);
+		
+		int row = 1; 
+		int i = 0; 
+		while(i< view.getPilotID().size()) {
+			Label gridFirstName = new Label(String.valueOf(view.getFirstName().get(i))); 
+			Label gridLastName = new Label(String.valueOf(view.getLastName().get(i))); 
+			Label gridDob = new Label(String.valueOf(view.getDateOfBirth().get(i))); 
+			Label gridHire = new Label(String.valueOf(view.getDateOfHire().get(i))); 
+			Label gridResign = new Label(String.valueOf(view.getDateLeftCAF().get(i))); 
+			
+			gpane.add(gridFirstName, 0, row);
+			gpane.add(gridLastName, 1, row);
+			gpane.add(gridDob, 2, row);
+			gpane.add(gridHire, 3, row);
+			gpane.add(gridResign, 4, row);
+			
+			row++; 
+			i++; 
+		}
+		
+		box.setContent(gpane); //add all the pilot info to the scrollpane
+		return box; 
 	}
 } //End Subclass PilotPage

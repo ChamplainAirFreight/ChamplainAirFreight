@@ -20,13 +20,13 @@ public class DBViewAllClient extends DBConnection {
 	
 	//variables
 public CallableStatement callable = null; 
-public ArrayList<String> name = new ArrayList<>(); 
-public ArrayList<String> clientType = new ArrayList<>(); 
-public ArrayList<String> address1 = new ArrayList<>(); 
-public ArrayList<String> address2 = new ArrayList<>(); 
-public ArrayList<String> city = new ArrayList<>(); 
-public ArrayList<String> state = new ArrayList<>(); 
-public ArrayList<String> zip = new ArrayList<>(); 
+private ArrayList<String> name = new ArrayList<>(); 
+private ArrayList<String> clientType = new ArrayList<>(); 
+private ArrayList<String> address1 = new ArrayList<>(); 
+private ArrayList<String> address2 = new ArrayList<>(); 
+private ArrayList<String> city = new ArrayList<>(); 
+private ArrayList<String> state = new ArrayList<>(); 
+private ArrayList<String> zip = new ArrayList<>(); 
 
 /**
  * Default Constructor

@@ -32,8 +32,7 @@ public class ClientsPage {
 
     // classes 
     Styles s = new Styles();
-    DBViewAllClient viewAllClient = new DBViewAllClient();  //view all client information 
-    
+        
 	// Client address labels
 	static Label lbName = new Label("Client Name");
 	static Label lbAddress = new Label("Address");
@@ -143,9 +142,12 @@ public class ClientsPage {
         });
         btnAdd.setOnAction(e -> {
             box.setCenter(getClientLBs()); 
-        });
+           
+         });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs()); 
+        	box.setCenter(getClientLBs());        	
+        	
+ 
         });
         btnDelete.setOnAction(e -> {
 
@@ -166,13 +168,14 @@ public class ClientsPage {
     }
 
     /**
-     * will connect to db to view client information 
+     * will connect to db to view select client information 
      * @return 
      */
     private ScrollPane addClient() {
         ScrollPane chart = new ScrollPane();
         chart.setMinHeight(560);
         chart.setMaxHeight(360);
+             
 
         return chart;
     }
@@ -273,6 +276,7 @@ public class ClientsPage {
 	 * @return
 	 */
 	private ScrollPane getTextAreaOne() {
+		DBViewAllClient viewAllClient = new DBViewAllClient();  //view all client information 
 		ScrollPane box = new ScrollPane();
 		box.setFitToWidth(true);
 		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
