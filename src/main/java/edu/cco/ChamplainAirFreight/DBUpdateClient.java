@@ -5,8 +5,7 @@ package edu.cco.ChamplainAirFreight;
  * @author Matt Ridgway
  * @Date: November 20, 2020
  * @Description: DBUpdateClient - class to interact with the database and the GUI page 
- * to update the Client information
- * using the stored procedure Update_Client.
+ * to update the Client information, using the stored procedure Update_Client.
  * @MODDIFIED: 
  */
 
@@ -31,6 +30,7 @@ public class DBUpdateClient extends DBConnection{
 			public String clientPhone;
 		
 			private int id;
+
 /**
 * Default Constructor
 * Matt Ridgway 
@@ -124,5 +124,89 @@ public void setClientSQL(int clientSelected) {
     }
 	
 }//end setClientSQL
+/** RESULTSET
+* updateAirport
+* 
+* Matt Ridgway 
+* 11/20/2020
+* @param cID
+* @param cName
+* @param cIDtype
+* @param cPhone
+*/
+public ResultSet updateClient(int cID, String cName, int cIDType, String cPhone, int input) {
+	 ResultSet results = null;
+	 try {
+		 String sqlState="SELECT ClientID FROM Clients WHERE ClientID=?";
+		 PreparedStatement preparedStatement;
+        preparedStatement = connection.prepareStatement(sqlState);
+        preparedStatement.setInt(1, input);
+        ResultSet resultS = preparedStatement.executeQuery();
+       while (resultS.next()) {
+           id = resultS.getInt(1);
+       }
+	}catch (SQLException ex) {
+      Logger.getLogger(DBUpdateClient.class.getName()).log(Level.SEVERE, null, ex);
+  }
+	 try {
+       String SQL = "UPDATE Clients SET ClientName = ?, "
+       		+ "ClientTypeID = ?,"
+       		+ "ClientPhoneNumber = ?";
+       	
+       callable = connection.prepareCall(SQL);
+       callable.setString(2, cName);
+       callable.setInt(3, cIDType);
+       callable.setString(4, cPhone);
+       results = callable.executeQuery();
 
+       System.out.println(results);
+
+   } catch (SQLException ex) {
+       System.out.println("Results Not Returned");
+   }
+   
+   return results;
+}//end ResultSet
+/**
+* updateClient
+* Matt Ridgway 
+* 11/20/2020
+*/
+public void updateAirport() {
+    try {
+    	String storedP = "{call CAFDB.dbo.Update_Client}"; 
+        PreparedStatement ps;
+        ps = connection.prepareStatement(storedP);
+        callable = connection.prepareCall(storedP);
+
+        ResultSet rs = callable.executeQuery(); 
+
+    } catch (SQLException ex) {
+        System.out.println("Update Client Problem!");
+    }
+}//end updateClient
+/**
+* Getters
+* Matt Ridgway 
+* 11/20/2020
+*/
+
+public ArrayList<Integer> getClientID() {
+	return clientID;
+}
+public String getClientInfo() {
+	return clientInfo;
+}
+public String getClientName() {
+	return clientName;
+}
+public int getClientIDType() {
+	return clientIDType;
+}
+public String getClientPhone() {
+	return clientPhone;
+}
+public int getId() {
+	return id;
+}
 }//end class

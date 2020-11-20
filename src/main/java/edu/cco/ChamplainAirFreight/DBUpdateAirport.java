@@ -4,8 +4,7 @@ package edu.cco.ChamplainAirFreight;
  * @author Matt Ridgway
  * @Date: November 20, 2020
  * @Description: DBUpdateAirport - class to interact with the database and the GUI page 
- * to update the airport
- * using the stored procedure Update_Airport.
+ * to update the airport, using the stored procedure Update_Airport.
  * @MODDIFIED: 
  */
 
@@ -153,8 +152,8 @@ public ResultSet updateAircraft(int aID, String aName, String aLoc, boolean aHub
    }
 	 try {
         String SQL = "UPDATE Airports SET AirportName = ?, "
-        		+ "AirportLocation = ?"
-        		+ "AirportHub = ?"
+        		+ "AirportLocation = ?,"
+        		+ "AirportHub = ?,"
         		+ "AirportDistanceFromHub=?";
 
         callable = connection.prepareCall(SQL);
@@ -179,7 +178,7 @@ public ResultSet updateAircraft(int aID, String aName, String aLoc, boolean aHub
 */
 public void updateAirport() {
     try {
-    	String storedP = "{call CAFDB.dbo.Update_AirAirport}"; 
+    	String storedP = "{call CAFDB.dbo.Update_Airport}"; 
         PreparedStatement ps;
         ps = connection.prepareStatement(storedP);
         callable = connection.prepareCall(storedP);
