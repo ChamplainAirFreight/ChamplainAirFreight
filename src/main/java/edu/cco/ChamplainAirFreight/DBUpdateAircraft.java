@@ -1,6 +1,6 @@
 package edu.cco.ChamplainAirFreight;
 /**
- * 
+ * NOT TESTED
  * @author Matt Ridgway
  * @Date: November 19, 2020
  * @Description: DBUpdateAircraft - class to interact with the database and the GUI page to update Aircraft

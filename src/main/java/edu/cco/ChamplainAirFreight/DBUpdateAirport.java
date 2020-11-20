@@ -1,6 +1,6 @@
 package edu.cco.ChamplainAirFreight;
 /**
- * 
+ * NOT TESTED
  * @author Matt Ridgway
  * @Date: November 20, 2020
  * @Description: DBUpdateAirport - class to interact with the database and the GUI page 
@@ -28,7 +28,7 @@ public class DBUpdateAirport extends DBConnection {
 		public String airportLocation;
 		public boolean airportHub;
 		public float airportDistance;
-		public int id;
+		private int id;
 		
 
 /**
