@@ -5,7 +5,8 @@ package edu.cco.ChamplainAirFreight;
  * @Date: November 19, 2020
  * @Description: DBUpdateAircraft - class to interact with the database and the GUI page to update Aircraft
  * using the stored procedure Update_Aircraft.
- * @MODDIFIED: 
+ * @MODDIFIED: Novemeber 20, 2020
+ * Started with strings change to int
  */
 
 //Imports:
@@ -22,17 +23,17 @@ import java.util.logging.Logger;
 public class DBUpdateAircraft extends DBConnection {
 	//Variables
 	public CallableStatement callable = null;
-	public ArrayList<String> aircraftID=new ArrayList<>();
+	public ArrayList<Integer> aircraftID=new ArrayList<>();
 	public String aircraftInfo;
-	public String model;
-	public String id;
-	public String status;
+	public int model;
+	public int id;
+	public int status;
 	private int idStatus;
-	/**
-	* Default Constructor
-	* Matt Ridgway 
-	* 11/19/2020
-	*/	
+/**
+* Default Constructor
+* Matt Ridgway 
+* 11/19/2020
+*/	
 public DBUpdateAircraft() {
 	
 	try {
@@ -43,7 +44,7 @@ public DBUpdateAircraft() {
     }
 }//end default constructor
 /**
-* setAircraft pulls aircraft put's into a String with comma spacing
+* setAircraft pulls aircraftID put's into a String with comma spacing
 * Matt Ridgway 
 * 11/19/2020
 */	
@@ -77,7 +78,7 @@ public void setAircraftArray() {
 	// split string aircraftInfo by , into list. Loop through and put into aircraftID List
 	List<String> aircraftList=new ArrayList<>(Arrays.asList(aircraftInfo.split(",")));
 	for(String strg : aircraftList) {
-		aircraftID.add(String.valueOf(strg));
+		aircraftID.add(Integer.valueOf(strg));
 		
 	}
 	
@@ -100,18 +101,18 @@ public void clearAircraft() {
 * 11/19/2020
 * @param aircraftSelected
 */	
-public void setAircraftSQL(String aircraftSelected) {
+public void setAircraftSQL(int aircraftSelected) {
 	
 	try {
-	String sql="SELECT ACModel, AircraftStatus FROM Aircraft Where AircraftId=?";
+	String sql="SELECT ACModel, AircraftStatus FROM Aircraft Where AircraftID=?";
 	PreparedStatement preparedStatement = connection.prepareStatement(sql);
-    preparedStatement.setString(1, aircraftSelected);
+    preparedStatement.setInt(1, aircraftSelected);
     ResultSet resultS = preparedStatement.executeQuery();
 	
     	while(resultS.next()) {
-    		id=resultS.getString(1);
-    		model=resultS.getString(2);
-    		status=resultS.getString(3);
+    		id=resultS.getInt(1);
+    		model=resultS.getInt(2);
+    		status=resultS.getInt(3);
     	}
 	} catch (SQLException ex) {
         Logger.getLogger(DBUpdateAircraft.class.getName()).log(Level.SEVERE, null, ex);
@@ -159,6 +160,12 @@ public ResultSet updateAircraft(int aID, int mID, int aStatus, int input) {
      
      return results;
 }
+/**
+* updateAircraft 
+* 
+* Matt Ridgway 
+* 11/19/2020
+*/	
 public void updateAircraft() {
     try {
     	String storedP = "{call CAFDB.dbo.Update_Aircraft}"; 
@@ -172,15 +179,20 @@ public void updateAircraft() {
         System.out.println("Update Aircraft Problem!");
     }
 }
-public String getModel() {
+/**
+* Getters
+* Matt Ridgway 
+* 11/19/2020
+*/
+public int getModel() {
 	return model;
 }
 
-public String getId() {
+public int getId() {
 	return id;
 }
 
-public String getStatus() {
+public int getStatus() {
 	return status;
 }
 
