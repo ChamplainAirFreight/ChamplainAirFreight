@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -51,6 +52,16 @@ public class ClientsPage {
 
     //passed border pane from CAF. 
     BorderPane bPane = new BorderPane();
+    
+  //make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Client");
+    Button btnEdit = new Button("Edit Client");
+    Button btnDelete = new Button("Delete Client");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
+
     
 
     /**
@@ -102,16 +113,7 @@ public class ClientsPage {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Client");
-        Button btnEdit = new Button("Edit Client");
-        Button btnDelete = new Button("Delete Client");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
-
-        //style buttons
+      //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
                 btnCancel).forEach((b) -> {
                     b.setStyle(s.entryButtons);
@@ -138,19 +140,19 @@ public class ClientsPage {
         //	getClientInfolb(), getClientInfotx()
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            //box.setCenter(getClientLBs()); 
+        	box.setCenter(addPane());
            
          });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs());        	
-        	
- 
+        	box.setCenter(getClientLBs());   	
+        
         });
         btnDelete.setOnAction(e -> {
 
         });
         btnEnter.setOnAction(e -> {
-
+        	
         });
         btnCancel.setOnAction(e -> {
 
@@ -387,6 +389,96 @@ public class ClientsPage {
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     return centerBox; 
+	}
+	
+	/**
+	 * addPane - pane for adding a client in the database. 
+	 */
+	private VBox addPane() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(2,20,2,20));
+		//add client classes
+		DBAddClient add = new DBAddClient();
+		//title and instructions 
+		Text title = new Text("Add a new Client"); 
+		Text instructions = new Text("Enter valid information for a client, and then press Enter"); 
+		//labels
+		Label lblName = new Label ("Client Name: "); 
+		Label lblType = new Label ("Client Type ID: "); 
+		Label lblPhone = new Label ("Client Phone Number: "); 
+		Label lblAdd1 = new Label("Address 1: "); 
+		Label lblAdd2 = new Label("Address 2: "); 
+		Label lblCity = new Label("City: "); 
+		Label lblState = new Label("State: "); 
+		Label lblZip = new Label("Zip Code: "); 
+		//style labels
+		Arrays.asList(lblName, lblType, lblPhone, lblAdd1, lblAdd2, lblCity, lblState, lblZip).stream().map((b)->{
+			b.setStyle(s.clientLB); 
+			return b; 
+		}); 
+				
+		//entry fields
+		TextField txtName = new TextField(); 
+		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		TextField txtPhone = new TextField(); 
+		TextField txtAdd1 = new TextField(); 
+		TextField txtAdd2 = new TextField(); 
+		TextField txtCity = new TextField(); 
+		ComboBox<String> cbState = new ComboBox();
+    	cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
+				"VA", "WA", "WV", "WI", "WY");
+    	TextField txtZip = new TextField(); 
+    	
+    	//add input values into a gridpane
+    	GridPane grid = new GridPane(); 
+    	grid.setAlignment(Pos.CENTER);
+    	grid.setHgap(10);
+    	grid.setVgap(4);
+    	grid.add(lblName, 0, 0);
+    	grid.add(lblType, 0, 1);
+    	grid.add(lblPhone, 0, 2);
+    	grid.add(lblAdd1, 0, 3);
+    	grid.add(lblAdd2, 0, 4);
+    	grid.add(lblCity, 0, 5);
+    	grid.add(lblState, 0, 6);
+    	grid.add(lblZip, 0, 7);
+    	
+    	grid.add(txtName, 1, 0);
+    	grid.add(spType, 1, 1);
+    	grid.add(txtPhone, 1, 2);
+    	grid.add(txtAdd1, 1, 3);
+    	grid.add(txtAdd2, 1, 4);
+    	grid.add(txtCity, 1, 5);
+    	grid.add(cbState, 1, 6);
+    	grid.add(txtZip, 1, 7);
+    	
+    	box.getChildren().addAll(title,instructions,grid); 
+    	btnEnter.setOnAction(e->{
+    		//variables for SQL stored procedure
+    		String name = txtName.getText(); 
+    		int type = spType.getValue(); 
+    		String phone = txtPhone.getText(); 
+    		//add client
+    		add.insertSQL(name, type, phone);
+    		
+    		//find new clientID for adding address1
+    		DBFinder find = new DBFinder(); 
+    		int id = find.findClientID(name, type, phone); 
+    		System.out.println(id); 
+    		
+    		String add1 = txtAdd1.getText(); 
+    		String add2 = txtAdd2.getText(); 
+    		String city = txtCity.getText(); 
+    		String state = cbState.getValue(); 
+    		int zip = Integer.parseInt(txtZip.getText());
+    		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);     		
+    	});
+    	    	
+		return box; 
 	}
   
 } //End Subclass ClientsPage

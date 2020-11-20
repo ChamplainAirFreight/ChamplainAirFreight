@@ -21,14 +21,13 @@ public class DBAddClient extends DBConnection{
 	public int type;
 	public String phone;
 	
-
 	
 /**
 * Default Constructor
 * Matt Ridgway 
 * 11/11/2020
 */
-public DBAddClient(String clientName, int clientType, String clientPhone) {
+/*public DBAddClient(String clientName, int clientType, String clientPhone) {
 		try {
 			this.name=clientName;
 			this.type=clientType;
@@ -43,9 +42,18 @@ public DBAddClient(String clientName, int clientType, String clientPhone) {
 			e.printStackTrace();
 			System.out.println("Problem adding New Client"); 
 		}
-		
-}//End Default Constructor
 
+}//End Default Constructor
+*/
+
+	/**
+	 * Default Constructor
+	 */
+	public DBAddClient() {
+		//nothing just call this class. 
+	}
+	
+	
 /**
 * insertSQL Method 
 * Matt Ridgway 

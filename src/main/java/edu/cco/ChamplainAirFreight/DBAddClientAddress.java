@@ -37,8 +37,8 @@ public DBAddClientAddress(String add1,String add2,String city,String state, int 
 		this.clientState=state;
 		this.clientZip=zip;
 		this.clientID=id;
-		String storedP = "{call CAFDB.dbo.Add_Client_Address}"; 
-		callable = connection.prepareCall(storedP);
+		
+		statement = connection.createStatement(); 
 		insertSQL(clientAdd1,clientAdd2,clientCity,clientState,clientZip,clientID);		
 		
 	}catch (SQLException ex) {
@@ -49,6 +49,14 @@ public DBAddClientAddress(String add1,String add2,String city,String state, int 
 	}	
 	
 }//end constructor
+
+	
+	/**
+	 * Default Constructor
+	 */
+	public DBAddClientAddress() {
+		//just call this class
+	}
 
 /**
 * insertSQL Method 
@@ -77,6 +85,9 @@ public void insertSQL(String add1,String add2,String city,String state, int zip,
 		callable.executeQuery();
 		
 	} catch (SQLException ex) {
+		//uncomment logger/printstacktrace for debugging. 
+		//Logger.getLogger(DBAddClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+		//ex.printStackTrace(); 
         System.out.println("Insert Client Address Problem !");
     }
 	
