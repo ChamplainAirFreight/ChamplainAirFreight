@@ -22,6 +22,7 @@ public class Styles {
             + "lightblue; " + "-fx-text-fill: red; "
             + "-fx-border-style: solid inside; " + "-fx-border-radius: 5; " + "fx-border-radius: 5";
 
-    //Adding new styles - Pierre
+    //Adding new styles - Pierre 
     String clientLB = "-fx-background-color: blue; -fx-border-width: 2px";
+    String LBTextColor = "-fx-background-color: darkblue; -fx-border-width: 2px";
 } //End Subclass Styles

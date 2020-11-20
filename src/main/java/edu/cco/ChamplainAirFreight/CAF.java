@@ -54,7 +54,7 @@ public class CAF extends Application {
 	    ShipmentsPage shipPage = new ShipmentsPage(bPane); //shipments panes
 	    PilotPage pilotPage = new PilotPage(bPane); //pilots page 
 	    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
-	    //AircraftPage aircraftPage = new AircraftPage(bPane); //
+	    AircraftPage aircraftPage = new AircraftPage(bPane); 
 	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    Model model = new Model(bPane); //Model page 
 	    
