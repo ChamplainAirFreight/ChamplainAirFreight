@@ -1,8 +1,10 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +14,9 @@ import java.util.logging.Logger;
  *
  */
 public class DBFinder extends DBConnection {
+	public CallableStatement callable = null;
+	private ArrayList<String> airportNames = new ArrayList<>(); 
+	private ArrayList<Integer> airportIDs = new ArrayList<>();
 /**
  * Default constructor
  */
@@ -48,5 +53,35 @@ public class DBFinder extends DBConnection {
 			System.out.println("Could not get client ID information"); 
 		}
 		return id; 
+	}
+	
+	/**
+	 * findAirPorts - view the airportIDs and the names of the airports. 
+	 */
+	public void findAirports() {
+		
+		try {
+			String query = "USE[CAFDB] SELECT AirportID, AirportName FROM "
+					+ "CAFDB.dbo.Airports"; 
+			callable = connection.prepareCall(query); 
+				
+			ResultSet rs = callable.executeQuery(); 
+			while(rs.next()) {
+				airportIDs.add(rs.getInt(1)); 
+				airportNames.add(rs.getString(2)); 
+			}
+		}catch(SQLException ex) {
+			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Could not get client ID information"); 
+		}
+	}
+	
+	public ArrayList<String> getAirportNames(){
+		return airportNames; 
+	}
+	public ArrayList<Integer> getAirportIDs(){
+		return airportIDs; 
 	}
 }

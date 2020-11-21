@@ -40,8 +40,9 @@ public DBAddFlight(int aID,int pID,int startAirport, int endAirport, Date start,
 		this.start=start;
 		this.end=end;
 		
-		String storedP = "{call CAFDB.dbo.Add_Flight}"; 
-		callable = connection.prepareCall(storedP);
+		//String storedP = "{call CAFDB.dbo.Add_Flight}"; 
+		//callable = connection.prepareCall(storedP);
+		statement = connection.createStatement(); 
 		insertSQL(aircraftID,pilotID,startAirportID,endAirportID, start,end);		
 	}
 	catch (SQLException ex) {

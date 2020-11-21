@@ -1,6 +1,8 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import javafx.collections.FXCollections;
@@ -8,8 +10,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -50,6 +54,15 @@ public class FlightsPage {
 	
     //variables
     BorderPane bPane = new BorderPane();
+    
+    //make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Flight");
+    Button btnEdit = new Button("Edit Flight");
+    Button btnDelete = new Button("Delete Flight");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
 
     //classes
     Styles s = new Styles();
@@ -105,14 +118,7 @@ public class FlightsPage {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Flight");
-        Button btnEdit = new Button("Edit Flight");
-        Button btnDelete = new Button("Delete Flight");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
+       
 
         //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
@@ -140,7 +146,7 @@ public class FlightsPage {
             box.setCenter(getViewLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            box.setCenter(addPane()); 
         });
         btnEdit.setOnAction(e -> {
         	box.setCenter(editFlightPane()); 
@@ -446,6 +452,100 @@ private VBox getViewSelected() {
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     return centerBox; 
+}
+
+/**
+ * addPane - pane for adding a flight in the database. 
+ */
+private VBox addPane() {
+	VBox box = new VBox(); 
+	box.setAlignment(Pos.CENTER); 
+	box.setSpacing(10);
+	box.setPadding(new Insets(2,20,2,20));
+	//add classes to grab ID arraylists
+	DBViewAllPilot pilot = new DBViewAllPilot(); 
+	DBViewAllAircraft aircraft = new DBViewAllAircraft();
+	DBFinder finder = new DBFinder(); 
+	finder.findAirports(); 
+	
+	//title and instructions 
+	Text title = new Text("Add a new Flight"); 
+	Text instructions = new Text("Enter valid information for a Flight, and then press Enter"); 
+	//labels
+	Label lblAirID = new Label ("AircraftID: "); 
+	Label lblPilotID = new Label ("PilotID: "); 
+	Label lblStartLoc = new Label ("Start Airport: "); 
+	Label lblEndLoc = new Label("End Airport: "); 
+	Label lblStartTime = new Label("Start Time: "); 
+	Label lblEndTime = new Label("End Time: "); 
+	
+	//style labels
+	Arrays.asList(lblAirID, lblPilotID, lblStartLoc, lblEndLoc, lblStartTime, lblEndTime).stream().map((b)->{
+		b.setStyle(s.clientLB); 
+		return b; 
+	}); 
+			
+	//entry fields
+	ComboBox<Integer> cbAirID = new ComboBox(); 
+	cbAirID.getItems().addAll(aircraft.getAircraftID()); 
+	
+	ComboBox<Integer> cbPilotID = new ComboBox(); 
+	cbPilotID.getItems().addAll(pilot.getPilotID());
+	
+	ComboBox<String> cbStartLoc = new ComboBox(); 
+	cbStartLoc.getItems().addAll(finder.getAirportNames()); 
+	
+	ComboBox<String> cbEndLoc = new ComboBox(); 
+	cbEndLoc.getItems().addAll(finder.getAirportNames()); 
+	
+	//need to incorporate a time function to these... 
+	 DatePicker dtStart = new DatePicker(); 
+	 DatePicker dtEnd = new DatePicker(); 
+	
+	//add input values into a gridpane
+	GridPane grid = new GridPane(); 
+	grid.setAlignment(Pos.CENTER);
+	grid.setHgap(10);
+	grid.setVgap(4);
+	grid.add(lblAirID, 0, 0);
+	grid.add(lblPilotID, 0, 1);
+	grid.add(lblStartLoc, 0, 2);
+	grid.add(lblEndLoc, 0, 3);
+	grid.add(lblStartTime, 0, 4);
+	grid.add(lblEndTime, 0, 5);
+	
+	grid.add(cbAirID, 1, 0);
+	grid.add(cbPilotID, 1, 1);
+	grid.add(cbStartLoc, 1, 2);
+	grid.add(cbEndLoc, 1, 3);
+	grid.add(dtStart, 1, 4);
+	grid.add(dtEnd, 1, 5);
+		
+	box.getChildren().addAll(title,instructions,grid); 
+	btnEnter.setOnAction(e->{
+		//variables for SQL stored procedure
+		int airID = cbAirID.getValue(); 
+		int pilotID = cbPilotID.getValue(); 
+		
+		//grab the location id from the lookup table
+		String startLoc = cbStartLoc.getValue(); 
+		int index = finder.getAirportNames().indexOf(startLoc); 
+		int startLocID = finder.getAirportIDs().get(index); 
+		
+		String endLoc = cbEndLoc.getValue(); 
+		int endIndex = finder.getAirportNames().indexOf(endLoc); 
+		int endLocID = finder.getAirportIDs().get(endIndex);
+		
+		Date startDate = Date.valueOf(dtStart.getValue()); 
+		Date endDate = Date.valueOf(dtEnd.getValue()); 
+		
+		//add flight
+		DBAddFlight add = new DBAddFlight(airID, pilotID, startLocID, endLocID, startDate, endDate); 		
+		
+		    		
+	});
+	    	
+	return box; 
 }
 
 } //End Subclass FlightsPage
