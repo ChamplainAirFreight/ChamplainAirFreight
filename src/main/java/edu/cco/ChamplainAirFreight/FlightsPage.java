@@ -541,7 +541,13 @@ private VBox addPane() {
 		
 		//add flight
 		DBAddFlight add = new DBAddFlight(airID, pilotID, startLocID, endLocID, startDate, endDate); 		
-		
+		//clear entry fields
+		cbAirID.valueProperty().set(null);
+		cbPilotID.valueProperty().set(null);
+		cbStartLoc.valueProperty().set(null);
+		cbEndLoc.valueProperty().set(null); 
+		dtStart.valueProperty().set(null);
+		dtEnd.valueProperty().set(null);
 		    		
 	});
 	    	

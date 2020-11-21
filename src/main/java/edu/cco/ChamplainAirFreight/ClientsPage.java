@@ -475,7 +475,16 @@ public class ClientsPage {
     		String city = txtCity.getText(); 
     		String state = cbState.getValue(); 
     		int zip = Integer.parseInt(txtZip.getText());
-    		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);     		
+    		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
+    		
+    		//clear entry fields
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
     	});
     	    	
 		return box; 

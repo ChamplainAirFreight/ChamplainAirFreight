@@ -37,8 +37,9 @@ public DBAddPilot(String fName, String lName, Date dob, String eNumber,Date hire
 				this.pNumber=eNumber;
 				this.pHireDate=hire;
 				
-				String storedP = "{call CAFDB.dbo.Add_Pilot}"; 
-				callable = connection.prepareCall(storedP);
+				//String storedP = "{call CAFDB.dbo.Add_Pilot}"; 
+				//callable = connection.prepareCall(storedP);
+				statement = connection.createStatement();
 				insertSQL(pFirstName, pLastName, pDOB, pNumber, pHireDate);			
 			}
 			catch (SQLException ex) {

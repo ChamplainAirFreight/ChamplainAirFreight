@@ -1,5 +1,6 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -54,6 +56,15 @@ public class PilotPage {
 
     //passed border pane from CAF. 
     BorderPane bPane = new BorderPane();
+    
+  //make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Pilot");
+    Button btnEdit = new Button("Edit Pilot");
+    Button btnDelete = new Button("Delete Pilot");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
 
     /**
      * constructor pulls the border pane from CAF
@@ -105,14 +116,7 @@ public class PilotPage {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Pilot");
-        Button btnEdit = new Button("Edit Pilot");
-        Button btnDelete = new Button("Delete Pilot");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
+        
 
         //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
@@ -140,7 +144,7 @@ public class PilotPage {
         	box.setCenter(getViewLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            box.setCenter(addPane()); 
         });
         btnEdit.setOnAction(e -> {
         	 box.setCenter(getClientLBs()); 	
@@ -384,5 +388,74 @@ public class PilotPage {
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	    
 	    return centerBox; 
+	}
+	
+	/**
+	 * addPane - pane for adding a flight in the database. 
+	 */
+	private VBox addPane() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(2,20,2,20));
+		
+		DBFinder finder = new DBFinder(); 
+		
+		
+		//title and instructions 
+		Text title = new Text("Add a new Pilot"); 
+		Text instructions = new Text("Enter valid information for a Pilot, and then press Enter"); 
+		//labels
+		Label lblFirstName = new Label ("First Name: "); 
+		Label lblLastName = new Label ("Last Name: "); 
+		Label lblDOB = new Label ("Date of Birth: "); 
+		Label lblEmpNum = new Label("Employee Number: "); 
+				
+		//style labels
+		Arrays.asList(lblFirstName, lblLastName, lblDOB, lblEmpNum).stream().map((b)->{
+			b.setStyle(s.clientLB); 
+			return b; 
+		}); 
+				
+		//entry fields
+		TextField txtFirstName = new TextField(); 
+		TextField txtLastName = new TextField(); 
+		DatePicker dpDOB = new DatePicker(); 
+		TextField txtEmpNum = new TextField(); 
+		
+		//add input values into a gridpane
+		GridPane grid = new GridPane(); 
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(4);
+		grid.add(lblFirstName, 0, 0);
+		grid.add(lblLastName, 0, 1);
+		grid.add(lblDOB, 0, 2);
+		grid.add(lblEmpNum, 0, 3);
+				
+		grid.add(txtFirstName, 1, 0);
+		grid.add(txtLastName, 1, 1);
+		grid.add(dpDOB, 1, 2);
+		grid.add(txtEmpNum, 1, 3);
+			
+		box.getChildren().addAll(title,instructions,grid); 
+		btnEnter.setOnAction(e->{
+			//variables for SQL stored procedure
+			String fName = txtFirstName.getText(); 
+			String lName = txtLastName.getText(); 
+			Date dob = Date.valueOf(dpDOB.getValue());
+			String empNum = txtEmpNum.getText(); 
+			Date dateHire = Date.valueOf(java.time.LocalDate.now()); //today's date auto added
+						
+			//add pilot
+			DBAddPilot addPilot = new DBAddPilot(fName, lName, dob, empNum, dateHire); 		
+			//clear entry fields
+			txtFirstName.clear(); 
+			txtLastName.clear(); 
+			dpDOB.valueProperty().set(null);
+			txtEmpNum.clear(); 
+		});
+		    	
+		return box; 
 	}
 } //End Subclass PilotPage
