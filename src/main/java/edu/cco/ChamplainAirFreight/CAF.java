@@ -43,8 +43,8 @@ public class CAF extends Application {
 	    static Button btonflights = new Button("FLIGHTS");
 	    static Button btonpilot = new Button("PILOT");
 	    static Button btonshipment = new Button("SHIPMENT");
-	    //static Button btonaircraft = new Button("AIRCRAFT"); 
-	    static Button btonhelp = new Button("HELP - FAQ PAGE");
+	    static Button btonaircraft = new Button("AIRCRAFT"); 
+	    // btonhelp removed - 
 	    static Button btoncontact = new Button("CONTACT US");
 	    static Button btonexit = new Button("EXIT");
 	    static Button btonmodel = new Button("Model");
@@ -56,8 +56,8 @@ public class CAF extends Application {
 	    FlightsPage flightsPage = new FlightsPage(bPane); //flights panes 
 	    ShipmentsPage shipPage = new ShipmentsPage(bPane); //shipments panes
 	    PilotPage pilotPage = new PilotPage(bPane); //pilots page 
-	    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
-	    //AircraftPage aircraftPage = new AircraftPage(bPane); //
+	   // help page removed-  
+	    AircraftPage aircraftPage = new AircraftPage(bPane); //
 	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    Model model = new Model(bPane); //Model page 
 	    
@@ -104,15 +104,9 @@ public void start(Stage primaryStage) throws Exception {
         // set center to shipment page
         bPane.setCenter(shipPage.getPane());
     });
-   /*
+   
     btonaircraft.setOnAction(e->{
    	bPane.setCenter(aircraftPage.getPane());
-    });
-    */
-
-    btonhelp.setOnAction(e -> {
-        // set center to help page
-        bPane.setCenter(helpPage.getPane());
     });
 
     btoncontact.setOnAction(e -> {
@@ -169,7 +163,7 @@ private HBox getNavButtons() {
 
     //add color, height and font to all buttons:
     Arrays.asList(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonmodel).stream().map((b) -> {
+            btonpilot, btonshipment, btonaircraft, btoncontact).stream().map((b) -> {
                 b.setStyle(s.button);
                 return b;
             }).map((b) -> {
@@ -185,7 +179,7 @@ private HBox getNavButtons() {
             FontPosture.REGULAR, 14));
 
     hboxnv.getChildren().addAll(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonexit);
+            btonpilot, btonshipment, btonaircraft, btoncontact, btonexit);
     return hboxnv;
 }
 
@@ -215,29 +209,4 @@ private VBox bottomCreds() {
     return vboxb;
 }
 
-/**
- * Each different pane will house each component of our project. We will
- * need the following extra panes:
- *
- * 1. contactUsPane (Pierre) 
- * 2. helpPane (Pierre) 
- * 3. shipmentPane (Pierre)
- * 4. shipmentViewPane (Pierre) - this will be a subpage to shipmentPane 
- * 5. clientsViewPane (Pierre) - this will be a subpage to clientsPage()
- *
- * 6. flightsPane (Kelly) 
- * 7. flightsViewPane (Kelly) - this will be a subpage to flightsPane 
- * 8. pilotPane (Kelly) 
- * 9. pilotViewPane (Kelly) - this will be a subpage to pilotPane 
- * 10. aircraftInformationPane (Kelly)
- * 11. aircraftInformaitonViewPane (Kelly) - this will be a subpage to
- * AircraftInformationPane
- *
- * 12. cargoInformationPane (Matt) 
- * 13. cargoInformationViewPane (Matt) 
- * 14. aircraftModulePane (Matt) 
- * 15. aircraftModuleViewPane(Matt) - this will be
- * a subpage to aircraftModulePane
- *
- */
 } //End Class CAF

@@ -116,6 +116,7 @@ public class ClientsPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
       //style buttons
@@ -150,7 +151,7 @@ public class ClientsPage {
            
          });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs());   	
+        	//box.setCenter(getClientLBs());   	
         
         });
         btnDelete.setOnAction(e -> {
@@ -169,75 +170,9 @@ public class ClientsPage {
         });
 
         return box;
-    }
-
-    /**
-     * will connect to db to view select client information 
-     * @return 
-     */
-    private ScrollPane addClient() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(560);
-        chart.setMaxHeight(360);
-             
-
-        return chart;
-    }
-    /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getClientLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
-    	return hboxlb;
-    }   
-    /*
-     * This function will display the client information for the client page
-     */
-    private VBox getClientInfolb() {
-    	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
-        lbName.setStyle(s.clientLB);
-        lbAddress.setStyle(s.clientLB);
-        lbCity.setStyle(s.clientLB);
-        lbZip.setStyle(s.clientLB);
-        lbName = new Label("Client Name");
-    	lbAddress = new Label("Address");
-    	lbCity = new Label("City");
-    	
-    	vboxi.getChildren().addAll(lbName, lbAddress, lbCity, lbState);
-    	return vboxi;
-    }
-    /*
-     * This function will display the client information for the client page
-     */
-    private VBox getClientInfotx() {
-    	VBox vboxi = new VBox();
-    	TextField txName = new TextField();
-    	TextField txAddress = new TextField();
-    	TextField txCity = new TextField();
-    	vboxi.getChildren().addAll(txName, txAddress, txCity, getClientInfotxZip());
-    	return vboxi;
-    }   
-    /*
-     * This function will display the State and zip code information for the client page
-     */
-    private HBox getClientInfotxZip() {
-    	HBox hboxi = new HBox();
-    	lbZip = new Label("Zip");
-    	ComboBox<String> cbState = new ComboBox();
-    	txZip = new TextField();
-		cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
-				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
-				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
-				"VA", "WA", "WV", "WI", "WY");
-    	hboxi.getChildren().addAll(cbState, lbZip,txZip);
-    	return hboxi;
     } 
+ 
+    //getClientInfortxZip, getClientInfotx, getClientInfolb, getClientLBs all incorporated into addPane
     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
@@ -268,7 +203,7 @@ public class ClientsPage {
 		hboxv.getChildren().addAll(name, Address, City, State,Zip);
 		return hboxv;
 	}
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * This TextArea will display the output or result for the View All shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 
@@ -282,6 +217,7 @@ public class ClientsPage {
 		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
 				
 		 GridPane gpane = new GridPane(); 
+		 gpane.setStyle("-fx-background-color: white; -fx-border-color: black"); 
 		 gpane.setPadding(new Insets(2,20,2,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
 		 gpane.setHgap(110);
@@ -403,7 +339,7 @@ public class ClientsPage {
 		VBox box = new VBox(); 
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
-		box.setPadding(new Insets(2,20,2,20));
+		box.setPadding(new Insets(23,30,0,20));
 		//add client classes
 		DBAddClient add = new DBAddClient();
 		//title and instructions 
@@ -420,7 +356,7 @@ public class ClientsPage {
 		Label lblZip = new Label("Zip Code: "); 
 		//style labels
 		Arrays.asList(lblName, lblType, lblPhone, lblAdd1, lblAdd2, lblCity, lblState, lblZip).stream().map((b)->{
-			b.setStyle(s.clientLB); 
+			b.setStyle(s.LBTextColor); 
 			return b; 
 		}); 
 				
