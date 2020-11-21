@@ -32,7 +32,7 @@ public class HomePage {
     FlightsPage flightsPage = new FlightsPage(bPane);
     ShipmentsPage shipPage = new ShipmentsPage(bPane);
     PilotPage pilotPage = new PilotPage(bPane);
-    HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
+ //   HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
     ContactPage contactPage = new ContactPage(bPane); //contact us page 
     AircraftPage aircraftPage = new AircraftPage(bPane); //contact us page
     /**
@@ -51,6 +51,8 @@ public class HomePage {
      */
     public VBox getPane() {
         VBox home = new VBox();
+        home.setStyle("-fx-background-color: white");
+
         home.getChildren().add(getAllButton());
         return home;
     }
@@ -62,7 +64,7 @@ public class HomePage {
      */
     private VBox getAllButton() {
     	VBox vboxall = new VBox();
-    	vboxall.getChildren().addAll(getBtons(), getCraftBton());
+    	vboxall.getChildren().addAll(getBtons());
     	vboxall.setAlignment(Pos.CENTER);
         return vboxall;
     }
@@ -100,7 +102,6 @@ public class HomePage {
                 FontPosture.REGULAR, 30));
         bthomeclients.setStyle(s.button);
         bthomeshipment.setStyle(s.button);
-        //vboxcb.setStyle("-fx-background-color: white");
         bthomeclients.setMinSize(250, 150);
         bthomeshipment.setMinSize(250, 150);
         vboxcb.getChildren().addAll(cltext, bthomeclients, shiptext, bthomeshipment);
@@ -126,32 +127,18 @@ public class HomePage {
         VBox vboxcb = new VBox();
         vboxcb.setAlignment(Pos.CENTER);
         Text fltext = new Text("All Flight Records");
-        Text hltext = new Text("Do You Have a Question?");
         vboxcb.setMargin(fltext, new Insets(20, 0, 20, 20));
-        vboxcb.setMargin(hltext, new Insets(20, 0, 20, 20));
         Button bthomeflights = new Button("FLIGHTS");
-        Button bthomehelp = new Button("HELP-FAQ PAGE");
         bthomeflights.setFont(Font.font("Time New Roman", FontWeight.BOLD,
                 FontPosture.REGULAR, 30));
-        bthomehelp.setFont(Font.font("Time New Roman", FontWeight.BOLD,
-                FontPosture.REGULAR, 30));
         bthomeflights.setStyle(s.button);
-        bthomehelp.setStyle(s.button);
-        //vboxcb.setStyle("-fx-background-color: white");
         vboxcb.setMargin(bthomeflights, new Insets(0, 0, 0, 20));
-        vboxcb.setMargin(bthomehelp, new Insets(0, 0, 0, 20));
         bthomeflights.setMinSize(250, 150);
-        bthomehelp.setMinSize(250, 150);
-        vboxcb.getChildren().addAll(fltext, bthomeflights, hltext, bthomehelp);
+        vboxcb.getChildren().addAll(fltext, bthomeflights, getCraftBton());
 
         bthomeflights.setOnAction(e -> {
             //set bpane center to flights
             bPane.setCenter(flightsPage.getPane());
-        });
-
-        bthomehelp.setOnAction(e -> {
-            //set bpane center to help
-            bPane.setCenter(helpPage.getPane());
         });
 
         return vboxcb;
@@ -176,7 +163,6 @@ public class HomePage {
                 FontPosture.REGULAR, 30));
         bthomepilot.setStyle(s.button);
         bthomecontact.setStyle(s.button);
-        //vboxcb.setStyle("-fx-background-color: white");
         vboxcb.setMargin(bthomepilot, new Insets(0, 0, 0, 20));
         vboxcb.setMargin(bthomecontact, new Insets(0, 0, 0, 20));
         bthomepilot.setMinSize(250, 150);
@@ -201,18 +187,16 @@ public class HomePage {
      */
     private VBox getCraftBton() {
         VBox vboxcb = new VBox();
-        vboxcb.setMinSize(500, 200);
+        vboxcb.setMaxSize(850, 200);
         Text crafttext = new Text("Access Aircraft & Model");
-        Text contact = new Text("How to reach us");
         vboxcb.setMargin(crafttext, new Insets(20, 0, 20, 20));
         Button aircraftBton = new Button("AirCraft");
         aircraftBton.setFont(Font.font("Time New Roman", FontWeight.BOLD,
                 FontPosture.REGULAR, 30));
         aircraftBton.setStyle(s.button);
-        vboxcb.setStyle("-fx-background-color: blue");
         vboxcb.setMargin(aircraftBton, new Insets(0, 0, 0, 20));
         aircraftBton.setMinSize(250, 150);
-        vboxcb.getChildren().addAll(crafttext, aircraftBton, contact);
+        vboxcb.getChildren().addAll(crafttext, aircraftBton);//, contact);
 
         aircraftBton.setOnAction(e -> {
             // set bpane cetner to pilot

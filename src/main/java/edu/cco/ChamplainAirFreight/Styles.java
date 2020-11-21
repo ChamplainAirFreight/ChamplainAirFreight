@@ -25,4 +25,5 @@ public class Styles {
     //Adding new styles - Pierre 
     String clientLB = "-fx-background-color: blue; -fx-border-width: 2px";
     String LBTextColor = "-fx-background-color: darkblue; -fx-border-width: 2px";
+    String contTextCol = " -fx-border-width: 2px";
 } //End Subclass Styles

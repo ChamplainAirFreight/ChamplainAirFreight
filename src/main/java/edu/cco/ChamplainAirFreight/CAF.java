@@ -109,7 +109,7 @@ public void start(Stage primaryStage) throws Exception {
 
     btonhelp.setOnAction(e -> {
         // set center to help page
-        bPane.setCenter(helpPage.getPane());
+      //  bPane.setCenter(helpPage.getPane());
     });
 
     btoncontact.setOnAction(e -> {
@@ -166,7 +166,7 @@ private HBox getNavButtons() {
 
     //add color, height and font to all buttons:
     Arrays.asList(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonmodel).stream().map((b) -> {
+            btonpilot, btonshipment, btoncontact).stream().map((b) -> {
                 b.setStyle(s.button);
                 return b;
             }).map((b) -> {
@@ -182,7 +182,7 @@ private HBox getNavButtons() {
             FontPosture.REGULAR, 14));
 
     hboxnv.getChildren().addAll(btonhomepage, btonclients, btonflights,
-            btonpilot, btonshipment, /*btonaircraft,*/ btonhelp, btoncontact, btonexit);
+            btonpilot, btonshipment, btoncontact, btonexit);
     return hboxnv;
 }
 
