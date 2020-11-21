@@ -33,6 +33,15 @@ public class DBUpdateFlight extends DBConnection {
 	private int id;
 
 /**
+ * DataBase Structure:
+ * 1. FlightId int
+ * 2. AircraftID int
+ * 3. PilotID int
+ * 4. StartAirport int
+ * 5. EndAirport int
+ * 6. FlightStartTime Date
+ * 7. FlightEndTime Date
+ * 
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020
@@ -131,7 +140,7 @@ public void setFlightSQL(int flightSelected) {
 	
 }//end setFlightSQL
 /** RESULTSET
-* updateClientAddress
+* updateFlight
 * 
 * Matt Ridgway 
 * 11/20/2020

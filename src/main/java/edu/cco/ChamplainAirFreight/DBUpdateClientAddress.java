@@ -32,6 +32,14 @@ public class DBUpdateClientAddress  extends DBConnection {
 	private int id;
 
 /**
+ * DataBase structure:
+ * 1. ClientAddressID int
+ * 2. ClientID int
+ * 3. ClientAddressLine1 String
+ * 4. ClientAddressLine2 String
+ * 5. ClientAddressCity String
+ * 6. ClientAddressState String
+ * 7. ClientAddressZip int
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020

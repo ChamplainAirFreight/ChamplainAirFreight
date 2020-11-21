@@ -29,7 +29,13 @@ public class DBUpdateAircraft extends DBConnection {
 	public int id;
 	public int status;
 	private int idStatus;
+
 /**
+ * Database structure:
+ * 1. AircraftID int
+ * 2. ACModelID int
+ * 3. AircraftStatusID int
+ * 
 * Default Constructor
 * Matt Ridgway 
 * 11/19/2020

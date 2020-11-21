@@ -32,6 +32,11 @@ public class DBUpdateClient extends DBConnection{
 			private int id;
 
 /**
+ * Database structure:
+ * 1. Client ID
+ * 2. ClientName String
+ * 3. ClientTypeID int
+ * 4. ClientPhoneNumber String
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020

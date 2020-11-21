@@ -31,6 +31,12 @@ public class DBUpdateAirport extends DBConnection {
 		
 
 /**
+ * Database Structure:
+ * 1. AirportID int
+ * 2. AirportName String
+ * 3. AirportLocation String
+ * 4. AirportHub Boolean
+ * 5. AirportDistanceFromHub float
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020
