@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database.Shipment;
 /**
  * @author Matt Ridgway
  * @Date: Nov 12, 2020
@@ -11,6 +11,9 @@ package edu.cco.ChamplainAirFreight;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
+
 import java.sql.CallableStatement;
 
 public class DBAddShipmentStatus extends DBConnection {

@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database.Pilot;
 /**
  * 
  * @author Matt Ridgway
@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 public class DBAddPilot extends DBConnection{
 	//Variables

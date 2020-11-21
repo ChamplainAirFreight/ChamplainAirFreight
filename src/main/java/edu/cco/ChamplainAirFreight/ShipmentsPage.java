@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewAllShipments;
+import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewSelectShipment;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

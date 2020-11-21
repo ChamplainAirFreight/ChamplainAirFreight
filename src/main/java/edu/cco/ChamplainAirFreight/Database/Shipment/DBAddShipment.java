@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database.Shipment;
 /**@author Matt Ridgway
  * @Date: Nov 12, 2020
  * @Description: dbAddShipment - class to interact with the database and the GUI page to insert a new Shipment
@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 public class DBAddShipment extends DBConnection{
 	//Variables

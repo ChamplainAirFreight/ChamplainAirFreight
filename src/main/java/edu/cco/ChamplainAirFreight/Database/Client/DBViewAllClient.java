@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database.Client;
 /**
  * 
  * @author Kelly May
@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 public class DBViewAllClient extends DBConnection {
 	

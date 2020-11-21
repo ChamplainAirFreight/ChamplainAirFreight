@@ -8,6 +8,9 @@ package edu.cco.ChamplainAirFreight;
  */
 //Imports
 import java.util.Arrays;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;

@@ -4,6 +4,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBAddPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewAllPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewSelectPilot;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

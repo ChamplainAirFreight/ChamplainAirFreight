@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database.Flight;
 /**
  * 
  * @author Matt Ridgway
@@ -15,6 +15,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 public class DBAddFlight extends DBConnection {
 	//Variables

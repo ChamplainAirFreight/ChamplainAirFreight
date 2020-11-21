@@ -1,4 +1,4 @@
-package edu.cco.ChamplainAirFreight;
+package edu.cco.ChamplainAirFreight.Database;
 //imports:
 import java.util.*; 
 import java.util.logging.Logger; 

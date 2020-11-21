@@ -2,6 +2,11 @@ package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
