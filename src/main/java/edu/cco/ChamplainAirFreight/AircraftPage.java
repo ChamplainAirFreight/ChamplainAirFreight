@@ -108,6 +108,7 @@ public class AircraftPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
         //make buttons
@@ -198,8 +199,8 @@ public class AircraftPage {
      */
     private VBox getCraftInfolb() {
     	VBox vboxi = new VBox();
-    	vboxi.setSpacing(15);
-    	vboxi.setPadding(new Insets(20,0,0,20));
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,0,0,20));
     	lbcraftMake = new Label("AirCraft Make");
         lbcraftModel = new Label("AirCraft Model");
         lbcraftRang = new Label("AirCraft Range");
@@ -213,9 +214,7 @@ public class AircraftPage {
         lbcraftRC.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
         lbtxPayload.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
         lbtxLoadVolume.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
-        
         lbcraftMake.setStyle(s.LBTextColor);
-        
         lbcraftMake.setStyle(s.LBTextColor);
         lbcraftModel.setStyle(s.LBTextColor);
         lbcraftRang.setStyle(s.LBTextColor);
@@ -226,17 +225,10 @@ public class AircraftPage {
     			lbtxPayload, lbtxLoadVolume);
     	return vboxi;
     }
-
-    /*
-     * This function will display the AircraftPage information for the AircraftPage page
-     * 	//Text field -  Pierre
-	static TextField ;
-	static TextField ;
-	static TextField ;
-	static TextField ;
-	static TextField  ;
-	static TextField ;
-     */
+/**
+ * This function displays the text field	
+ * @return
+ */
     private VBox getCraftlInfotx() {
     	VBox vboxi = new VBox();
     	vboxi.setSpacing(12);

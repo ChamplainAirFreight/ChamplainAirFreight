@@ -103,6 +103,7 @@ public class FlightsPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
         //make buttons
@@ -193,7 +194,8 @@ public class FlightsPage {
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
+    	 vboxi.setSpacing(20);
+    	 vboxi.setPadding(new Insets(23,30,0,20));
 		 lbstartairport = new Label("Start Airport");
 		 lbendairport = new Label("End Airport");
 		 lbflightstarttime = new Label("Flight Start Time");
@@ -208,6 +210,8 @@ public class FlightsPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	 txstartairport = new TextField();
     	 txendairport = new TextField();
     	 txflightstarttime = new TextField();

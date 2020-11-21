@@ -100,6 +100,7 @@ public class ClientsPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
         //make buttons
@@ -188,20 +189,23 @@ public class ClientsPage {
     	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
     	return hboxlb;
     }   
-    /*
+    /*    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,0,0,20));
+    	
+
      * This function will display the client information for the client page
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
-        lbName.setStyle(s.clientLB);
-        lbAddress.setStyle(s.clientLB);
-        lbCity.setStyle(s.clientLB);
-        lbZip.setStyle(s.clientLB);
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,30,0,20));
+        lbName.setStyle(s.LBTextColor);
+        lbAddress.setStyle(s.LBTextColor);
+        lbCity.setStyle(s.LBTextColor);
+        lbZip.setStyle(s.LBTextColor);
         lbName = new Label("Client Name");
     	lbAddress = new Label("Address");
     	lbCity = new Label("City");
-    	
     	vboxi.getChildren().addAll(lbName, lbAddress, lbCity, lbState);
     	return vboxi;
     }
@@ -210,6 +214,8 @@ public class ClientsPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	TextField txName = new TextField();
     	TextField txAddress = new TextField();
     	TextField txCity = new TextField();
@@ -221,6 +227,8 @@ public class ClientsPage {
      */
     private HBox getClientInfotxZip() {
     	HBox hboxi = new HBox();
+    	hboxi.setSpacing(5);
+    	hboxi.setPadding(new Insets(5,0,0,0));
     	lbZip = new Label("Zip");
     	ComboBox<String> cbState = new ComboBox();
     	txZip = new TextField();
@@ -238,30 +246,9 @@ public class ClientsPage {
     private VBox getViewLBs() {
     	VBox vboxlb = new VBox();
     	vboxlb.setAlignment(Pos.CENTER);
-    	vboxlb.getChildren().addAll(getViewLabel(), getTextAreaOne());
+    	vboxlb.getChildren().addAll( getTextAreaOne());
     	return vboxlb;
     }
-    /**
-     * This is a header section for the shipment view page. This header displays the names of the fields
-     * @return
-     */
-	private HBox getViewLabel() {
-		HBox hboxv = new HBox();
-		hboxv.setAlignment(Pos.CENTER);
-		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(150);
-		hboxv.setPrefWidth(700);
-		hboxv.setMaxWidth(900);
-		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
-		Label name = new Label("Client Name");
-		Label Address = new Label("Address");
-		Label City = new Label("City");
-		Label State = new Label("State");
-		Label Zip = new Label("Zip Code");
-		hboxv.getChildren().addAll(name, Address, City, State,Zip);
-		return hboxv;
-	}
-	
 	/**
 	 * This TextArea will display the output or result for the View All shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 

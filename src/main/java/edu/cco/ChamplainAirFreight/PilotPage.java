@@ -102,6 +102,7 @@ public class PilotPage {
 
         //create button HBox:
         HBox buttonBox = new HBox();
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
@@ -192,7 +193,8 @@ public class PilotPage {
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,30,0,20));
 		 lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
 		 lbbirthdate = new Label("Date of Birth");
@@ -208,6 +210,8 @@ public class PilotPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	 txfname = new TextField();
     	 txlname = new TextField();
     	 txbirthdate = new TextField();
