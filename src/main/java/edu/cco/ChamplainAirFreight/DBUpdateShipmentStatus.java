@@ -9,7 +9,6 @@ package edu.cco.ChamplainAirFreight;
  */
 //Imports:
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
