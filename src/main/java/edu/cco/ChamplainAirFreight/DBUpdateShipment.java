@@ -147,7 +147,7 @@ public void setShipmentSQL(int shipmentSelected) {
 * updateShipment
 * 
 * Matt Ridgway 
-* 11/20/2020*
+* 11/21/2020*
 * @param cID
 * @param sVol
 * @param sWeight
