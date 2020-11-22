@@ -122,6 +122,7 @@ public class FlightsPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
        
@@ -205,7 +206,9 @@ public class FlightsPage {
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
+    	vboxi.setSpacing(20);
+   	 	vboxi.setPadding(new Insets(23,30,0,20));
+   	 	
 		 lbstartairport = new Label("Start Airport");
 		 lbendairport = new Label("End Airport");
 		 lbflightstarttime = new Label("Flight Start Time");
@@ -220,6 +223,8 @@ public class FlightsPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	 txstartairport = new TextField();
     	 txendairport = new TextField();
     	 txflightstarttime = new TextField();
@@ -250,12 +255,7 @@ public class FlightsPage {
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
-		//these labels no longer work with database info --- should remove 
-		//Label lbstartairport = new Label("Start Airport");
-		//Label lbtxendairport = new Label("End Airport");
-		//Label lbtxflightstarttime = new Label("Flight Start Time");
-		//Label lbtxflightendtime = new Label("Flight End Time");
-		
+				
 		Label lbFlightID = new Label ("Flight ID"); 
 		Label lbACID = new Label("Aircraft ID"); 
 		Label lbPilotID = new Label("Pilot ID"); 
@@ -263,10 +263,7 @@ public class FlightsPage {
 		Label lbStartTime = new Label("Start Time"); 
 		Label lbEndLoc = new Label ("End Location"); 
 		Label lbEndTime = new Label("End Time"); 
-//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
+
 		hboxv.getChildren().addAll(lbFlightID, lbACID, lbPilotID, lbStartLoc, lbStartTime, lbEndLoc, lbEndTime);
 		return hboxv;
 	}
@@ -283,7 +280,8 @@ public class FlightsPage {
 		box.setStyle("-fx-border-color: black");
 		box.setFitToWidth(true);
 		
-		GridPane gpane = new GridPane(); 
+		GridPane gpane = new GridPane();
+		gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
 		gpane.setAlignment(Pos.TOP_CENTER);
 		gpane.setPadding(new Insets(2,20,2,20)); 
 		gpane.setHgap(90);

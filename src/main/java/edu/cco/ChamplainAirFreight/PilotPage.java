@@ -117,6 +117,7 @@ public class PilotPage {
 
         //create button HBox:
         HBox buttonBox = new HBox();
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
@@ -200,6 +201,8 @@ public class PilotPage {
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,30,0,20));
         GridPane gPane = new GridPane();
 		 lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
@@ -216,6 +219,8 @@ public class PilotPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	 txfname = new TextField();
     	 txlname = new TextField();
     	 txbirthdate = new TextField();
@@ -270,6 +275,7 @@ public class PilotPage {
 		box.setStyle("-fx-background-color: white; -fx-border-color: black");
 		
 		GridPane gpane = new GridPane(); 
+		gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
 		gpane.setPadding(new Insets(2,20,2,20));
 		gpane.setAlignment(Pos.TOP_CENTER);
 		gpane.setHgap(110);

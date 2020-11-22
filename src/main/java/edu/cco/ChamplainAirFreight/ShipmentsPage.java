@@ -44,12 +44,22 @@ public class ShipmentsPage {
 	static Label lbShipmentEndDate  = new Label("Shipment End Date");
 	static Label lbShipmentNotes = new Label("Shipment Notes ");
 
+	static TextField txShipmentID;
 	static TextField txShipmentVolume;
 	static TextField txShipmentWeight;
 	static TextField txShipmentStartDate;
 	static TextField txShipmentEndDate;
 
 	static TextArea texRea;
+	
+	//make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Shipment");
+    Button btnEdit = new Button("Edit Shipment");
+    Button btnDelete = new Button("Delete Shipment");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
 	
     //variables
     BorderPane bPane = new BorderPane();
@@ -102,17 +112,9 @@ public class ShipmentsPage {
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
-
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Shipment");
-        Button btnEdit = new Button("Edit Shipment");
-        Button btnDelete = new Button("Delete Shipment");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
-
+    
         //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
                 btnCancel).forEach((b) -> {
@@ -194,6 +196,8 @@ public class ShipmentsPage {
      */
     private VBox getShipInfolb() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,30,0,20));
     	Label lbShipmentID = new Label("Shipment ID"); 
 		Label lbShipmentVolume = new Label("Shipment Volume");
 		Label lbShipmentWeight = new Label("Shipment Weight");
@@ -210,6 +214,9 @@ public class ShipmentsPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
+    	TextField txShipmentID = new TextField();
     	TextField txShipmentVolume = new TextField();
     	TextField txShipmentWeight = new TextField();
     	TextField txShipmentStartDate = new TextField();
@@ -220,9 +227,9 @@ public class ShipmentsPage {
         texRea.setFont(new Font("Time New Roman", 10));
         texRea.setEditable(true);
         texRea.setWrapText(true);
-        texRea.setPrefSize(600, 200);
-    	vboxi.getChildren().addAll(txShipmentVolume, txShipmentWeight, txShipmentStartDate, 
-    			txShipmentEndDate, texRea);
+        texRea.setPrefSize(600, 120);
+    	vboxi.getChildren().addAll(txShipmentID,txShipmentVolume, txShipmentWeight, txShipmentStartDate, 
+    			txShipmentEndDate,texRea);
     	return vboxi;
     }
     /**
@@ -272,6 +279,7 @@ public class ShipmentsPage {
 		
 		
 		 GridPane gpane = new GridPane(); 
+		 gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
 		 gpane.setPadding(new Insets(2,20,2,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
 		 gpane.setHgap(100);
@@ -309,7 +317,7 @@ public class ShipmentsPage {
 	 * 11/18/2020
 	 */
 	private VBox getViewSelected() {
-DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
+		DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
 		
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
