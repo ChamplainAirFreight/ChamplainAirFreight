@@ -28,14 +28,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-// TEST COMMENT FOR COMMIT 2
+
 /**
  * JavaFX App
  */
 public class CAF extends Application {
 
 	   BorderPane bPane = new BorderPane();
-	   //TESTTEST
 
 	    //Buttons:
 	    static Button btonhomepage = new Button("HOMEPAGE");

@@ -1,7 +1,9 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.Aircraft.DBAddAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewSelectAircraft;
 import javafx.collections.FXCollections;
@@ -54,24 +56,19 @@ public class AircraftPage {
 	
 	//make buttons
     Button btnView = new Button("View");
-    Button btnAdd = new Button("Add Flight");
-    Button btnEdit = new Button("Edit Flight");
-    Button btnDelete = new Button("Delete Flight");
+    Button btnAdd = new Button("Add Aircraft");
+    Button btnEdit = new Button("Edit Aircraft");
+    Button btnDelete = new Button("Delete Aircraft");
     Button btnEnter = new Button("Enter");
     Button btnCancel = new Button("Cancel");
     Button btnExit = new Button("Exit");
-	
-/*	  = new Label("AirCraft Make");
-	  = new Label("AirCraft Model");
-	  = new Label("AirCraft Range");
-	  = new Label("Range Clasification");*/
 	
     //variables
     BorderPane bPane = new BorderPane();
 
     //classes
     Styles s = new Styles();
-    DBViewAllAircraft viewAllAir = new DBViewAllAircraft(); 
+    
 
     /**
      * Constructor - pulls the border pane from CAF (main page)
@@ -150,7 +147,7 @@ public class AircraftPage {
             box.setCenter(getCraftLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getCraftViewLBs()); 
+            box.setCenter(getAdd()); 
         });
         btnEdit.setOnAction(e -> {
         	box.setCenter(getCraftViewLBs()); 
@@ -268,6 +265,7 @@ public class AircraftPage {
 	 * @return
 	 */
 	private ScrollPane getTextAreaOne() {
+		DBViewAllAircraft viewAllAir = new DBViewAllAircraft(); 
 		ScrollPane box = new ScrollPane(); 
 		box.setStyle("-fx-border-color: black");
 		box.setFitToWidth(true);
@@ -388,6 +386,50 @@ public class AircraftPage {
 		    
 		    centerBox.getChildren().addAll(title,instructions, selection, grid); 
 		    
+		return centerBox; 
+	}
+	
+	/**
+	 * getAdd - method to house the pane for adding aircraft into the database. Calls the DBAddAircraft and DBAddAircraftModel classes
+	 */
+	private VBox getAdd() {
+		DBAddAircraft add = new DBAddAircraft(); 
+		VBox centerBox = new VBox(); 
+		 centerBox.setAlignment(Pos.TOP_CENTER);
+		 centerBox.setMinHeight(300);
+		 centerBox.setStyle("-fx-background-color: white");
+		 
+		// add title and subtitle instructions 
+		    Text title = new Text("Add New Aircraft"); 
+		    Text instructions = new Text("Enter The model for a new Aircraft, then click ADD");
+		    		    
+		// add entry fields:
+		    GridPane gpane = new GridPane(); 
+		    gpane.setAlignment(Pos.CENTER); 
+		    //create an arraylist with the make and model together
+		    ArrayList<String> modelMake = new ArrayList<>(); 
+		    for(int i=0; i < add.getModelID().size(); i++) {
+		    	modelMake.add(add.getMake().get(i) + ", " + add.getModel().get(i)); 
+		    }
+		    ComboBox cbModels = new ComboBox(FXCollections.observableArrayList(modelMake)); //call a list of current models to choose from 
+		    Button btAdd = new Button("ADD"); 
+		    gpane.add(cbModels, 0,  0);
+		    gpane.add(btAdd, 1, 0);
+		    
+		    centerBox.getChildren().addAll(title, instructions, gpane);  
+		    
+		    btAdd.setOnAction(e->{
+		    	//find model id based on chosen index in cbModels
+		    	int index = modelMake.indexOf(cbModels.getValue()); 
+		    	int selection = add.getModelID().get(index); 
+		    	System.out.print(selection);
+		    	add.insertSQL(selection); //call add stored procedure
+		    	
+		    	//clear selection
+		    	cbModels.valueProperty().set(null);
+		    });
+		
+		
 		return centerBox; 
 	}
 

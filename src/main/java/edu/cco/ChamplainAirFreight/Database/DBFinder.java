@@ -19,6 +19,8 @@ public class DBFinder extends DBConnection {
 	public CallableStatement callable = null;
 	private ArrayList<String> airportNames = new ArrayList<>(); 
 	private ArrayList<Integer> airportIDs = new ArrayList<>();
+	
+	
 /**
  * Default constructor
  */
@@ -86,4 +88,6 @@ public class DBFinder extends DBConnection {
 	public ArrayList<Integer> getAirportIDs(){
 		return airportIDs; 
 	}
+	
+	
 }

@@ -10,28 +10,35 @@ package edu.cco.ChamplainAirFreight.Database.Aircraft;
 
 //Imports:
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.cco.ChamplainAirFreight.Database.DBConnection;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 
 public class DBAddAircraft extends DBConnection {
 	//Variables
 		public CallableStatement callable = null;
 		public int model;
 		
+		private ArrayList<Integer> acMID = new ArrayList<>(); 
+		private ArrayList<String> acModel = new ArrayList<>(); 
+		private ArrayList<String> acMake = new ArrayList<>(); 
+		
 /**
 * Default Constructor
 * Matt Ridgway 
 * 11/11/2020
 */
-public DBAddAircraft(int modelNumber) {
+/*public DBAddAircraft(int modelNumber) {
 	try {
 		this.model=modelNumber;		
 		
-		String storedP = "{call CAFDB.dbo.Add_Aircraft}"; 
-		callable = connection.prepareCall(storedP);
+		//String storedP = "{call CAFDB.dbo.Add_Aircraft}"; 
+		//callable = connection.prepareCall(storedP);
 		insertSQL(model);			
 	}
 	catch (SQLException ex) {
@@ -40,9 +47,16 @@ public DBAddAircraft(int modelNumber) {
 		e.printStackTrace();
 		System.out.println("Problem adding New Pilot"); 
 	}
+} */
+
+//default constructor - just call the class
+public DBAddAircraft() {
+	findMakeModelList(); 
+	
+}
 	
 	
-}//end Constructor
+
 /**
 * insertSQL Method 
 * Matt Ridgway 
@@ -65,5 +79,37 @@ public void insertSQL(int modelID) {
     }
 	
 	
+}
+
+/**
+ * findMakeModelList - method for getting a list of unique make and model of aircraft, to be used for the AddAircraft functionality
+ */
+public void findMakeModelList() {
+	try {
+	String query = "USE[CAFDB] SELECT ACModelID, ACMake, ACModel FROM CAFDB.dbo.AircraftModels"; 
+	callable = connection.prepareCall(query); 
+	
+	ResultSet rs = callable.executeQuery(); 
+	while(rs.next()) {
+		acMID.add(rs.getInt(1)); 
+		acModel.add(rs.getString(2)); 
+		acMake.add(rs.getString(3)); 
+	}
+	} catch(SQLException ex) {
+		Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
+	} catch(Exception e) {
+		e.printStackTrace();
+		System.out.println("Could not get client ID information"); 
+	}
+}
+
+public ArrayList<Integer> getModelID(){
+	return acMID; 
+}
+public ArrayList<String> getMake(){
+	return acMake; 
+}
+public ArrayList<String> getModel(){
+	return acModel; 
 }
 }
