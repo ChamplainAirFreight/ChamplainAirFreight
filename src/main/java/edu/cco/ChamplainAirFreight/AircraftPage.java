@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBAddAircraft;
+import edu.cco.ChamplainAirFreight.Database.Aircraft.DBDeleteAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewSelectAircraft;
 import javafx.collections.FXCollections;
@@ -153,7 +154,7 @@ public class AircraftPage {
         	box.setCenter(getCraftViewLBs()); 
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(getDelete());
         });
         btnEnter.setOnAction(e -> {
 
@@ -431,6 +432,42 @@ public class AircraftPage {
 		
 		
 		return centerBox; 
+	}
+	
+	/**
+	 * getDelete - method for deleting an aircraft from the database
+	 * @return
+	 */
+	private VBox getDelete() {
+		DBViewAllAircraft view = new DBViewAllAircraft(); 
+		VBox centerBox = new VBox(); 
+		 centerBox.setAlignment(Pos.TOP_CENTER);
+		 centerBox.setMinHeight(300);
+		 centerBox.setStyle("-fx-background-color: white");
+		 
+		// add title and subtitle instructions 
+		    Text title = new Text("Delete Aircraft"); 
+		    Text instructions = new Text("Select the AircraftID for the aircraft you wish to delete, then click DELETE");
+		
+		//add selection fields
+		    GridPane gpane = new GridPane(); 
+		    gpane.setAlignment(Pos.CENTER);
+		    ComboBox cbAirID = new ComboBox(FXCollections.observableArrayList(view.getAircraftID())); 
+		    Button btDelete = new Button("DELETE"); 
+		    gpane.add(cbAirID,  0,  0);
+		    gpane.add(btDelete, 1, 0);
+		    
+		    centerBox.getChildren().addAll(title, instructions, gpane); 
+		    
+		   btDelete.setOnAction(e->{
+			   DBDeleteAircraft delete = new DBDeleteAircraft(); 
+			   delete.deleteAircraft(Integer.parseInt(cbAirID.getValue().toString()));
+		   //clear combobox
+			   cbAirID.valueProperty().set(null);
+		   });
+	
+		    
+	return centerBox; 
 	}
 
 } //End Subclass Aircraft
