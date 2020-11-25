@@ -5,6 +5,8 @@ import java.util.Arrays;
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
 import javafx.collections.FXCollections;
@@ -155,7 +157,7 @@ public class ClientsPage {
         
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deletePane()); 
         });
         btnEnter.setOnAction(e -> {
         	
@@ -429,6 +431,50 @@ public class ClientsPage {
     	});
     	    	
 		return box; 
+	}
+	
+	/**
+	 * deletePane - method for deleting a client using the DBDeleteClient class
+	 * @return
+	 */
+	private VBox deletePane() {
+		DBViewAllClient view = new DBViewAllClient(); //for arraylist of clients
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(23,30,0,20));
+		box.setMinHeight(300);
+		box.setStyle("-fx-background-color: white");
+		//add client classes
+		DBAddClient add = new DBAddClient();
+		//title and instructions 
+		Text title = new Text("Delete a Client"); 
+		Text instructions = new Text("Select a client, then click DELETE"); 
+		
+		ComboBox cbClients = new ComboBox(FXCollections.observableArrayList(view.getName())); 
+		Button btDelete = new Button("DELETE"); 
+		GridPane gpane = new GridPane(); 
+		gpane.setAlignment(Pos.CENTER);
+		gpane.add(cbClients, 0,0);
+		gpane.add(btDelete, 1, 0);
+		
+		box.getChildren().addAll(title,instructions,gpane); 
+		btDelete.setOnAction(e->{
+			DBDeleteClient delete = new DBDeleteClient(); 
+			DBDeleteClientAddress deleteAdd = new DBDeleteClientAddress(); 
+			//get client ID based on name
+			int index = view.getName().indexOf(cbClients.getValue()); 
+			int id = view.getID().get(index); 
+			delete.deleteClient(id);
+			// deleteAdd.deleteClientAddress(id); 
+			// need to delete client address by clientaddressid, not clientid
+			
+			//clear combobox
+			cbClients.valueProperty().set(null);
+		});
+		
+		return box; 
+		
 	}
   
 } //End Subclass ClientsPage

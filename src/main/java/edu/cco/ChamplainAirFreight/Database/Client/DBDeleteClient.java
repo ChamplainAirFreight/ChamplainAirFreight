@@ -38,7 +38,7 @@ public class DBDeleteClient extends DBConnection{
 			callable.executeQuery();
 						
 		}catch (SQLException ex) {
-			Logger.getLogger(DBDeleteClient.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(DBDeleteClient.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("delete client could not be completed"); 
