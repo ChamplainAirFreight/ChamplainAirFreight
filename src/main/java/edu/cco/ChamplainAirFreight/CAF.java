@@ -57,7 +57,8 @@ public class CAF extends Application {
 	    PilotPage pilotPage = new PilotPage(bPane); //pilots page 
 	   // help page removed-  
 	    AircraftPage aircraftPage = new AircraftPage(bPane); //
-	    ContactPage contactPage = new ContactPage(bPane); //contact us page 
+	   // ContactPage contactPage = new ContactPage(bPane); //contact us page 
+	    ContactPageCAF contactPage = new ContactPageCAF(bPane);//contact us page 
 	    Model model = new Model(bPane); //Model page 
 	    
 	    //Database classes
@@ -98,7 +99,6 @@ public void start(Stage primaryStage) throws Exception {
         // set center to pilot page
         bPane.setCenter(pilotPage.getPane());
     });
-
     btonshipment.setOnAction(e -> {
         // set center to shipment page
         bPane.setCenter(shipPage.getPane());
