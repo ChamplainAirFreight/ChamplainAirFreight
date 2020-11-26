@@ -2,6 +2,8 @@ package edu.cco.ChamplainAirFreight;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
@@ -72,7 +74,7 @@ public class FlightsPage {
 
     //classes
     Styles s = new Styles();
-    DBViewAllFlights viewAllFlights = new DBViewAllFlights(); 
+    
 
     /**
      * Constructor - pulls the border pane from CAF (main page)
@@ -276,6 +278,7 @@ public class FlightsPage {
 	 * ** added database functionality 11/11/2020 - Kelly May
 	 */
 	private ScrollPane getTextAreaOne() {
+		DBViewAllFlights viewAllFlights = new DBViewAllFlights(); 
 		ScrollPane box = new ScrollPane(); 
 		box.setStyle("-fx-border-color: black");
 		box.setFitToWidth(true);
@@ -323,6 +326,7 @@ public class FlightsPage {
 	 * @return
 	 */
 public ScrollPane editFlightPane() {
+	DBViewAllFlights viewAllFlights = new DBViewAllFlights(); 
 	ScrollPane sp = new ScrollPane(); 
 		VBox vbox = new VBox(); 
 		vbox.setAlignment(Pos.TOP_CENTER); 
@@ -503,8 +507,8 @@ private VBox addPane() {
 	cbEndLoc.getItems().addAll(finder.getAirportNames()); 
 	
 	//need to incorporate a time function to these... 
-	 DatePicker dtStart = new DatePicker(); 
-	 DatePicker dtEnd = new DatePicker(); 
+	 DateTimePicker dtStart = new DateTimePicker();  
+	 DateTimePicker dtEnd = new DateTimePicker(); 
 	
 	//add input values into a gridpane
 	GridPane grid = new GridPane(); 
@@ -540,9 +544,16 @@ private VBox addPane() {
 		int endIndex = finder.getAirportNames().indexOf(endLoc); 
 		int endLocID = finder.getAirportIDs().get(endIndex);
 		
-		Date startDate = Date.valueOf(dtStart.getValue()); 
-		Date endDate = Date.valueOf(dtEnd.getValue()); 
+		//CURRENTLY TIME GETS LOST BEFORE ENTERING INTO DB!!! 
+		LocalDateTime start = dtStart.getDateTimeValue();
+		LocalTime startTime = start.toLocalTime(); 
+		Date startDate = Date.valueOf(start.toLocalDate());  
+		LocalDateTime end = dtEnd.getDateTimeValue();
+		LocalTime endTime = end.toLocalTime(); 
+		Date endDate = Date.valueOf(end.toLocalDate()); 
 		
+		System.out.println("start date: " + startDate); 
+		System.out.println("End date: " + endDate); 
 		//add flight
 		DBAddFlight add = new DBAddFlight(airID, pilotID, startLocID, endLocID, startDate, endDate); 		
 		//clear entry fields

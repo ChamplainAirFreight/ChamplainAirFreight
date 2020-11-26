@@ -75,6 +75,13 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>8.4.1.jre8</version>
 		</dependency>
+		
+		<!-- https://stackoverflow.com/questions/28493097/is-there-any-date-and-time-picker-available-for-javafx -->
+		<dependency>
+    	<groupId>no.tornado</groupId>
+    	<artifactId>tornadofx-controls</artifactId>
+    	<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 
 </project>

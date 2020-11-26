@@ -26,7 +26,7 @@ import javafx.scene.text.Text;
  * @Subclass ContactPage Description: holds GUI for the contact-us page
  */
 //Begin Subclass ContactPage
-public class ContactPageCAF {
+public class ContactPage {
 	
     //variables
     BorderPane bPane = new BorderPane();
@@ -56,7 +56,7 @@ public class ContactPageCAF {
      *
      * @param bp
      */
-    ContactPageCAF(BorderPane bp) {
+    ContactPage(BorderPane bp) {
         bPane = bp;
     }
 

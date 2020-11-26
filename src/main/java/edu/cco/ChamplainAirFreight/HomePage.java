@@ -33,7 +33,7 @@ public class HomePage {
     ShipmentsPage shipPage = new ShipmentsPage(bPane);
     PilotPage pilotPage = new PilotPage(bPane);
  //   HelpPage helpPage = new HelpPage(bPane); //help/FAQ page 
-    ContactPageCAF contactPage = new ContactPageCAF(bPane); //contact us page 
+    ContactPage contactPage = new ContactPage(bPane); //contact us page 
     AircraftPage aircraftPage = new AircraftPage(bPane); //contact us page
     /**
      * constructor pulls the borderpane
