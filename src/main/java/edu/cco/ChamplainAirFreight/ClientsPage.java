@@ -1,5 +1,6 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
@@ -451,8 +452,12 @@ public class ClientsPage {
 		box.setPadding(new Insets(23,30,0,20));
 		//update client classes
 		DBUpdateClient updateClient = new DBUpdateClient();
-		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(updateClient.getClientID()));
-				
+		//updateClient.setClient();
+		//ArrayList<Integer> clientIDArray=new ArrayList(updateClient.clientID);
+		
+		//ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(clientIDArray));
+		TextField txtClientID =new TextField();	
+		
 		//title and instructions 
 		Text title = new Text("Update Client"); 
 		Text instructions = new Text("Enter Valid Client information and press Enter."); 
@@ -503,7 +508,7 @@ public class ClientsPage {
     	grid.add(lblState, 0, 7);
     	grid.add(lblZip, 0, 8);
     	
-    	grid.add(cbClientID, 1,0);    	
+    	grid.add(txtClientID, 1,0);    	
     	grid.add(txtName, 1, 1);
     	grid.add(spType, 1, 2);
     	grid.add(txtPhone, 1, 3);
@@ -516,7 +521,7 @@ public class ClientsPage {
     	box.getChildren().addAll(title,instructions,grid); 
     	btnEnter.setOnAction(e->{
     		//variables for SQL stored procedure
-    		int clientID = cbClientID.getValue();
+    		int clientID = Integer.parseInt(txtClientID.getText());
     		String name = txtName.getText(); 
     		int type = spType.getValue();    		
     		String phone = txtPhone.getText(); 
@@ -535,7 +540,8 @@ public class ClientsPage {
     		updateClientAddress.updateClientAddress(clientID, add1, add2, city, state, zip);
     		
     		//clear text fields
-    		cbClientID.valueProperty().set(null);
+    		//cbClientID.valueProperty().set(null);
+    		txtClientID.clear();
     		txtName.clear(); 
     		txtPhone.clear(); 
     		txtAdd1.clear(); 
