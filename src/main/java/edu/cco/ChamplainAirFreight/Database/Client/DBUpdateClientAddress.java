@@ -200,7 +200,7 @@ public ResultSet updateClientAddress(int cID, String add1, String add2,String ci
 * Matt Ridgway 
 * 11/20/2020
 */
-public void updateClientAddress() {
+public void updateClientA() {
     try {
     	String storedP = "{call CAFDB.dbo.Update_Client_Addresses}"; 
         PreparedStatement ps;

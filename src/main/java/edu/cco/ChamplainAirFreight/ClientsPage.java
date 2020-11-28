@@ -526,8 +526,7 @@ public class ClientsPage {
     		int type = spType.getValue();    		
     		String phone = txtPhone.getText(); 
     		//update client Class
-    		updateClient.updateClient(clientID, name, type, phone);
-    			
+    		updateClient.updateClient(clientID, name, type, phone);			
     		 
     		
     		String add1 = txtAdd1.getText(); 
