@@ -526,7 +526,7 @@ public class ClientsPage {
     		int type = spType.getValue();    		
     		String phone = txtPhone.getText(); 
     		//update client Class
-    		updateClient.updateClient(clientID, name, type, phone);			
+    		updateClient.updateC(clientID, name, type, phone);			
     		 
     		
     		String add1 = txtAdd1.getText(); 
@@ -536,7 +536,7 @@ public class ClientsPage {
     		int zip = Integer.parseInt(txtZip.getText());
     		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
     		//update client address Class
-    		updateClientAddress.updateClientAddress(clientID, add1, add2, city, state, zip);
+    		updateClientAddress.updateClientA(clientID, add1, add2, city, state, zip);
     		
     		//clear text fields
     		//cbClientID.valueProperty().set(null);

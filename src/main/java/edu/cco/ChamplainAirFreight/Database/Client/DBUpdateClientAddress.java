@@ -24,7 +24,7 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBUpdateClientAddress  extends DBConnection {
 	//Variables
 	public CallableStatement callable = null;
-	public ArrayList<Integer> clientID=new ArrayList<>();
+	//public ArrayList<Integer> clientID=new ArrayList<>();
 	public String clientAdd1;
 	public String clientAdd2;
 	public String clientCity;
@@ -32,7 +32,7 @@ public class DBUpdateClientAddress  extends DBConnection {
 	public String clientInfo;
 	public int clientZip;
 	
-	private int id;
+	//private int id;
 
 /**
  * DataBase structure:
@@ -68,144 +68,158 @@ public class DBUpdateClientAddress  extends DBConnection {
 * Matt Ridgway 
 * 11/20/2020
 */
-
-public void setClientAddress() {
-	
-	try {
-		String sql="SELECT ClientID FROM ClientAddress";
-		ResultSet result=statement.executeQuery(sql);
-		while(result.next()) {
-			clientInfo+=result.getString(1)+", ";
-			
-		}
-		
-	}catch (SQLException ex) {
-        Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Could Not View Clients Address");
-    }
-	
-	setClientAddressArray();
-	
-}//end setClient
+//
+//public void setClientAddress() {
+//	
+//	try {
+//		String sql="SELECT ClientID FROM ClientAddress";
+//		ResultSet result=statement.executeQuery(sql);
+//		while(result.next()) {
+//			clientInfo+=result.getString(1)+", ";
+//			
+//		}
+//		
+//	}catch (SQLException ex) {
+//        Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        System.out.println("Could Not View Clients Address");
+//    }
+//	
+//	setClientAddressArray();
+//	
+//}//end setClient
+///**
+//* setClientAddressArray
+//* Matt Ridgway 
+//* 11/20/2020
+//* split string clientInfo by comma into list. Loop through and put into clientID List
+//*/	
+//public void setClientAddressArray() {
+//	
+//	List<String> clientList=new ArrayList<>(Arrays.asList(clientInfo.split(",")));
+//	for(String strg : clientList) {
+//		clientID.add(Integer.valueOf(strg));
+//		
+//	}
+//	
+//}//end setClientArray
+///**
+//* clearClientAddress
+//* Clear List and String
+//* Matt Ridgway 
+//* 11/20/2020
+//*/	
+//public void clearClientAddress() {
+//	
+//	clientID.clear();
+//	clientInfo="";
+//}//end clearClient
+///**
+//* setCleintSQL
+//* 
+//* Matt Ridgway 
+//* 11/20/2020
+//* @param clientSelected
+//*/
+//public void setClientAddressSQL(int clientSelected) {
+//	
+//	try {
+//	String sql="SELECT ClientAddressLine1, ClientAddressLine2, ClientAddressCity, ClientAddressState, ClientAddressZip FROM ClientAddresses Where ClientID=?";
+//	PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//    preparedStatement.setInt(1, clientSelected);
+//    ResultSet resultS = preparedStatement.executeQuery();
+//	
+//    	while(resultS.next()) {
+//    		id=resultS.getInt(2);
+//    		clientAdd1=resultS.getString(3);
+//    		clientAdd2=resultS.getString(4);
+//    		clientCity=resultS.getString(5);
+//    		clientState=resultS.getString(6);
+//    		clientZip=resultS.getInt(7);
+//    		
+//    	}
+//	} catch (SQLException ex) {
+//        Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+//        System.out.println("Get Client Address Problem!");
+//    }
+//	
+//}//end setClientSQL
+///** RESULTSET
+//* updateClientAddress
+//* 
+//* Matt Ridgway 
+//* 11/20/2020
+//* @param cID
+//* @param add1
+//* @param add2
+//* @param city
+//* @param state
+//* @param zip
+//* 
+//*/
+//public ResultSet updateClientAddress(int cID, String add1, String add2,String city,String state,int zip) {
+//	 ResultSet results = null;
+//	 try {
+//		 String sqlState="SELECT ClientID FROM ClientAddresses WHERE ClientID=?";
+//		 PreparedStatement preparedStatement;
+//       preparedStatement = connection.prepareStatement(sqlState);
+//       preparedStatement.setInt(1, cID);
+//       ResultSet resultS = preparedStatement.executeQuery();
+//      while (resultS.next()) {
+//          id = resultS.getInt(1);
+//      }
+//	}catch (SQLException ex) {
+//     Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+// }
+//	 try {
+//      String SQL = "UPDATE ClientAddresses SET ClientAddressLine1 = ?, "
+//      		+ "ClientAddressLine2 = ?,"
+//      		+ "ClientAddressCity = ?,"
+//      		+ "ClientAddressState =?,"
+//      		+ "ClientAddressZip=?";
+//      	
+//      callable = connection.prepareCall(SQL);
+//      callable.setString(3, add1);
+//      callable.setString(4, add2);
+//      callable.setString(5, city);
+//      callable.setString(6, state);
+//      callable.setInt(7, zip);
+//      results = callable.executeQuery();
+//
+//      System.out.println(results);
+//
+//  } catch (SQLException ex) {
+//      System.out.println("Results Not Returned");
+//  }
+//  
+//  return results;
+//}//end ResultSet
 /**
-* setClientAddressArray
-* Matt Ridgway 
-* 11/20/2020
-* split string clientInfo by comma into list. Loop through and put into clientID List
-*/	
-public void setClientAddressArray() {
-	
-	List<String> clientList=new ArrayList<>(Arrays.asList(clientInfo.split(",")));
-	for(String strg : clientList) {
-		clientID.add(Integer.valueOf(strg));
-		
-	}
-	
-}//end setClientArray
-/**
-* clearClientAddress
-* Clear List and String
-* Matt Ridgway 
-* 11/20/2020
-*/	
-public void clearClientAddress() {
-	
-	clientID.clear();
-	clientInfo="";
-}//end clearClient
-/**
-* setCleintSQL
-* 
-* Matt Ridgway 
-* 11/20/2020
-* @param clientSelected
-*/
-public void setClientAddressSQL(int clientSelected) {
-	
-	try {
-	String sql="SELECT ClientAddressLine1, ClientAddressLine2, ClientAddressCity, ClientAddressState, ClientAddressZip FROM ClientAddresses Where ClientID=?";
-	PreparedStatement preparedStatement = connection.prepareStatement(sql);
-    preparedStatement.setInt(1, clientSelected);
-    ResultSet resultS = preparedStatement.executeQuery();
-	
-    	while(resultS.next()) {
-    		id=resultS.getInt(2);
-    		clientAdd1=resultS.getString(3);
-    		clientAdd2=resultS.getString(4);
-    		clientCity=resultS.getString(5);
-    		clientState=resultS.getString(6);
-    		clientZip=resultS.getInt(7);
-    		
-    	}
-	} catch (SQLException ex) {
-        Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
-        System.out.println("Get Client Address Problem!");
-    }
-	
-}//end setClientSQL
-/** RESULTSET
 * updateClientAddress
-* 
-* Matt Ridgway 
-* 11/20/2020
-* @param cID
-* @param add1
-* @param add2
-* @param city
-* @param state
-* @param zip
-* 
-*/
-public ResultSet updateClientAddress(int cID, String add1, String add2,String city,String state,int zip) {
-	 ResultSet results = null;
-	 try {
-		 String sqlState="SELECT ClientID FROM ClientAddresses WHERE ClientID=?";
-		 PreparedStatement preparedStatement;
-       preparedStatement = connection.prepareStatement(sqlState);
-       preparedStatement.setInt(1, cID);
-       ResultSet resultS = preparedStatement.executeQuery();
-      while (resultS.next()) {
-          id = resultS.getInt(1);
-      }
-	}catch (SQLException ex) {
-     Logger.getLogger(DBUpdateClientAddress.class.getName()).log(Level.SEVERE, null, ex);
- }
-	 try {
-      String SQL = "UPDATE ClientAddresses SET ClientAddressLine1 = ?, "
-      		+ "ClientAddressLine2 = ?,"
-      		+ "ClientAddressCity = ?,"
-      		+ "ClientAddressState =?,"
-      		+ "ClientAddressZip=?";
-      	
-      callable = connection.prepareCall(SQL);
-      callable.setString(3, add1);
-      callable.setString(4, add2);
-      callable.setString(5, city);
-      callable.setString(6, state);
-      callable.setInt(7, zip);
-      results = callable.executeQuery();
-
-      System.out.println(results);
-
-  } catch (SQLException ex) {
-      System.out.println("Results Not Returned");
-  }
-  
-  return results;
-}//end ResultSet
-/**
-* updateClientAddress
 * Matt Ridgway 
 * 11/20/2020
 */
-public void updateClientA() {
+public void updateClientA(int cID, String add1, String add2,String city,String state,int zip) {
     try {
-    	String storedP = "{call CAFDB.dbo.Update_Client_Addresses}"; 
+    	String storedP = "{call CAFDB.dbo.Update_Client_Addresses(?,?,?,?,?,?))}"; 
         PreparedStatement ps;
         ps = connection.prepareStatement(storedP);
         callable = connection.prepareCall(storedP);
+        String SQL = "UPDATE ClientAddresses SET ClientAddressLine1 = ?, "
+          		+ "ClientAddressLine2 = ?,"
+          		+ "ClientAddressCity = ?,"
+          		+ "ClientAddressState =?,"
+          		+ "ClientAddressZip=?"
+          		+ "WHERE ClientID=cID";
+          	
+          callable = connection.prepareCall(SQL);
+          callable.setString(1, add1);
+          callable.setString(2, add2);
+          callable.setString(3, city);
+          callable.setString(4, state);
+          callable.setInt(5, zip);
+          callable.executeQuery();
 
         ResultSet rs = callable.executeQuery(); 
 
@@ -218,9 +232,9 @@ public void updateClientA() {
 * Matt Ridgway 
 * 11/20/2020
 */
-public ArrayList<Integer> getClientID() {
-	return clientID;
-}
+//public ArrayList<Integer> getClientID() {
+//	return clientID;
+//}
 public String getClientAdd1() {
 	return clientAdd1;
 }
@@ -239,7 +253,7 @@ public String getClientInfo() {
 public int getClientZip() {
 	return clientZip;
 }
-public int getId() {
-	return id;
-}
+//public int getId() {
+//	return id;
+//}
 }//end class
