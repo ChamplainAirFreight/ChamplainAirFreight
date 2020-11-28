@@ -7,6 +7,8 @@ import edu.cco.ChamplainAirFreight.Database.Client.DBAddClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
 import javafx.collections.FXCollections;
@@ -34,6 +36,7 @@ import javafx.scene.text.Text;
  * @Assignment Name: caf
  * @Date: Oct 28, 2020
  * @Subclass ClientsPage Description: GUI panes for client information 
+ * 
  */
 //Imports
 //Begin Subclass ClientsPage
@@ -154,6 +157,7 @@ public class ClientsPage {
          });
         btnEdit.setOnAction(e -> {
         	//box.setCenter(getClientLBs());   	
+        	box.setCenter(addPaneUpdate());
         
         });
         btnDelete.setOnAction(e -> {
@@ -432,7 +436,118 @@ public class ClientsPage {
     	    	
 		return box; 
 	}
-	
+	/**
+ * @Author Name: Matt Ridgway
+ * @Assignment Name: caf
+ * @Date: Nov 28, 2020
+ *  
+ * 
+ * addPaneUpdate - pane for updating a client in the database 
+ */
+	private VBox addPaneUpdate() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(23,30,0,20));
+		//update client classes
+		DBUpdateClient updateClient = new DBUpdateClient();
+		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(updateClient.getClientID()));
+				
+		//title and instructions 
+		Text title = new Text("Update Client"); 
+		Text instructions = new Text("Enter Valid Client information and press Enter."); 
+		//labels
+		Label lblClientID =new Label("Client ID: ");
+		Label lblName = new Label ("Client Name: "); 
+		Label lblType = new Label ("Client Type ID: "); 
+		Label lblPhone = new Label ("Client Phone Number: "); 
+		Label lblAdd1 = new Label("Address 1: "); 
+		Label lblAdd2 = new Label("Address 2: "); 
+		Label lblCity = new Label("City: "); 
+		Label lblState = new Label("State: "); 
+		Label lblZip = new Label("Zip Code: "); 
+		//style labels
+		Arrays.asList(lblClientID,lblName, lblType, lblPhone, lblAdd1, lblAdd2, lblCity, lblState, lblZip).stream().map((b)->{
+			b.setStyle(s.LBTextColor); 
+			return b; 
+		}); 
+				
+		//entry fields
+		
+		TextField txtName = new TextField(); 
+		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		TextField txtPhone = new TextField(); 
+		TextField txtAdd1 = new TextField(); 
+		TextField txtAdd2 = new TextField(); 
+		TextField txtCity = new TextField(); 
+		ComboBox<String> cbState = new ComboBox();
+    	cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
+				"VA", "WA", "WV", "WI", "WY");
+    	TextField txtZip = new TextField(); 
+    	
+    	//add input values into a gridpane
+    	GridPane grid = new GridPane(); 
+    	grid.setAlignment(Pos.CENTER);
+    	grid.setHgap(11);
+    	grid.setVgap(5);
+    	
+    	grid.add(lblClientID, 0,0);    	
+    	grid.add(lblName, 0, 1);
+    	grid.add(lblType, 0, 2);
+    	grid.add(lblPhone, 0, 3);
+    	grid.add(lblAdd1, 0, 4);
+    	grid.add(lblAdd2, 0, 5);
+    	grid.add(lblCity, 0, 6);
+    	grid.add(lblState, 0, 7);
+    	grid.add(lblZip, 0, 8);
+    	
+    	grid.add(cbClientID, 1,0);    	
+    	grid.add(txtName, 1, 1);
+    	grid.add(spType, 1, 2);
+    	grid.add(txtPhone, 1, 3);
+    	grid.add(txtAdd1, 1, 4);
+    	grid.add(txtAdd2, 1, 5);
+    	grid.add(txtCity, 1, 6);
+    	grid.add(cbState, 1, 7);
+    	grid.add(txtZip, 1, 8);
+    	
+    	box.getChildren().addAll(title,instructions,grid); 
+    	btnEnter.setOnAction(e->{
+    		//variables for SQL stored procedure
+    		int clientID = cbClientID.getValue();
+    		String name = txtName.getText(); 
+    		int type = spType.getValue();    		
+    		String phone = txtPhone.getText(); 
+    		//update client Class
+    		updateClient.updateClient(clientID, name, type, phone);
+    			
+    		 
+    		
+    		String add1 = txtAdd1.getText(); 
+    		String add2 = txtAdd2.getText(); 
+    		String city = txtCity.getText(); 
+    		String state = cbState.getValue(); 
+    		int zip = Integer.parseInt(txtZip.getText());
+    		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
+    		//update client address Class
+    		updateClientAddress.updateClientAddress(clientID, add1, add2, city, state, zip);
+    		
+    		//clear text fields
+    		cbClientID.valueProperty().set(null);
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
+    	});
+    	    	
+		return box; 
+	}
+
 	/**
 	 * deletePane - method for deleting a client using the DBDeleteClient class
 	 * @return

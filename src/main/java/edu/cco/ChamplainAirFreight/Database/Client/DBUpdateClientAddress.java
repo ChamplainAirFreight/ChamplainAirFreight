@@ -46,16 +46,23 @@ public class DBUpdateClientAddress  extends DBConnection {
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020
+*
+*	public DBUpdateClientAddress() {
+*		
+*		try {
+*			statement=connection.createStatement();
+*			setClientAddress();
+*		}catch (SQLException e) {
+*		    System.out.println("Could Not Connect to DataBase!");
+*		}
+*}//end default constructor
 */
+	/** Blank
+	 * Default Constructor
+	 */
 	public DBUpdateClientAddress() {
-		
-		try {
-			statement=connection.createStatement();
-			setClientAddress();
-		}catch (SQLException e) {
-		    System.out.println("Could Not Connect to DataBase!");
-		}
-}//end default constructor
+		//Just call class do nothing
+	}		
 /**
 * setClientAddress pulls clientID put's into a String with comma spacing
 * Matt Ridgway 
@@ -151,13 +158,13 @@ public void setClientAddressSQL(int clientSelected) {
 * @param zip
 * 
 */
-public ResultSet updateClientAddress(int cID, String add1, String add2,String city,String state,int zip, int input) {
+public ResultSet updateClientAddress(int cID, String add1, String add2,String city,String state,int zip) {
 	 ResultSet results = null;
 	 try {
 		 String sqlState="SELECT ClientID FROM ClientAddresses WHERE ClientID=?";
 		 PreparedStatement preparedStatement;
        preparedStatement = connection.prepareStatement(sqlState);
-       preparedStatement.setInt(1, input);
+       preparedStatement.setInt(1, cID);
        ResultSet resultS = preparedStatement.executeQuery();
       while (resultS.next()) {
           id = resultS.getInt(1);

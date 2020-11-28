@@ -42,16 +42,23 @@ public class DBUpdateClient extends DBConnection{
 * Default Constructor
 * Matt Ridgway 
 * 11/20/2020
-*/	
-public DBUpdateClient() {
-						
-			try {
-				statement=connection.createStatement();
-				setClient();
-			}catch (SQLException e) {
-			    System.out.println("Could Not Connect to DataBase!");
-			}
-}//end default constructor
+*	
+* public DBUpdateClient() {
+*						
+*			try {
+*				statement=connection.createStatement();
+*			setClient();
+*			}catch (SQLException e) {
+*			    System.out.println("Could Not Connect to DataBase!");
+*			}
+*}//end default constructor
+*/
+			/** Blank
+			 * Default Constructor
+			 */
+			public DBUpdateClient() {
+				//Do nothing call the class 
+			}		
 /**
 * setClient pulls clientID put's into a String with comma spacing
 * Matt Ridgway 
@@ -141,13 +148,13 @@ public void setClientSQL(int clientSelected) {
 * @param cIDtype
 * @param cPhone
 */
-public ResultSet updateClient(int cID, String cName, int cIDType, String cPhone, int input) {
+public ResultSet updateClient(int cID, String cName, int cIDType, String cPhone) {
 	 ResultSet results = null;
 	 try {
 		 String sqlState="SELECT ClientID FROM Clients WHERE ClientID=?";
 		 PreparedStatement preparedStatement;
         preparedStatement = connection.prepareStatement(sqlState);
-        preparedStatement.setInt(1, input);
+        preparedStatement.setInt(1, cID);
         ResultSet resultS = preparedStatement.executeQuery();
        while (resultS.next()) {
            id = resultS.getInt(1);
