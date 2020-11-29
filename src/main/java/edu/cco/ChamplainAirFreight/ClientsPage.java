@@ -560,7 +560,7 @@ public class ClientsPage {
     		updateClientAddress.updateClientA(clientID, add1, add2, city, state, zip);
     		
     		//clear text fields
-    		//txtClientID.clear();
+    		
     		cbClientID.valueProperty().set(null);
     		txtName.clear(); 
     		txtPhone.clear(); 
