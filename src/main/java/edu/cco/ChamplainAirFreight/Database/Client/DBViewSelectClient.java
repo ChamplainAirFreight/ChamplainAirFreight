@@ -27,6 +27,7 @@ public class DBViewSelectClient extends DBConnection {
 	private String state; 
 	private String zip; 
 	private String phone; 
+	private int clientAddressID; 
 
 	/**
 	 * Default Constructor
@@ -59,7 +60,7 @@ public class DBViewSelectClient extends DBConnection {
 		 * 2 = ClientName
 		 * 3 = Client Type ID
 		 * 4 = phone number
-		 * 5 = address id
+		 * 5 = client address id
 		 * 6 = client ID
 		 * 7 = address line 1
 		 * 8 = address line 2
@@ -77,6 +78,7 @@ public class DBViewSelectClient extends DBConnection {
 			city = rs.getString(9);
 			state = rs.getString(10); 
 			zip = rs.getString(11); 
+			clientAddressID = rs.getInt(5); 
 		}
 		
 		}catch (SQLException ex) {
@@ -117,6 +119,9 @@ public class DBViewSelectClient extends DBConnection {
 	}
 	public String getPhone() {
 		return phone; 
+	}
+	public int getAddressID() {
+		return clientAddressID; 
 	}
 	
 	public void clearAll() {
