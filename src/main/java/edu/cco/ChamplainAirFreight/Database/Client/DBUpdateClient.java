@@ -194,6 +194,7 @@ public void updateC(int cID, String cName, int cIDType, String cPhone) {
         ps = connection.prepareStatement(storedP);
         callable = connection.prepareCall(storedP);
         
+        //youre calling two SQL queries... SQL and storedP. You only need the storedP query. 
         String SQL = "UPDATE Clients SET ClientName = ?, "
             		+ "ClientTypeID = ?,"
             		+ "ClientPhoneNumber = ? "
@@ -208,7 +209,32 @@ public void updateC(int cID, String cName, int cIDType, String cPhone) {
     } catch (SQLException ex) {
         System.out.println("Update Client Problem!");
     }
+	
+	
 }//end updateClient
+
+/**
+ * exampleQuery
+ * example for Matt to follow
+ */
+public void exampleQuery(int cID, String cName, int type, String phone) {
+	try {
+	String storedP = "{call CAFDB.dbo.Update_Client(?,?,?,?)}";
+	//set your query/storedP
+	callable = connection.prepareCall(storedP); 
+	//set your variables for the storedP
+	callable.setInt(1,  cID);
+	callable.setString(2, cName);
+	callable.setInt(3, type);
+	callable.setString(4, phone);
+	//execute the storedP
+	ResultSet rs = callable.executeQuery(); 
+	//this should be all you need. You will fill pass the variables from the GUI entries
+}catch(SQLException ex) {
+	//ex.printStackTrace(); 
+	//prinstacktrace used for debugging 
+}
+	}
 /**
 * Getters
 * Matt Ridgway 

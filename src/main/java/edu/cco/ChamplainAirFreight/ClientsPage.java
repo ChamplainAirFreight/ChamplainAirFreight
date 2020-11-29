@@ -451,12 +451,16 @@ public class ClientsPage {
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
 		//update client classes
+		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist
+		DBViewSelectClient select = new DBViewSelectClient(); 
 		DBUpdateClient updateClient = new DBUpdateClient();
 		//updateClient.setClient();
 		//ArrayList<Integer> clientIDArray=new ArrayList(updateClient.clientID);
 		
-		//ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(clientIDArray));
-		TextField txtClientID =new TextField();	
+		//call the get client id from viewAll 
+		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(viewAll.getID()));
+		Button btSelectClient = new Button("Select Client"); 
+		//TextField txtClientID =new TextField();	
 		
 		//title and instructions 
 		Text title = new Text("Update Client"); 
@@ -480,7 +484,8 @@ public class ClientsPage {
 		//entry fields
 		
 		TextField txtName = new TextField(); 
-		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		// Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		TextField txtType = new TextField(); 
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
 		TextField txtAdd2 = new TextField(); 
@@ -491,7 +496,7 @@ public class ClientsPage {
 				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
 				"VA", "WA", "WV", "WI", "WY");
     	TextField txtZip = new TextField(); 
-    	
+    	    	
     	//add input values into a gridpane
     	GridPane grid = new GridPane(); 
     	grid.setAlignment(Pos.CENTER);
@@ -508,25 +513,41 @@ public class ClientsPage {
     	grid.add(lblState, 0, 7);
     	grid.add(lblZip, 0, 8);
     	
-    	grid.add(txtClientID, 1,0);    	
+    	grid.add(cbClientID, 1,0); //add combobox and select button
+    	grid.add(btSelectClient, 2,0);
     	grid.add(txtName, 1, 1);
-    	grid.add(spType, 1, 2);
+    	grid.add(txtType, 1, 2);
     	grid.add(txtPhone, 1, 3);
     	grid.add(txtAdd1, 1, 4);
     	grid.add(txtAdd2, 1, 5);
     	grid.add(txtCity, 1, 6);
     	grid.add(cbState, 1, 7);
     	grid.add(txtZip, 1, 8);
-    	
+    	    	
     	box.getChildren().addAll(title,instructions,grid); 
+    	
+    	//set the other textfields to whatever clientID is entered
+    	btSelectClient.setOnAction(e->{
+    		select.viewSelected(cbClientID.getValue()); 
+    		txtName.setText(select.getClientName());
+    		txtType.setText(select.getClientType()); 
+    		txtPhone.setText(select.getPhone());
+    		txtAdd1.setText(select.getAddress1());
+    		txtAdd2.setText(select.getAddress2());
+    		txtCity.setText(select.getCity());
+    		cbState.setValue(select.getState());
+    		txtZip.setText(select.getZip()); 
+    	});
+    	
+    	
     	btnEnter.setOnAction(e->{
     		//variables for SQL stored procedure
-    		int clientID = Integer.parseInt(txtClientID.getText());
+    		int clientID = cbClientID.getValue().intValue();
     		String name = txtName.getText(); 
-    		int type = spType.getValue();    		
+    		int type = Integer.parseInt(txtType.getText());     		
     		String phone = txtPhone.getText(); 
     		//update client Class
-    		updateClient.updateC(clientID, name, type, phone);			
+    		updateClient.exampleQuery(clientID, name, type, phone);			
     		 
     		
     		String add1 = txtAdd1.getText(); 
@@ -539,8 +560,8 @@ public class ClientsPage {
     		updateClientAddress.updateClientA(clientID, add1, add2, city, state, zip);
     		
     		//clear text fields
-    		//cbClientID.valueProperty().set(null);
-    		txtClientID.clear();
+    		//txtClientID.clear();
+    		cbClientID.valueProperty().set(null);
     		txtName.clear(); 
     		txtPhone.clear(); 
     		txtAdd1.clear(); 
