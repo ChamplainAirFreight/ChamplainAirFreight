@@ -1,9 +1,11 @@
-package edu.cco.ChamplainAirFreight.Database;
+package edu.cco.ChamplainAirFreight.Database.User;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 /**
  * 
