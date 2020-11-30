@@ -24,10 +24,8 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBUpdateShipmentStatus extends DBConnection{
 	//Variables
 	public CallableStatement callable = null;
-	public ArrayList<Integer> shipID=new ArrayList<>();
-	public String shipInfo;
-	public int shipStatus;
-	private int id;
+	public int sStatus;
+	public int sID;
 	
 /**
 * DataBase Structure:
@@ -41,142 +39,24 @@ public class DBUpdateShipmentStatus extends DBConnection{
 	*/
 	public DBUpdateShipmentStatus() {
 						
-				try {
-					statement=connection.createStatement();
-					setShipmentStatus();
-					}catch (SQLException e) {
-						    System.out.println("Could Not Connect to DataBase!");
-					}
+			//blank
 	}//end default constructor	
 	
-	/**
-	* setShipmentStatus pulls shipID put's into a String with comma spacing
-	* Matt Ridgway 
-	* 11/21/2020
-	* */
-	public void setShipmentStatus() {
-				
-			try {
-					String sql="SELECT ShipmentID FROM Shipments";
-					ResultSet result=statement.executeQuery(sql);
-					while(result.next()) {
-						shipInfo+=result.getString(1)+", ";
-						
-				}
-					
-			}catch (SQLException ex) {
-			        Logger.getLogger(DBUpdateShipment.class.getName()).log(Level.SEVERE, null, ex);
-		    } catch (Exception e) {
-			        e.printStackTrace();
-			        System.out.println("Could Not View Shipment");
-		    }
-				
-			setShipmentStatusArray();
-				
-	}//end setShipmentStatus
-	/**
-	* setShipmentStatusArray
-	* Matt Ridgway 
-	* 11/21/2020
-	* split string shipInfo by comma into list. Loop through and put into shipID List
-	*/	
-	public void setShipmentStatusArray() {
-		
-		List<String> shipList=new ArrayList<>(Arrays.asList(shipInfo.split(",")));
-		for(String strg : shipList) {
-			shipID.add(Integer.valueOf(strg));
-			
-		}
-		
-	}//end setShipmentStatusArray
-	/**
-	* clearShipmentStatus
-	* Clear List and String
-	* Matt Ridgway 
-	* 11/21/2020
-	*/	
-	public void clearShipmentStatus() {
-		
-		shipID.clear();
-		shipInfo="";
-	}//end clearShipmentStatus
-	/**
-	* setShipmentStatusSQL
-	* 
-	* Matt Ridgway 
-	* 11/21/2020
-	* @param shipmentStatusSelected
-	*/
-	public void setShipmentStatusSQL(int shipmentStatusSelected) {
-		
-		try {
-		String sql="SELECT ShipmentID, ShipmentStatusID"
-				+ "FROM Shipments Where ShipmentID=?";
-		PreparedStatement preparedStatement = connection.prepareStatement(sql);
-	    preparedStatement.setInt(1, shipmentStatusSelected);
-	    ResultSet resultS = preparedStatement.executeQuery();
-		
-	    	while(resultS.next()) {
-	    		id=resultS.getInt(1);	    		
-	    		shipStatus=resultS.getInt(2);
-	    		
-	    		
-	    	}
-		} catch (SQLException ex) {
-	        Logger.getLogger(DBUpdateShipmentStatus.class.getName()).log(Level.SEVERE, null, ex);
-	        System.out.println("Get Shipment Status Problem!");
-	    }
-		
-	}//end setShipmentStatusSQL
-	/** RESULTSET
+	/** 
 	* updateShipmentStatus
 	* 
 	* Matt Ridgway 
 	* 11/21/2020*
-	* @param input
-	* @param status
+	* @param sID
+	* @param sStatus
 	*/
-	public ResultSet updateShipmentStatus(int status, int input) {
-		 ResultSet results = null;
-		 try {
-			 String sqlState="SELECT ShipmentID FROM Shipments WHERE ShipmentID=?";
-			 PreparedStatement preparedStatement;
-	     preparedStatement = connection.prepareStatement(sqlState);
-	     preparedStatement.setInt(1, input);
-	     ResultSet resultS = preparedStatement.executeQuery();
-	    while (resultS.next()) {
-	        id = resultS.getInt(1);
-	    }
-		}catch (SQLException ex) {
-	   Logger.getLogger(DBUpdateShipmentStatus.class.getName()).log(Level.SEVERE, null, ex);
-	}
-		 try {
-	    String SQL = "UPDATE Shipments SET ShipmentStatusID=?";	    		
-	    	
-	    callable = connection.prepareCall(SQL);
-	    callable.setInt(2,status);	    
-	    
-	    results = callable.executeQuery();
-
-	    System.out.println(results);
-
-	} catch (SQLException ex) {
-	    System.out.println("Results Not Returned");
-	}
-
-	return results;
-	}//end ResultSet
-	/**
-	* updateShipmentStatus
-	* Matt Ridgway 
-	* 11/21/2020
-	*/
-	public void updateShipmentStatus() {
+	public void updateShipmentStatus(int sID,int sStatus) {
 	    try {
-	    	String storedP = "{call CAFDB.dbo.Update_Shipment_Status}"; 
-	        PreparedStatement ps;
-	        ps = connection.prepareStatement(storedP);
+	    	String storedP = "{call CAFDB.dbo.Update_Shipment_Status(?,?)}"; 
+	     
 	        callable = connection.prepareCall(storedP);
+	        callable.setInt(1,sID);
+	        callable.setInt(2,sStatus);	 
 
 	        ResultSet rs = callable.executeQuery(); 
 
@@ -189,20 +69,14 @@ public class DBUpdateShipmentStatus extends DBConnection{
 	* Matt Ridgway 
 	* 11/21/2020
 	*/
-	public ArrayList<Integer> getShipID() {
-		return shipID;
+
+	public int getsStatus() {
+		return sStatus;
 	}
 
-	public String getShipInfo() {
-		return shipInfo;
+	public int getsID() {
+		return sID;
 	}
 
-	public int getShipStatus() {
-		return shipStatus;
-	}
-
-	public int getId() {
-		return id;
-	}
 
 }

@@ -61,7 +61,7 @@ public DBUpdateAirport() {
 */
 public void updateAirport(int aID, String aName, String aLoc, boolean aHub, float aDist) {
     try {
-    	String storedP = "{call CAFDB.dbo.Update_Airport}"; 
+    	String storedP = "{call CAFDB.dbo.Update_Airport(?,?,?,?,?)}"; 
        
         callable = connection.prepareCall(storedP);
         callable.setInt(1, aID);
