@@ -548,8 +548,9 @@ public class ClientsPage {
     		//update client Class
     		updateClient.updateC(clientID, name, type, phone);			
     		 
-    		 //get index of clientID    	
-    		int clientAddressID =viewAll.getID().indexOf(clientID);    		
+    		 //get index of clientID  
+    		select.viewSelected(clientID);
+    		int clientAddressID =select.getAddressID();		
     		
     		String add1 = txtAdd1.getText(); 
     		String add2 = txtAdd2.getText(); 

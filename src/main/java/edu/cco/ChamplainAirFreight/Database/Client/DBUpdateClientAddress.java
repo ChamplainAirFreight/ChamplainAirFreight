@@ -68,7 +68,7 @@ public class DBUpdateClientAddress  extends DBConnection {
 */
 public void updateClientA(int cAddressID, int cID, String add1, String add2,String city,String state,int zip) {
     try {
-    	String storedP = "{call CAFDB.dbo.Update_Client_Address(?,?,?,?,?,?)}"; 
+    	String storedP = "{call CAFDB.dbo.Update_Client_Address(?,?,?,?,?,?,?)}"; 
      
         callable = connection.prepareCall(storedP);
           callable.setInt(1, cAddressID);
