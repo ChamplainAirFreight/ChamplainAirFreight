@@ -137,7 +137,7 @@ public class ContactPage {
 
         //make buttons
         Button btnCancel = new Button("Cancel");
-        Button btnSubmit = new Button("Submit");
+        Button btnSubmit = new Button("Send");
         Button btnExit = new Button("Exit");
         
         //style buttons
