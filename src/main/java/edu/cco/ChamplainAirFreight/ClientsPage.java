@@ -2,7 +2,6 @@ package edu.cco.ChamplainAirFreight;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
@@ -454,13 +453,12 @@ public class ClientsPage {
 		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist
 		DBViewSelectClient select = new DBViewSelectClient(); 
 		DBUpdateClient updateClient = new DBUpdateClient();
-		//updateClient.setClient();
-		//ArrayList<Integer> clientIDArray=new ArrayList(updateClient.clientID);
+	
 		
 		//call the get client id from viewAll 
 		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(viewAll.getID()));
 		Button btSelectClient = new Button("Select Client"); 
-		//TextField txtClientID =new TextField();	
+		
 		
 		//title and instructions 
 		Text title = new Text("Update Client"); 
@@ -470,6 +468,7 @@ public class ClientsPage {
 		Label lblName = new Label ("Client Name: "); 
 		Label lblType = new Label ("Client Type ID: "); 
 		Label lblPhone = new Label ("Client Phone Number: "); 
+	
 		Label lblAdd1 = new Label("Address 1: "); 
 		Label lblAdd2 = new Label("Address 2: "); 
 		Label lblCity = new Label("City: "); 
@@ -483,8 +482,7 @@ public class ClientsPage {
 				
 		//entry fields
 		
-		TextField txtName = new TextField(); 
-		// Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		TextField txtName = new TextField(); 	
 		TextField txtType = new TextField(); 
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
@@ -543,12 +541,15 @@ public class ClientsPage {
     	btnEnter.setOnAction(e->{
     		//variables for SQL stored procedure
     		int clientID = cbClientID.getValue().intValue();
+    	   
     		String name = txtName.getText(); 
     		int type = Integer.parseInt(txtType.getText());     		
     		String phone = txtPhone.getText(); 
     		//update client Class
-    		updateClient.exampleQuery(clientID, name, type, phone);			
+    		updateClient.updateC(clientID, name, type, phone);			
     		 
+    		 //get index of clientID    	
+    		int clientAddressID =viewAll.getID().indexOf(clientID);    		
     		
     		String add1 = txtAdd1.getText(); 
     		String add2 = txtAdd2.getText(); 
@@ -557,10 +558,9 @@ public class ClientsPage {
     		int zip = Integer.parseInt(txtZip.getText());
     		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
     		//update client address Class
-    		updateClientAddress.updateClientA(clientID, add1, add2, city, state, zip);
+    		updateClientAddress.updateClientA(clientAddressID, clientID, add1, add2, city, state, zip);
     		
-    		//clear text fields
-    		
+    		//clear text fields    		
     		cbClientID.valueProperty().set(null);
     		txtName.clear(); 
     		txtPhone.clear(); 

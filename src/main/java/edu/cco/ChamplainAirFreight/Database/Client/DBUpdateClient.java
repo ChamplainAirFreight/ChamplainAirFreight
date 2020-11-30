@@ -1,7 +1,7 @@
 package edu.cco.ChamplainAirFreight.Database.Client;
 
 /**
- * NOT TESTED
+ * Working
  * @author Matt Ridgway
  * @Date: November 20, 2020
  * @Description: DBUpdateClient - class to interact with the database and the GUI page 
@@ -25,11 +25,11 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBUpdateClient extends DBConnection{
 	//Variables
 			public CallableStatement callable = null;
-			public String clientName;
-			public int clientIDType;
-			public String clientPhone;
+			public String cName;
+			public int cType;
+			public int cID;
+			public String cPhone;
 		
-
 /**
  * Database structure:
  * 1. Client ID
@@ -45,7 +45,7 @@ public DBUpdateClient() {
 	//Do nothing call the class 
 }		
 
-/** RESULTSET
+/** 
 * updateClient
 * 
 * Matt Ridgway 
@@ -56,7 +56,7 @@ public DBUpdateClient() {
 * @param cPhone
 *
 */
-public void updateC(int cID, String cName, int cIDType, String cPhone) {
+public void updateC(int cID, String cName, int cType, String cPhone) {
     
 	try {
     	String storedP = "{call CAFDB.dbo.Update_Client(?,?,?,?)}"; 
@@ -65,7 +65,7 @@ public void updateC(int cID, String cName, int cIDType, String cPhone) {
 
         callable.setInt(1, cID);
         callable.setString(2, cName);
-        callable.setInt(3, cIDType);
+        callable.setInt(3, cType);
         callable.setString(4, cPhone);
         //callable.executeQuery(); 
         ResultSet rs = callable.executeQuery(); 
@@ -77,49 +77,26 @@ public void updateC(int cID, String cName, int cIDType, String cPhone) {
 }//end updateClient
 
 /**
- * exampleQuery
- * example for Matt to follow
- */
-public void exampleQuery(int cID, String cName, int type, String phone) {
-	try {
-	String storedP = "{call CAFDB.dbo.Update_Client(?,?,?,?)}";
-	//set your query/storedP
-	callable = connection.prepareCall(storedP); 
-	//set your variables for the storedP
-	callable.setInt(1,  cID);
-	callable.setString(2, cName);
-	callable.setInt(3, type);
-	callable.setString(4, phone);
-	//execute the storedP
-	ResultSet rs = callable.executeQuery(); 
-	//this should be all you need. You will fill pass the variables from the GUI entries
-}catch(SQLException ex) {
-	//ex.printStackTrace(); 
-	//prinstacktrace used for debugging 
-}
-	}
-/**
 * Getters
 * Matt Ridgway 
 * 11/20/2020
 */
 
-//public ArrayList<Integer> getClientID() {
-//	return clientID;
-//}
-//public String getClientInfo() {
-//	return clientInfo;
-//}
-public String getClientName() {
-	return clientName;
+public String getcName() {
+	return cName;
 }
-public int getClientIDType() {
-	return clientIDType;
+
+public int getcType() {
+	return cType;
 }
-public String getClientPhone() {
-	return clientPhone;
+
+public int getcID() {
+	return cID;
 }
-//public int getId() {
-//	return id;
-//}
+
+public String getcPhone() {
+	return cPhone;
+}
+
+
 }//end class

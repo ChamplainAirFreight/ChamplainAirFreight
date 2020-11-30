@@ -1,7 +1,7 @@
 package edu.cco.ChamplainAirFreight.Database.Client;
 
 /**
- * NOT TESTED
+ * 
  * @author Matt Ridgway
  * @Date: November 20, 2020
  * @Description: DBUpdateClientAddress - class to interact with the database and the GUI page 
@@ -30,6 +30,8 @@ public class DBUpdateClientAddress  extends DBConnection {
 	public String clientState;
 	public String clientInfo;
 	public int clientZip;
+	public int cID;
+	public int cAddressID;
 
 
 /**
@@ -64,12 +66,12 @@ public class DBUpdateClientAddress  extends DBConnection {
 * Matt Ridgway 
 * 11/20/2020
 */
-public void updateClientA(int cID, String add1, String add2,String city,String state,int zip) {
+public void updateClientA(int cAddressID, int cID, String add1, String add2,String city,String state,int zip) {
     try {
     	String storedP = "{call CAFDB.dbo.Update_Client_Address(?,?,?,?,?,?)}"; 
      
         callable = connection.prepareCall(storedP);
-   
+          callable.setInt(1, cAddressID);
           callable.setInt(2, cID);
           callable.setString(3, add1);
           callable.setString(4, add2);
@@ -89,9 +91,7 @@ public void updateClientA(int cID, String add1, String add2,String city,String s
 * Matt Ridgway 
 * 11/20/2020
 */
-//public ArrayList<Integer> getClientID() {
-//	return clientID;
-//}
+
 public String getClientAdd1() {
 	return clientAdd1;
 }
@@ -110,7 +110,10 @@ public String getClientInfo() {
 public int getClientZip() {
 	return clientZip;
 }
-//public int getId() {
-//	return id;
-//}
+public int getcID() {
+	return cID;
+}
+public int getcAddressID() {
+	return cAddressID;
+}
 }//end class
