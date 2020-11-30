@@ -24,13 +24,11 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBUpdateAirport extends DBConnection {
 	//Variables
 		public CallableStatement callable = null;
-		public ArrayList<Integer> airportID=new ArrayList<>();
-		public String airportInfo;
-		public String airportName;
-		public String airportLocation;
-		public boolean airportHub;
-		public float airportDistance;
-		private int id;
+		public String aName;
+		public String aLoc;
+		public boolean aHub;
+		public float aDis;
+		public int aID;
 		
 
 /**
@@ -46,94 +44,10 @@ public class DBUpdateAirport extends DBConnection {
 */	
 public DBUpdateAirport() {
 			
-			try {
-				statement=connection.createStatement();
-				setAirport();
-			}catch (SQLException e) {
-		        System.out.println("Could Not Connect to DataBase!");
-		    }
+		//blank
 }//end default constructor
+
 /**
-* setAircraft pulls airportID put's into a String with comma spacing
-* Matt Ridgway 
-* 11/20/2020
-*/
-public void setAirport() {
-	
-	try {
-		String sql="SELECT AirportID FROM Airports";
-		ResultSet result=statement.executeQuery(sql);
-		while(result.next()) {
-			airportInfo+=result.getString(1)+", ";
-			
-			
-		}
-		
-	}catch (SQLException ex) {
-        Logger.getLogger(DBUpdateAirport.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Could Not View Airports");
-    }
-	
-	setAirportArray();
-	
-}//end setAirport
-/**
-* setAirportArray
-* Matt Ridgway 
-* 11/20/2020
-* split string airportInfo by comma into list. Loop through and put into aircraftID List
-*/	
-public void setAirportArray() {
-	
-	List<String> airportList=new ArrayList<>(Arrays.asList(airportInfo.split(",")));
-	for(String strg : airportList) {
-		airportID.add(Integer.valueOf(strg));
-		
-	}
-	
-}//end setAirportArray
-/**
-* clearAirport 
-* Clear List and String
-* Matt Ridgway 
-* 11/20/2020
-*/	
-public void clearAirport() {
-	
-	airportID.clear();
-	airportInfo="";
-}//end clearAirport
-/**
-* setAirportSQL
-* 
-* Matt Ridgway 
-* 11/20/2020
-* @param airportSelected
-*/	
-public void setAirportSQL(int airportSelected) {
-	
-	try {
-	String sql="SELECT AirportName, AirportLocation, AirportHub, AirportDistanceFromHub FROM Airports Where AirportID=?";
-	PreparedStatement preparedStatement = connection.prepareStatement(sql);
-    preparedStatement.setInt(1, airportSelected);
-    ResultSet resultS = preparedStatement.executeQuery();
-	
-    	while(resultS.next()) {
-    		id=resultS.getInt(1);
-    		airportName=resultS.getString(2);
-    		airportLocation=resultS.getString(3);
-    		airportHub=resultS.getBoolean(4);
-    		airportDistance=resultS.getFloat(5);
-    	}
-	} catch (SQLException ex) {
-        Logger.getLogger(DBUpdateAirport.class.getName()).log(Level.SEVERE, null, ex);
-        System.out.println("Get Airport Problem!");
-    }
-	
-}//end setAirportSQL
-/** RESULTSET
 * updateAirport
 * 
 * Matt Ridgway 
@@ -145,52 +59,16 @@ public void setAirportSQL(int airportSelected) {
 * @param aDist
 * @param input
 */
-public ResultSet updateAircraft(int aID, String aName, String aLoc, boolean aHub, float aDist, int input) {
-	 ResultSet results = null;
-	 try {
-		 String sqlState="SELECT AirportID FROM Airports WHERE AirportID=?";
-		 PreparedStatement preparedStatement;
-         preparedStatement = connection.prepareStatement(sqlState);
-         preparedStatement.setInt(1, input);
-         ResultSet resultS = preparedStatement.executeQuery();
-        while (resultS.next()) {
-            id = resultS.getInt(1);
-        }
-	}catch (SQLException ex) {
-       Logger.getLogger(DBUpdateAirport.class.getName()).log(Level.SEVERE, null, ex);
-   }
-	 try {
-        String SQL = "UPDATE Airports SET AirportName = ?, "
-        		+ "AirportLocation = ?,"
-        		+ "AirportHub = ?,"
-        		+ "AirportDistanceFromHub=?";
-
-        callable = connection.prepareCall(SQL);
+public void updateAirport(int aID, String aName, String aLoc, boolean aHub, float aDist) {
+    try {
+    	String storedP = "{call CAFDB.dbo.Update_Airport}"; 
+       
+        callable = connection.prepareCall(storedP);
+        callable.setInt(1, aID);
         callable.setString(2, aName);
         callable.setString(3, aLoc);
         callable.setBoolean(4, aHub);
         callable.setFloat(5, aDist);
-        results = callable.executeQuery();
-
-        System.out.println(results);
-
-    } catch (SQLException ex) {
-        System.out.println("Results Not Returned");
-    }
-    
-    return results;
-}//end ResultSet
-/**
-* updateAirport
-* Matt Ridgway 
-* 11/20/2020
-*/
-public void updateAirport() {
-    try {
-    	String storedP = "{call CAFDB.dbo.Update_Airport}"; 
-        PreparedStatement ps;
-        ps = connection.prepareStatement(storedP);
-        callable = connection.prepareCall(storedP);
 
         ResultSet rs = callable.executeQuery(); 
 
@@ -204,20 +82,25 @@ public void updateAirport() {
 * 11/20/2020
 */
 
-public String getAirportInfo() {
-	return airportInfo;
+public String getaName() {
+	return aName;
 }
-public String getAirportName() {
-	return airportName;
+
+public String getaLoc() {
+	return aLoc;
 }
-public String getAirportLocation() {
-	return airportLocation;
+
+public boolean isaHub() {
+	return aHub;
 }
-public float getAirportDistance() {
-	return airportDistance;
+
+public float getaDis() {
+	return aDis;
 }
-public int getId() {
-	return id;
+
+public int getaID() {
+	return aID;
 }
+
 
 }
