@@ -311,12 +311,12 @@ public class ClientsPage {
 	grid.add(txtSelectState, 1, 5);
 	Text txtSelectZip = new Text();
 	grid.add(txtSelectZip, 1,  6); 
-    
+	
+	 
    clientSearch.setOnAction(e->{
 	   try {
 		DBViewSelectClient view = new DBViewSelectClient(); //to view a select Client
-		String entry = ""; 
-    	entry = clientSelect.getValue().toString();
+	   	String entry = clientSelect.getValue().toString();
     	int id = all.getName().indexOf(entry); //get the index of arraylist where = entry 
     	view.viewSelected(all.getID().get(id));
 
@@ -526,7 +526,8 @@ public class ClientsPage {
     	
     	//set the other textfields to whatever clientID is entered
     	btSelectClient.setOnAction(e->{
-    		select.viewSelected(cbClientID.getValue()); 
+    		select.viewSelected(cbClientID.getValue());
+    		    		
     		txtName.setText(select.getClientName());
     		txtType.setText(select.getClientType()); 
     		txtPhone.setText(select.getPhone());
@@ -545,23 +546,29 @@ public class ClientsPage {
     		String name = txtName.getText(); 
     		int type = Integer.parseInt(txtType.getText());     		
     		String phone = txtPhone.getText(); 
-    		//update client Class
-    		updateClient.updateC(clientID, name, type, phone);			
-    		 
-    		//get index of clientID  
-    		//problem here
-    		select.viewSelected(clientID);
-    		int clientAddressID =select.getAddressID();		
     		
     		String add1 = txtAdd1.getText(); 
     		String add2 = txtAdd2.getText(); 
     		String city = txtCity.getText(); 
     		String state = cbState.getValue(); 
     		int zip = Integer.parseInt(txtZip.getText());
+    		//update client Class
+    		updateClient.updateC(clientID, name, type, phone);			
+    		 
+    		//get index of clientID  
+    		//problem here
+    		select.viewSelected(clientID);
+    		int clientAddressID =select.getAddressID();	
+    		if(clientAddressID == 0) {
+    			DBAddClientAddress addAddress = new DBAddClientAddress(add1, add2, city, state, zip, clientID); 
+    		}
+    		else {
+    		System.out.println("address ID = " + clientAddressID); 
+    		    		
     		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
     		//update client address Class
     		updateClientAddress.updateClientA(clientAddressID, clientID, add1, add2, city, state, zip);
-    		
+    		}
     		//clear text fields    		
     		cbClientID.valueProperty().set(null);
     		txtName.clear(); 

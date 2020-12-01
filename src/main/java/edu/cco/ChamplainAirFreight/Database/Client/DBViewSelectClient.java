@@ -73,18 +73,20 @@ public class DBViewSelectClient extends DBConnection {
 			clientName = rs.getString(2); 
 			clientType = rs.getString(3); 
 			phone = rs.getString(4); 
+			clientAddressID = rs.getInt(5);
 			address1 = rs.getString(7); 
 			address2 = rs.getString(8); 
 			city = rs.getString(9);
 			state = rs.getString(10); 
 			zip = rs.getString(11); 
-			clientAddressID = rs.getInt(5); 
+			 
 		}
+		rs.close(); 
 		
 		}catch (SQLException ex) {
-			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.out.println("view all clients could not be completed"); 
 		}		
 		

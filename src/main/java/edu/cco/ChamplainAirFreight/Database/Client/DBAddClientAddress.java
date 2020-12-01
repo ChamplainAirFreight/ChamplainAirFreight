@@ -85,6 +85,7 @@ public void insertSQL(String add1,String add2,String city,String state, int zip,
 		callable.setInt(6, zip);
 		//Execute Stored Procedure
 		callable.executeQuery();
+		callable.close(); 
 		
 	} catch (SQLException ex) {
 		//uncomment logger/printstacktrace for debugging. 
