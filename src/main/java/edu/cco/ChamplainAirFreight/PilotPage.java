@@ -1,11 +1,17 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBAddPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBUpdatePilot;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewAllPilot;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewSelectPilot;
 import javafx.collections.FXCollections;
@@ -152,7 +158,7 @@ public class PilotPage {
             box.setCenter(addPane()); 
         });
         btnEdit.setOnAction(e -> {
-        	 box.setCenter(getClientLBs()); 	
+        	 box.setCenter(editSelected()); 	
         });
         btnDelete.setOnAction(e -> {
 
@@ -399,9 +405,118 @@ public class PilotPage {
 	    
 	    return centerBox; 
 	}
-	
 	/**
-	 * addPane - pane for adding a flight in the database. 
+	 * editSelected Used to select a pilot and import the textfields 
+	 * Kelly May	  
+	 * 11/18/2020
+	 * Modified by Matt Ridgway for editing a pilot 
+	 * 12/1/2020 
+	 */
+	private VBox editSelected() {
+		DBViewAllPilot all = new DBViewAllPilot(); // for filling the combo box with Pilots
+		DBUpdatePilot updatePilot =new DBUpdatePilot();
+		
+	    VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("Edit Selected Pilot"); 
+	    Text instructions = new Text("Select a Pilot to edit."); 
+	    
+	   
+	    HBox selection = new HBox(); 
+	    selection.setAlignment(Pos.CENTER);
+	    //make arraylist with first and last names together
+	    ArrayList<String> name = new ArrayList<>(); 
+	    for (int i =0; i < all.getFirstName().size(); i++) {
+	    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
+	    }
+	    ComboBox pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
+	    pilotSelect.setVisibleRowCount(5); 
+	    
+	    Button pilotSearch = new Button("Select Pilot"); 
+	    selection.getChildren().addAll(pilotSelect, pilotSearch); 
+	    
+	    //grid of information: 
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    Label lbID = new Label("Pilot ID: "); 
+		TextField txtID = new TextField(); 
+		txtID.setEditable(false);// So this text field can't be edited
+		Label lbFirstName = new Label("First Name: "); 
+		TextField txtFirstName = new TextField(); 
+	    Label lblLastName = new Label("Last Name: "); 
+	    TextField txtLastName = new TextField();  
+	    Label lblDob = new Label("Date of Birth: "); 
+	    TextField txtDob = new TextField();  
+	    Label lblEmployeeNum = new Label("Employee Number: "); 
+	    TextField txtEmployeeNum = new TextField();  
+	    Label lblDateOfHire = new Label("Date of Hire: "); 
+	    TextField txtDateOfHire = new TextField(); 
+	    Label lblDateLeft = new Label("Date Left CAF: "); 
+	    TextField txtDateLeft = new TextField();  
+	     
+	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(txtID, 1,  0);
+	    grid.add(lbFirstName, 0, 1);
+	    grid.add(txtFirstName, 1,  1);
+	    grid.add(lblLastName, 0,  2);
+	    grid.add(txtLastName, 1,  2);
+	    grid.add(lblDob, 0, 3);
+	    grid.add(txtDob, 1, 3);
+	    grid.add(lblEmployeeNum, 0, 4);
+	    grid.add(txtEmployeeNum,1 ,4);
+	    grid.add(lblDateOfHire, 0, 5);
+	    grid.add(txtDateOfHire, 1, 5);
+	    grid.add(lblDateLeft, 0, 6);
+	    grid.add(txtDateLeft, 1, 6);
+	   
+	    
+	   // fill text with selected pilot information
+	    pilotSearch.setOnAction(e->{
+		   try {
+			DBViewSelectPilot view = new DBViewSelectPilot(); //to view a select pilot
+			int index = name.indexOf(pilotSelect.getValue()); 
+	    	int id = all.getPilotID().get(index); 
+	    	view.viewSelected(id);
+
+	    	txtID.setText(Integer.toString(view.getPilotID()));
+	    	txtFirstName.setText(view.getPilotFirstName());
+	    	txtLastName.setText(view.getPilotLastName());
+	    	txtDob.setText(String.valueOf(view.getDateOfBirth()));
+	    	txtEmployeeNum.setText(view.getEmployeeNum());
+	    	txtDateOfHire.setText(String.valueOf(view.getDateOfHire()));
+	    	txtDateLeft.setText(String.valueOf(view.getDateLeftCAF()));
+	    	   	
+	    	
+		   } catch(Exception ex) {
+			   pilotSelect.requestFocus(); 
+		   }
+		   
+	    });
+	    centerBox.getChildren().addAll(title, instructions, selection, grid);
+	  btnEnter.setOnAction(e->{
+		  int pilotID=Integer.parseInt(txtID.getText());
+		  String firstName=txtFirstName.getText();
+		  String lastName=txtLastName.getText();
+		 // DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//  Date dob=dateFormat.parse(txtDob.getText());
+		 
+		  String eNumber=txtEmployeeNum.getText();
+		  //Date hireDate=txtDateOfHire;
+		  //Date leftDate=txtDateLeft;
+		  //updatePilot.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+		  
+	  });
+	    
+	    return centerBox; 
+	}
+	/**
+	 * addPane - pane for adding a Pilot in the database. 
 	 */
 	private VBox addPane() {
 		VBox box = new VBox(); 
