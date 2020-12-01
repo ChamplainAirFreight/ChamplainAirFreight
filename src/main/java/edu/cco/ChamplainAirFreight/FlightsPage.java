@@ -420,6 +420,16 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
 	   
     });
     centerBox.getChildren().addAll(title, instructions, selection, grid);
+    //clear textFields
+    txtID.clear();
+    txtAirID.clear();
+    txtStartTime.clear();
+    txtEndTime.clear();
+    txtPilotName.clear();
+    txtStartAirportName.clear();
+    txtEndAirportName.clear();
+    txtEndAirportLoc.clear();
+    txtDistanceHub.clear();
     
     return centerBox; 
 	}
