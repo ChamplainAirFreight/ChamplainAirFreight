@@ -18,7 +18,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import com.thoughtworks.qdox.model.JavaModel;
 /**
  * @Author Name: Kelly May
  * @Assignment Name: caf
@@ -38,14 +50,14 @@ public class ContactPage {
 	static Label lbfname;
 	static Label lblname;
 	static Label lbcompany;
-	static Label lbphone;
+	static Label lbsubject;
 	static Label lbmessage;
 
 	//Text field - By Pierre
 	static TextField txfname;
 	static TextField txlname;
 	static TextField txcompany;
-	static TextField txphone;
+	static TextField txsubject;
 	static TextField txmessage;
 
     //classes
@@ -178,10 +190,10 @@ public class ContactPage {
         lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
 		 lbcompany = new Label("Company ");
-		 lbphone = new Label("Phone");
+		 lbsubject = new Label("Subject");
 		 lbmessage  = new Label("Message");
     	
-    	vboxi.getChildren().addAll(lbfname,lblname,lbcompany,lbphone,lbmessage);
+    	vboxi.getChildren().addAll(lbfname,lblname,lbcompany,lbsubject,lbmessage);
     	return vboxi;
     }
   /**By - Pierre
@@ -193,9 +205,9 @@ public class ContactPage {
     	 txfname = new TextField();
     	 txlname = new TextField();
     	 txcompany = new TextField();
-    	 txphone = new TextField();
+    	 txsubject = new TextField();
     	 txmessage = new TextField();
-    	vboxi.getChildren().addAll(txfname,txlname ,txcompany, txphone,txmessage, getTextAreaOne());
+    	vboxi.getChildren().addAll(txfname,txlname ,txcompany, txsubject,txmessage, getTextAreaOne());
     	return vboxi;
     } 
 	/**By - Pierre
@@ -217,5 +229,49 @@ public class ContactPage {
 		hboxt.getChildren().addAll(texReaOne);
 		return hboxt;
 	}
+	private HBox getEmail(String recepient) {
+		HBox hboxe = new HBox();
+	//	String champlainairfreight = "pierresystem1@gmail.com";
+		String calEmail = "champlainairfreight@gmail.com";
+		String password = "Admin@100";
+		
+		Properties emailProperty = new Properties();
+		emailProperty.put("mail.smtp.auth", "true");
+		emailProperty.put("mail.smtp.starttls.enable", "true");
+		emailProperty.put("mail.smtp.host", "smtp.gmail.com");
+		emailProperty.put("mail.smtp.port", "587");
+		
+		Session session = Session.getInstance(emailProperty, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(calEmail, password);
+			}
+		});
+		
+		Message mymessage = calMessage(session, calEmail, recepient);
+		//calMessage(session, calEmail, recepient);
+		
+		return hboxe;
+	}
+	private static Message calMessage(Session session, String calEmail, String recepient) {
+		Message mymessage = new MimeMessage(session);
+		try {
+			mymessage.setFrom(new InternetAddress(calEmail));
+			mymessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
+			//mymessage.setSubject(txsubject);
+		} catch(Exception ex) {
+			Logger.getLogger(ContactPage.class.getName()).log(Level.SEVERE, null, ex);
+			//e.printStackTrace();
+		}
+		return null;
+	}
+//	private static calMessage(Session session, String calEmail) {
+//		try {
+//		Message mymessage = new MimeMessage(session);
+//		mymessage.setFrom(new InternetAddress(calEmail));
+//		}catch(Exception ex) {
+//			Logger.getLogger(JavaMailUtil.class.getName()).log(Level.SEVERE, null, ex);
+//		}
+//		return null;
+//	}
 
 } //End Subclass ContactPage
