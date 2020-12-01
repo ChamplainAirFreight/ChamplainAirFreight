@@ -323,38 +323,105 @@ public class FlightsPage {
 	/**
 	 * editFlightPane - pane will appear when user presses "Edit" - will allow user to select a flight, 
 	 * and edit the information for that flight. 
+	 * Modified by Matt Ridgway be a VBox instead of a ScrollPane using the code from getViewSelected
 	 * @return
 	 */
-public ScrollPane editFlightPane() {
-	DBViewAllFlights viewAllFlights = new DBViewAllFlights(); 
-	ScrollPane sp = new ScrollPane(); 
-		VBox vbox = new VBox(); 
-		vbox.setAlignment(Pos.TOP_CENTER); 
-		vbox.setPadding(new Insets(3,20,3,20));
-		vbox.setSpacing(20);
-		vbox.setPrefWidth(1000); 
-		vbox.setPrefHeight(500);
-		vbox.setStyle("-fx-background-color: white; -fx-border-color: black");
+public VBox editFlightPane() {
+DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
+	
+    VBox centerBox = new VBox();
+    centerBox.setAlignment(Pos.TOP_CENTER);
+    centerBox.setMinHeight(300);
+    centerBox.setStyle("-fx-background-color: white");
+    
+    /**
+     * Add title and subtitle for instructions
+     */
+    Text title = new Text("Select a Flight"); 
+    Text instructions = new Text("Use Drop Down Box to select a flight and hit selected."); 
+    
+    // add a combobox and fill with all client names
+    HBox selection = new HBox(); 
+    selection.setAlignment(Pos.CENTER);
+    ComboBox flightSelect = new ComboBox(FXCollections.observableArrayList(all.getFlightID())); 
+    flightSelect.setVisibleRowCount(5); 
+    Button flightSearch = new Button("Search"); 
+    selection.getChildren().addAll(flightSelect, flightSearch); 
+    
+    //grid of information: 
+    GridPane grid = new GridPane(); 
+    grid.setAlignment(Pos.CENTER);
+    Label lbID = new Label("Flight ID: "); 
+	TextField txtID = new TextField();
+	txtID.setEditable(false);
+	Label lbAirID = new Label("Aircraft ID: "); 
+	TextField txtAirID = new TextField(); 
+    Label lblStartTime = new Label("Start Time: "); 
+    TextField txtStartTime = new TextField();  
+    Label lblEndTime = new Label("End Time: "); 
+    TextField txtEndTime = new TextField();  
+    Label lblPilotName = new Label("Pilot Name: "); 
+    TextField txtPilotName = new TextField();  
+    Label lblStartAirportName = new Label("Start Airport Name: "); 
+    TextField txtStartAirportName = new TextField(); 
+    Label lblStartAirportLoc = new Label("Start Airport Location: "); 
+    TextField txtStartAirportLoc = new TextField();  
+    Label lblEndAirportName = new Label("End Airport Name: "); 
+    TextField txtEndAirportName = new TextField(); 
+    Label lblEndAirportLoc = new Label("End Airport Location: "); 
+    TextField txtEndAirportLoc = new TextField(); 
+    Label lblDistanceHub = new Label("Distance from Hub: "); 
+    TextField txtDistanceHub = new TextField(); 
+    
+    grid.add(lbID, 0,  0);
+    grid.add(txtID, 1,  0);
+    grid.add(lbAirID, 0, 1);
+    grid.add(txtAirID, 1,  1);
+    grid.add(lblStartTime, 0,  2);
+    grid.add(txtStartTime, 1,  2);
+    grid.add(lblEndTime, 0, 3);
+    grid.add(txtEndTime, 1, 3);
+    grid.add(lblPilotName, 0, 4);
+    grid.add(txtPilotName,1 ,4);
+    grid.add(lblStartAirportName, 0, 5);
+    grid.add(txtStartAirportName, 1, 5);
+    grid.add(lblStartAirportLoc, 0, 6);
+    grid.add(txtStartAirportLoc, 1, 6);
+    grid.add(lblEndAirportName, 0, 7);
+    grid.add(txtEndAirportName, 1, 7);
+    grid.add(lblEndAirportLoc,  0,  8);
+    grid.add(txtEndAirportLoc, 1, 8);
+    grid.add(lblDistanceHub, 0,  9);
+    grid.add(txtDistanceHub, 1, 9);
+    
+   // fill text with selected flight information
+    flightSearch.setOnAction(e->{
+	   try {
+		DBViewSelectFlight view = new DBViewSelectFlight(); //to view a select flight
 		
-		Text title = new Text("Edit Flight Information"); 
-		title.setFont(Font.font("Times New Roman", FontWeight.BOLD,
-                FontPosture.ITALIC, 25));
-		Text instructions = new Text("Select the flight you would like to edit, then "
-				+ "change what you would like to change. Press \"Enter\" when you "
-				+ "want to execute the changes. \"Cancel\" will clear your entries"); 
-		
-		ComboBox cbFlights = new ComboBox(); // will fill with flight IDs. 
-		cbFlights.getItems().addAll(viewAllFlights.getFlightID()); 
-		cbFlights.setVisibleRowCount(5);
-		
-		
-		//add edit fields (start, end location and times, etc):
-		
-		
-		vbox.getChildren().addAll(title,instructions,cbFlights); 
-		sp.isFitToWidth(); 
-		sp.setContent(vbox);
-		return sp; 		
+    	int id = Integer.parseInt(flightSelect.getValue().toString()); 
+    	view.viewSelected(id);
+
+    	txtID.setText(Integer.toString(view.getFlightID()));
+    	txtAirID.setText(Integer.toString(view.getAircraftID()));
+    	txtStartTime.setText(view.getStartTime());
+    	txtEndTime.setText(view.getEndTime()); 
+    	txtPilotName.setText(view.getPilotName());
+    	txtStartAirportName.setText(view.getStartName());
+    	txtStartAirportLoc.setText(view.getStartLoc());
+    	txtEndAirportName.setText(view.getEndName()); 
+    	txtEndAirportLoc.setText(view.getEndLoc()); 
+    	txtDistanceHub.setText(view.getHubDist());
+    	
+    	
+	   } catch(Exception ex) {
+		   flightSelect.requestFocus(); 
+	   }
+	   
+    });
+    centerBox.getChildren().addAll(title, instructions, selection, grid);
+    
+    return centerBox; 
 	}
 
 /**
