@@ -338,14 +338,14 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
      * Add title and subtitle for instructions
      */
     Text title = new Text("Select a Flight"); 
-    Text instructions = new Text("Use Drop Down Box to select a flight and hit selected."); 
+    Text instructions = new Text("Use Drop Down Box to select a flight and hit select flight."); 
     
     // add a combobox and fill with all client names
     HBox selection = new HBox(); 
     selection.setAlignment(Pos.CENTER);
     ComboBox flightSelect = new ComboBox(FXCollections.observableArrayList(all.getFlightID())); 
     flightSelect.setVisibleRowCount(5); 
-    Button flightSearch = new Button("Search"); 
+    Button flightSearch = new Button("Select Flight"); 
     selection.getChildren().addAll(flightSelect, flightSearch); 
     
     //grid of information: 
