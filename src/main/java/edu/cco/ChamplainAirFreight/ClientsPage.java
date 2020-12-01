@@ -549,6 +549,7 @@ public class ClientsPage {
     		updateClient.updateC(clientID, name, type, phone);			
     		 
     		//get index of clientID  
+    		//problem here
     		select.viewSelected(clientID);
     		int clientAddressID =select.getAddressID();		
     		
