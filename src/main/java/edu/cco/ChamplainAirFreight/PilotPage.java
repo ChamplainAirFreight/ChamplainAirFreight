@@ -410,7 +410,7 @@ public class PilotPage {
 	 * Kelly May	  
 	 * 11/18/2020
 	 * Modified by Matt Ridgway for editing a pilot 
-	 * 12/1/2020 
+	 * 12/1/2020 Problems with DATE
 	 */
 	private VBox editSelected() {
 		DBViewAllPilot all = new DBViewAllPilot(); // for filling the combo box with Pilots
