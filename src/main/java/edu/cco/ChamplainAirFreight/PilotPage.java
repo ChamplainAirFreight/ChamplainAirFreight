@@ -496,14 +496,7 @@ public class PilotPage {
 		   } catch(Exception ex) {
 			   pilotSelect.requestFocus(); 
 		   }
-		   //clear textFields
-		   txtID.clear();
-		   txtFirstName.clear();
-		   txtLastName.clear();
-		   txtDob.clear();
-		   txtEmployeeNum.clear();
-		   txtDateOfHire.clear();
-		   txtDateLeft.clear();
+		
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	  btnEnter.setOnAction(e->{
@@ -517,6 +510,15 @@ public class PilotPage {
 		  //Date hireDate=txtDateOfHire;
 		  //Date leftDate=txtDateLeft;
 		  //updatePilot.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+		  
+		   //clear textFields
+		   txtID.clear();
+		   txtFirstName.clear();
+		   txtLastName.clear();
+		   txtDob.clear();
+		   txtEmployeeNum.clear();
+		   txtDateOfHire.clear();
+		   txtDateLeft.clear();
 		  
 	  });
 	    

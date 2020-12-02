@@ -10,6 +10,7 @@ import java.util.Arrays;
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBAddFlight;
+import edu.cco.ChamplainAirFreight.Database.Flight.DBUpdateFlight;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBViewAllFlights;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBViewSelectFlight;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewAllPilot;
@@ -328,6 +329,7 @@ public class FlightsPage {
 	 */
 public VBox editFlightPane() {
 DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
+DBUpdateFlight update =new DBUpdateFlight();
 	
     VBox centerBox = new VBox();
     centerBox.setAlignment(Pos.TOP_CENTER);
@@ -360,18 +362,14 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
     TextField txtStartTime = new TextField();  
     Label lblEndTime = new Label("End Time: "); 
     TextField txtEndTime = new TextField();  
-    Label lblPilotName = new Label("Pilot Name: "); 
-    TextField txtPilotName = new TextField();  
-    Label lblStartAirportName = new Label("Start Airport Name: "); 
-    TextField txtStartAirportName = new TextField(); 
-    Label lblStartAirportLoc = new Label("Start Airport Location: "); 
-    TextField txtStartAirportLoc = new TextField();  
-    Label lblEndAirportName = new Label("End Airport Name: "); 
-    TextField txtEndAirportName = new TextField(); 
-    Label lblEndAirportLoc = new Label("End Airport Location: "); 
-    TextField txtEndAirportLoc = new TextField(); 
-    Label lblDistanceHub = new Label("Distance from Hub: "); 
-    TextField txtDistanceHub = new TextField(); 
+    Label lblPilotID = new Label("Pilot ID: "); 
+    TextField txtPilotID = new TextField();  
+    Label lblStartAirport = new Label("Start Airport: "); 
+    TextField txtStartAirport = new TextField();     
+    Label lblEndAirport = new Label("End Airport: "); 
+    TextField txtEndAirport = new TextField(); 
+    
+ 
     
     grid.add(lbID, 0,  0);
     grid.add(txtID, 1,  0);
@@ -381,18 +379,13 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
     grid.add(txtStartTime, 1,  2);
     grid.add(lblEndTime, 0, 3);
     grid.add(txtEndTime, 1, 3);
-    grid.add(lblPilotName, 0, 4);
-    grid.add(txtPilotName,1 ,4);
-    grid.add(lblStartAirportName, 0, 5);
-    grid.add(txtStartAirportName, 1, 5);
-    grid.add(lblStartAirportLoc, 0, 6);
-    grid.add(txtStartAirportLoc, 1, 6);
-    grid.add(lblEndAirportName, 0, 7);
-    grid.add(txtEndAirportName, 1, 7);
-    grid.add(lblEndAirportLoc,  0,  8);
-    grid.add(txtEndAirportLoc, 1, 8);
-    grid.add(lblDistanceHub, 0,  9);
-    grid.add(txtDistanceHub, 1, 9);
+    grid.add(lblPilotID, 0, 4);
+    grid.add(txtPilotID,1 ,4);
+    grid.add(lblStartAirport, 0, 5);
+    grid.add(txtStartAirport, 1, 5);
+    grid.add(lblEndAirport, 0, 6);
+    grid.add(txtEndAirport, 1, 6);
+ 
     
    // fill text with selected flight information
     flightSearch.setOnAction(e->{
@@ -406,13 +399,10 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
     	txtAirID.setText(Integer.toString(view.getAircraftID()));
     	txtStartTime.setText(view.getStartTime());
     	txtEndTime.setText(view.getEndTime()); 
-    	txtPilotName.setText(view.getPilotName());
-    	txtStartAirportName.setText(view.getStartName());
-    	txtStartAirportLoc.setText(view.getStartLoc());
-    	txtEndAirportName.setText(view.getEndName()); 
-    	txtEndAirportLoc.setText(view.getEndLoc()); 
-    	txtDistanceHub.setText(view.getHubDist());
-    	
+    	txtPilotID.setText(Integer.toString(view.getPilotID()));
+    	txtStartAirport.setText(Integer.toString(view.getStartAirport()));
+    	txtEndAirport.setText(Integer.toString(view.getEndAirport())); 
+   
     	
 	   } catch(Exception ex) {
 		   flightSelect.requestFocus(); 
@@ -420,17 +410,29 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
 	   
     });
     centerBox.getChildren().addAll(title, instructions, selection, grid);
+    
+    btnEnter.setOnAction(e->{
+    	
+    	int flightID=Integer.parseInt(txtID.getText());
+    	int airCraftID=Integer.parseInt(txtAirID.getText());
+    	//Date startTime;
+    	//Date endTime;
+    	int pilotID=Integer.parseInt(txtPilotID.getText());
+    	int startAirport =Integer.parseInt(txtStartAirport.getText());
+    	int endAirport =Integer.parseInt(txtEndAirport.getText());
+    	//update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startTime, endTime);
+    	
+    	
+    	
+    });
     //clear textFields
     txtID.clear();
     txtAirID.clear();
     txtStartTime.clear();
     txtEndTime.clear();
-    txtPilotName.clear();
-    txtStartAirportName.clear();
-    txtEndAirportName.clear();
-    txtEndAirportLoc.clear();
-    txtDistanceHub.clear();
-    
+    txtPilotID.clear();
+    txtStartAirport.clear();
+    txtEndAirport.clear();
     return centerBox; 
 	}
 
