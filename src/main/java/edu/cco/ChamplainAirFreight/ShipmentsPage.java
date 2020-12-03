@@ -7,6 +7,7 @@ import java.util.Arrays;
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBAddShipment;
+import edu.cco.ChamplainAirFreight.Database.Shipment.DBDeleteShipment;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewAllShipments;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewSelectShipment;
 import javafx.collections.FXCollections;
@@ -151,7 +152,7 @@ public class ShipmentsPage {
         	 box.setCenter(getClientLBs() );
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deleteShipmentPane());
         });
         btnEnter.setOnAction(e -> {
 
@@ -469,6 +470,40 @@ public class ShipmentsPage {
 	    });
 	    
 	    centerBox.getChildren().addAll(title, instructions, grid); 
+	    return centerBox; 
+	}
+	
+	/**
+	 * deleteShipmentPane - pane for deleting a shipment functionality
+	 * @return
+	 */
+	private VBox deleteShipmentPane() {
+		DBDeleteShipment delete = new DBDeleteShipment(); 
+		DBViewAllShipments view = new DBViewAllShipments(); 
+		VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("Delete a Shipment"); 
+	    Text instructions = new Text("select shipment id you wish to delete, then press Enter");
+	    
+	    GridPane grid = new GridPane();
+	    grid.setAlignment(Pos.CENTER);
+	    Label lblID = new Label("Shipment ID: "); 
+	    ComboBox cbID = new ComboBox(FXCollections.observableArrayList(view.getShipID()));
+	    grid.add(lblID, 0,0);
+	    grid.add(cbID, 1, 0);
+	    
+	    centerBox.getChildren().addAll(title,instructions, grid); 
+	    
+	    btnEnter.setOnAction(e->{
+	    	int shipID = Integer.parseInt(cbID.getValue().toString());
+	    	delete.deleteShipment(shipID);
+	    	cbID.valueProperty().set(null);
+	    }); 
+	    
 	    return centerBox; 
 	}
 	

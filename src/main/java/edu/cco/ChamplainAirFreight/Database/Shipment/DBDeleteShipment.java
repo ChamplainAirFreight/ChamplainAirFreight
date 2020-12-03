@@ -39,9 +39,9 @@ public class DBDeleteShipment extends DBConnection{
 			callable.executeQuery();
 						
 		}catch (SQLException ex) {
-			Logger.getLogger(DBDeleteShipment.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(DBDeleteShipment.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.out.println("delete shipment could not be completed"); 
 		}
 	}
