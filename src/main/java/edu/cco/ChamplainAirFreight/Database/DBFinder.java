@@ -116,7 +116,7 @@ public class DBFinder extends DBConnection {
 			System.out.println("Could not get status ID information"); 
 		}
 	}
-	public ArrayList<Integer> getStausIDs(){
+	public ArrayList<Integer> getStatusIDs(){
 		return statusIDs; 
 	}
 	public ArrayList<String> getStatusVals(){

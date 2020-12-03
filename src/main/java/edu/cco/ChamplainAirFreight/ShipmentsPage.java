@@ -443,6 +443,30 @@ public class ShipmentsPage {
 	    grid.add(lblNotes, 0, 6);
 	    grid.add(txtNotes, 1, 6);
 	    
+	    //actionables
+	    btnEnter.setOnAction(e->{
+	    	//variables for sql stored procedure
+	    	int clientIndex = viewClient.getID().indexOf(cbID.getValue()); 
+	    	int clientID = viewClient.getID().get(clientIndex);   
+	    	Float volume = Float.parseFloat(txtVolume.getText()); 
+	    	Float weight = Float.parseFloat(txtWeight.getText()); 
+	    	int statusIndex = finder.getStatusVals().indexOf(cbStatus.getValue()); 
+	    	int statusID = finder.getStatusIDs().get(statusIndex); 
+	    	Date startDate = Date.valueOf(dpStart.getValue());
+	    	Date endDate = Date.valueOf(dpEnd.getValue()); 
+	    	String notes = txtNotes.getText(); 
+	    	
+	    	//add shipment
+	    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
+	    	//clear entry fields
+	    	cbID.valueProperty().set(null);
+	    	txtVolume.clear(); 
+	    	txtWeight.clear(); 
+	    	cbStatus.valueProperty().set(null);
+	    	dpStart.valueProperty().set(null);
+	    	dpEnd.valueProperty().set(null);
+	    	txtNotes.clear(); 
+	    });
 	    
 	    centerBox.getChildren().addAll(title, instructions, grid); 
 	    return centerBox; 

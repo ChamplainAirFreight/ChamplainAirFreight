@@ -50,7 +50,7 @@ public DBAddShipment() {
 */
 public void insertSQL(int cID, float vol, float weight, int stat, Date start, Date end, String notes) {
 	try {
-		String sql = "{call CAFDB.dbo.Add_Flight(?,?,?,?,?,?,?)}";
+		String sql = "{call CAFDB.dbo.Add_Shipment(?,?,?,?,?,?,?)}";
 		callable=connection.prepareCall(sql);
 		callable.setInt(1,  cID);
 		callable.setFloat(2,  vol);
@@ -64,7 +64,7 @@ public void insertSQL(int cID, float vol, float weight, int stat, Date start, Da
 		callable.executeQuery();
 		
 	} catch (SQLException ex) {
-        System.out.println("Insert Flight Problem !");
+        System.out.println("Insert Shipment Problem !");
     }
 	
 	
