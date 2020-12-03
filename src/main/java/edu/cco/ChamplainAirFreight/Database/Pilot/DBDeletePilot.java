@@ -39,7 +39,7 @@ public class DBDeletePilot extends DBConnection{
 			callable.executeQuery();
 						
 		}catch (SQLException ex) {
-			Logger.getLogger(DBDeletePilot.class.getName()).log(Level.SEVERE, null, ex);
+			//- will not return a result set -- Logger.getLogger(DBDeletePilot.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("delete pilot could not be completed"); 

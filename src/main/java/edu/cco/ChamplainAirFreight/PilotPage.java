@@ -11,6 +11,7 @@ import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBAddPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBDeletePilot;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBUpdatePilot;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewAllPilot;
 import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewSelectPilot;
@@ -161,15 +162,9 @@ public class PilotPage {
         	 box.setCenter(editSelected()); 	
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deletePilotPane());
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
-        btnExit.setOnAction(e -> {
+       btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewPilots page
             box.setCenter(getViewSelected());
@@ -451,13 +446,13 @@ public class PilotPage {
 	    Label lblLastName = new Label("Last Name: "); 
 	    TextField txtLastName = new TextField();  
 	    Label lblDob = new Label("Date of Birth: "); 
-	    TextField txtDob = new TextField();  
+	    DatePicker txtDob = new DatePicker();  
 	    Label lblEmployeeNum = new Label("Employee Number: "); 
 	    TextField txtEmployeeNum = new TextField();  
 	    Label lblDateOfHire = new Label("Date of Hire: "); 
-	    TextField txtDateOfHire = new TextField(); 
+	    DatePicker txtDateOfHire = new DatePicker(); 
 	    Label lblDateLeft = new Label("Date Left CAF: "); 
-	    TextField txtDateLeft = new TextField();  
+	    DatePicker txtDateLeft = new DatePicker();  
 	     
 	    
 	    grid.add(lbID, 0,  0);
@@ -487,10 +482,10 @@ public class PilotPage {
 	    	txtID.setText(Integer.toString(view.getPilotID()));
 	    	txtFirstName.setText(view.getPilotFirstName());
 	    	txtLastName.setText(view.getPilotLastName());
-	    	txtDob.setText(String.valueOf(view.getDateOfBirth()));
+	    	txtDob.valueProperty().set(view.getDateOfBirth().toLocalDate());
 	    	txtEmployeeNum.setText(view.getEmployeeNum());
-	    	txtDateOfHire.setText(String.valueOf(view.getDateOfHire()));
-	    	txtDateLeft.setText(String.valueOf(view.getDateLeftCAF()));
+	    	txtDateOfHire.valueProperty().set(view.getDateOfHire().toLocalDate()); //(String.valueOf(view.getDateOfHire()));
+	    	txtDateLeft.valueProperty().set(view.getDateLeftCAF().toLocalDate());
 	    	   	
 	    	
 		   } catch(Exception ex) {
@@ -515,10 +510,10 @@ public class PilotPage {
 		   txtID.clear();
 		   txtFirstName.clear();
 		   txtLastName.clear();
-		   txtDob.clear();
+		   txtDob.valueProperty().set(null);
 		   txtEmployeeNum.clear();
-		   txtDateOfHire.clear();
-		   txtDateLeft.clear();
+		   txtDateOfHire.valueProperty().set(null);
+		   txtDateLeft.valueProperty().set(null);
 		  
 	  });
 	    
@@ -526,6 +521,7 @@ public class PilotPage {
 	}
 	/**
 	 * addPane - pane for adding a Pilot in the database. 
+	 * Kelly May
 	 */
 	private VBox addPane() {
 		VBox box = new VBox(); 
@@ -591,5 +587,55 @@ public class PilotPage {
 		});
 		    	
 		return box; 
+	}
+	
+	/**
+	 * deletePilotPane() - deletes a pilot from the db
+	 * Kelly May
+	 * 12/3/2020
+	 * @return
+	 */
+	public VBox deletePilotPane() {
+		DBViewAllPilot all = new DBViewAllPilot(); 
+		
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(2,20,2,20));
+		
+		 ArrayList<String> name = new ArrayList<>(); 
+		    for (int i =0; i < all.getFirstName().size(); i++) {
+		    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
+		    }
+		    
+		//title and instructions 
+		Text title = new Text("Delete a Pilot"); 
+		Text instructions = new Text("Select a Pilot you wish to delete, and then press Enter"); 
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(4);
+		
+		Label lblPilotName = new Label("Pilot Name: "); 
+		ComboBox cbPilotName = new ComboBox(FXCollections.observableArrayList(name)); 
+		grid.add(lblPilotName, 0, 0);
+		grid.add(cbPilotName, 1, 0);
+		
+		box.getChildren().addAll(title, instructions, grid); 
+		
+		btnEnter.setOnAction(e->{
+			int index = name.indexOf(cbPilotName.getValue());  //get pilot ID based on index of name
+	    	int id = all.getPilotID().get(index);
+	    	
+	    	DBDeletePilot delete = new DBDeletePilot(); 
+	    	delete.deletePilot(id); //delete pilot based on pilot ID
+	    	
+	    	cbPilotName.valueProperty().set(null);
+	    	deletePilotPane(); //reopen deletePilotPane
+		});
+		
+		return box; 
+		
 	}
 } //End Subclass PilotPage
