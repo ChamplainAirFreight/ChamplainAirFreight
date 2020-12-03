@@ -25,15 +25,15 @@ public class DBAddFlight extends DBConnection {
 		public int pilotID;
 		public int startAirportID;
 		public int endAirportID;
-		public Date start;
-		public Date end;
+		public String start;
+		public String end;
 
 /**
 * Default Constructor
 * Matt Ridgway 
 * 11/12/2020
 */		
-public DBAddFlight(int aID,int pID,int startAirport, int endAirport, Date start, Date end ) {
+public DBAddFlight(int aID,int pID,int startAirport, int endAirport, String start, String end ) {
 	try {
 		this.aircraftID=aID;
 		this.pilotID=pID;
@@ -70,7 +70,7 @@ public DBAddFlight(int aID,int pID,int startAirport, int endAirport, Date start,
 * 
 *
 */
-public void insertSQL(int aID,int pID,int startAirport, int endAirport, Date start, Date end ) {
+public void insertSQL(int aID,int pID,int startAirport, int endAirport, String start, String end ) {
 	try {
 		String sql = "{call CAFDB.dbo.Add_Flight(?,?,?,?,?,?)}";
 		callable=connection.prepareCall(sql);
@@ -78,8 +78,8 @@ public void insertSQL(int aID,int pID,int startAirport, int endAirport, Date sta
 		callable.setInt(2,  pID);
 		callable.setInt(3,  startAirport);
 		callable.setInt(4,  endAirport);
-		callable.setDate(5, start);
-		callable.setDate(6, end);
+		callable.setString(5, start);
+		callable.setString(6, end);
 			
 		//Execute Stored Procedure
 		callable.executeQuery();

@@ -622,11 +622,11 @@ private VBox addPane() {
 		
 		//CURRENTLY TIME GETS LOST BEFORE ENTERING INTO DB!!! 
 		LocalDateTime start = dtStart.getDateTimeValue();
-		LocalTime startTime = start.toLocalTime(); 
-		Date startDate = Date.valueOf(start.toLocalDate());  
-		LocalDateTime end = dtEnd.getDateTimeValue();
-		LocalTime endTime = end.toLocalTime(); 
-		Date endDate = Date.valueOf(end.toLocalDate()); 
+		String startDate = start.toString();  
+		startDate = startDate.replace("T", " "); 
+		LocalDateTime end = dtEnd.getDateTimeValue(); 
+		String endDate = end.toString(); 
+		endDate = endDate.replace("T", " "); 
 		
 		System.out.println("start date: " + startDate); 
 		System.out.println("End date: " + endDate); 
