@@ -485,8 +485,7 @@ public class PilotPage {
 	    	txtDob.valueProperty().set(view.getDateOfBirth().toLocalDate());
 	    	txtEmployeeNum.setText(view.getEmployeeNum());
 	    	txtDateOfHire.valueProperty().set(view.getDateOfHire().toLocalDate()); //(String.valueOf(view.getDateOfHire()));
-	    	txtDateLeft.valueProperty().set(view.getDateLeftCAF().toLocalDate());
-	    	   	
+	    	txtDateLeft.valueProperty().set(view.getDateLeftCAF().toLocalDate());	    	   	
 	    	
 		   } catch(Exception ex) {
 			   pilotSelect.requestFocus(); 
@@ -498,13 +497,13 @@ public class PilotPage {
 		  int pilotID=Integer.parseInt(txtID.getText());
 		  String firstName=txtFirstName.getText();
 		  String lastName=txtLastName.getText();
-		 // DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		//  Date dob=dateFormat.parse(txtDob.getText());
-		 
 		  String eNumber=txtEmployeeNum.getText();
-		  //Date hireDate=txtDateOfHire;
-		  //Date leftDate=txtDateLeft;
-		  //updatePilot.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+		  
+		  Date dob = Date.valueOf(txtDob.getValue());		
+		  Date hireDate=Date.valueOf(txtDateOfHire.getValue());
+		  Date leftDate=Date.valueOf(txtDateLeft.getValue());
+		  
+		  updatePilot.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
 		  
 		   //clear textFields
 		   txtID.clear();
