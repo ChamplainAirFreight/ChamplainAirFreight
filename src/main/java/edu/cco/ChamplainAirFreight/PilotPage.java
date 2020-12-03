@@ -409,7 +409,7 @@ public class PilotPage {
 	 */
 	private VBox editSelected() {
 		DBViewAllPilot all = new DBViewAllPilot(); // for filling the combo box with Pilots
-		DBUpdatePilot updatePilot =new DBUpdatePilot();
+		DBUpdatePilot update =new DBUpdatePilot();
 		
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
@@ -494,17 +494,22 @@ public class PilotPage {
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	  btnEnter.setOnAction(e->{
-		  int pilotID=Integer.parseInt(txtID.getText());
-		  String firstName=txtFirstName.getText();
-		  String lastName=txtLastName.getText();
-		  String eNumber=txtEmployeeNum.getText();
+		  int pilotID = Integer.parseInt(txtID.getText());
+		  String firstName = txtFirstName.getText(); 
+		  String lastName = txtLastName.getText();
+		  String eNumber = txtEmployeeNum.getText();
 		  
 		  Date dob = Date.valueOf(txtDob.getValue());		
-		  Date hireDate=Date.valueOf(txtDateOfHire.getValue());
-		  Date leftDate=Date.valueOf(txtDateLeft.getValue());
-		  
-		  updatePilot.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
-		  
+		  Date hireDate = Date.valueOf(txtDateOfHire.getValue());
+		  Date leftDate; 
+		 try {
+		  leftDate = Date.valueOf(txtDateLeft.getValue()); 
+		  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+		  System.out.println("date left - " + leftDate);
+		  } catch (NullPointerException ex) {
+			  update.updatePilot(pilotID,  firstName,  lastName,  dob,  eNumber,  hireDate, null);
+		  }
+		  		  
 		   //clear textFields
 		   txtID.clear();
 		   txtFirstName.clear();
@@ -512,8 +517,7 @@ public class PilotPage {
 		   txtDob.valueProperty().set(null);
 		   txtEmployeeNum.clear();
 		   txtDateOfHire.valueProperty().set(null);
-		   txtDateLeft.valueProperty().set(null);
-		  
+		   txtDateLeft.valueProperty().set(null);		  
 	  });
 	    
 	    return centerBox; 
