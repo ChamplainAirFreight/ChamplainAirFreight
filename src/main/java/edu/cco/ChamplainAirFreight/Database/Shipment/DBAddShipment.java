@@ -17,7 +17,7 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBAddShipment extends DBConnection{
 	//Variables
 			public CallableStatement callable = null;
-			public int shipmentID;
+			// shipment ID not in stored procedure -- public int shipmentID; 
 			public int clientID;
 			public float volume;
 			public float weight;
@@ -30,36 +30,15 @@ public class DBAddShipment extends DBConnection{
 * Matt Ridgway 
 * 11/12/2020
 */	
-public DBAddShipment(int sID, int cID, float vol, float weight, int stat, Date start, Date end, String notes) {
-	try {
-		this.shipmentID=sID;
-		this.clientID=cID;
-		this.volume=vol;
-		this.weight=weight;
-		this.statusID=stat;
-		this.start=start;
-		this.end=end;
-		this.notes=notes;
-		
-		String storedP = "{call CAFDB.dbo.Add_Shipment}"; 
-		callable = connection.prepareCall(storedP);
-		insertSQL(shipmentID,clientID,volume,weight,statusID,start,end,notes);		
-	}
-	catch (SQLException ex) {
-		Logger.getLogger(DBAddShipment.class.getName()).log(Level.SEVERE, null, ex);
-	} catch(Exception e) {
-		e.printStackTrace();
-		System.out.println("Problem adding New Shipment"); 
+public DBAddShipment() {
+	//just initialize the class
 	}
 	
-	
-}//end constructor
 /**
 * insertSQL Method 
 * Matt Ridgway 
 * 11/11/2020
 * Database structure:
-* 1 ShipmentId int
 * 2 ClientID int
 * 3 ShipmentVolume float
 * 4 ShipmentWieght float
@@ -69,18 +48,17 @@ public DBAddShipment(int sID, int cID, float vol, float weight, int stat, Date s
 * 8 ShipmentNotes String
 *
 */
-public void insertSQL(int sID, int cID, float vol, float weight, int stat, Date start, Date end, String notes) {
+public void insertSQL(int cID, float vol, float weight, int stat, Date start, Date end, String notes) {
 	try {
-		String sql = "{call CAFDB.dbo.Add_Flight(?,?,?,?,?,?,?,?)}";
+		String sql = "{call CAFDB.dbo.Add_Flight(?,?,?,?,?,?,?)}";
 		callable=connection.prepareCall(sql);
-		callable.setInt(1,  sID);
-		callable.setInt(2,  cID);
-		callable.setFloat(3,  vol);
-		callable.setFloat(4,  weight);
-		callable.setInt(5, stat);
-		callable.setDate(6, start);
-		callable.setDate(7, end);
-		callable.setString(8, notes);
+		callable.setInt(1,  cID);
+		callable.setFloat(2,  vol);
+		callable.setFloat(3,  weight);
+		callable.setInt(4, stat);
+		callable.setDate(5, start);
+		callable.setDate(6, end);
+		callable.setString(7, notes);
 			
 		//Execute Stored Procedure
 		callable.executeQuery();

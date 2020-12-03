@@ -19,6 +19,8 @@ public class DBFinder extends DBConnection {
 	public CallableStatement callable = null;
 	private ArrayList<String> airportNames = new ArrayList<>(); 
 	private ArrayList<Integer> airportIDs = new ArrayList<>();
+	private ArrayList<Integer> statusIDs = new ArrayList<>(); 
+	private ArrayList<String> statusVals = new ArrayList<>(); 
 	
 	
 /**
@@ -50,6 +52,7 @@ public class DBFinder extends DBConnection {
 			while(rs.next()) {
 				id = rs.getInt(1); 
 			}
+			rs.close(); 
 		}catch(SQLException ex) {
 			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
@@ -74,6 +77,7 @@ public class DBFinder extends DBConnection {
 				airportIDs.add(rs.getInt(1)); 
 				airportNames.add(rs.getString(2)); 
 			}
+			rs.close(); 
 		}catch(SQLException ex) {
 			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
@@ -87,6 +91,36 @@ public class DBFinder extends DBConnection {
 	}
 	public ArrayList<Integer> getAirportIDs(){
 		return airportIDs; 
+	}
+	
+	/**
+	 * findStatusID - viewAll for the LUStatusID table- will allow user to see actual status values, but enter the 
+	 * integer statusID
+	 */
+	public void findStatusID() {
+		try {
+			String query = "USE[CAFDB] SELECT * FROM "
+					+ "CAFDB.dbo.LUShipmentStatus"; 
+			callable = connection.prepareCall(query); 
+				
+			ResultSet rs = callable.executeQuery(); 
+			while(rs.next()) {
+				statusIDs.add(rs.getInt(1)); 
+				statusVals.add(rs.getString(2)); 
+			}
+			rs.close(); 
+		}catch(SQLException ex) {
+			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Could not get status ID information"); 
+		}
+	}
+	public ArrayList<Integer> getStausIDs(){
+		return statusIDs; 
+	}
+	public ArrayList<String> getStatusVals(){
+		return statusVals; 
 	}
 	
 	

@@ -163,12 +163,7 @@ public class ClientsPage {
         btnDelete.setOnAction(e -> {
         	box.setCenter(deletePane()); 
         });
-        btnEnter.setOnAction(e -> {
-        	
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
+       
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewClient page

@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
+import edu.cco.ChamplainAirFreight.Database.Shipment.DBAddShipment;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewAllShipments;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewSelectShipment;
 import javafx.collections.FXCollections;
@@ -11,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -141,7 +145,7 @@ public class ShipmentsPage {
         	box.setCenter(getViewLBs());
         });
         btnAdd.setOnAction(e -> {              	 
-        	 box.setCenter(getClientLBs() );
+        	 box.setCenter(addShipmentPane());
         });
         btnEdit.setOnAction(e -> {
         	 box.setCenter(getClientLBs() );
@@ -164,20 +168,7 @@ public class ShipmentsPage {
         return box;
     }
 
-    /**
-     * viewShipments - generates a chart of the Shipment information, which can be
-     * added to shipments() will have to call the database Shipments table
-     *
-     * @return
-     */
-    private ScrollPane addShipments() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(360);
-        chart.setMaxHeight(360);
 
-        return chart;
-    }
-  // 
     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
@@ -322,8 +313,7 @@ public class ShipmentsPage {
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
 	    centerBox.setMinHeight(300);
-	    centerBox.setStyle("-fx-background-color: white");
-	    
+	    centerBox.setStyle("-fx-background-color: white");	    
 	    
 	    // Add title and subtitle for instructions
 	    Text title = new Text("View Selected Shipment"); 
@@ -357,8 +347,7 @@ public class ShipmentsPage {
 	    Text txtEnd = new Text(); 
 	    Label lblNotes = new Label("Notes: "); 
 	    Text txtNotes = new Text();  
-	     
-	    
+	     	    
 	    grid.add(lbID, 0,  0);
 	    grid.add(txtID, 1,  0);
 	    grid.add(lbVolume, 0, 1);
@@ -374,7 +363,6 @@ public class ShipmentsPage {
 	    grid.add(lblNotes, 0, 6);
 	    grid.add(txtNotes, 1, 6);
 	   
-	    
 	   // fill text with selected flight information
 	    shipSearch.setOnAction(e->{
 		   try {
@@ -398,6 +386,65 @@ public class ShipmentsPage {
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	    
+	    return centerBox; 
+	}
+	
+	/**
+	 * addShipmentPane - GUI pane for adding in new shipment. calls the DBAddShipment class. 
+	 * @return
+	 */
+	private VBox addShipmentPane() {
+		//addshipment class imports
+		DBFinder finder = new DBFinder(); 
+		finder.findStatusID(); //set the values in the lookup table arraylists 
+		DBAddShipment add = new DBAddShipment(); 
+		DBViewAllClient viewClient = new DBViewAllClient(); 
+		
+		VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("Add a Shipment"); 
+	    Text instructions = new Text("Add shipment information into the fields below, then press Enter");
+	    
+	    //gridpane for information
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    
+	    Label lbID = new Label("Client ID: "); 
+		ComboBox cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getID())); //get usable client IDs
+		Label lbVolume = new Label("Shipment Volume: "); 
+		TextField txtVolume = new TextField(); 
+	    Label lblWeight = new Label("Shipment Weight: "); 
+	    TextField txtWeight = new TextField();  
+	    Label lblStatus = new Label("Shipment Status: "); 
+	    ComboBox cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
+	    Label lblStart = new Label("Start Date: "); 
+	    DatePicker dpStart = new DatePicker();   
+	    Label lblEnd = new Label("End Date: "); 
+	    DatePicker dpEnd = new DatePicker(); 
+	    Label lblNotes = new Label("Notes: "); 
+	    TextField txtNotes = new TextField();  
+	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(cbID, 1,  0);
+	    grid.add(lbVolume, 0, 1);
+	    grid.add(txtVolume, 1,  1);
+	    grid.add(lblWeight, 0,  2);
+	    grid.add(txtWeight, 1,  2);
+	    grid.add(lblStatus, 0, 3);
+	    grid.add(cbStatus, 1, 3);
+	    grid.add(lblStart, 0, 4);
+	    grid.add(dpStart,1 ,4);
+	    grid.add(lblEnd, 0, 5);
+	    grid.add(dpEnd, 1, 5);
+	    grid.add(lblNotes, 0, 6);
+	    grid.add(txtNotes, 1, 6);
+	    
+	    
+	    centerBox.getChildren().addAll(title, instructions, grid); 
 	    return centerBox; 
 	}
 	
