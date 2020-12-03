@@ -39,7 +39,7 @@ public class DBDeleteFlight extends DBConnection{
 			callable.executeQuery();
 						
 		}catch (SQLException ex) {
-			Logger.getLogger(DBDeleteFlight.class.getName()).log(Level.SEVERE, null, ex);
+			//wont return resultset -- Logger.getLogger(DBDeleteFlight.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("delete flight could not be completed"); 

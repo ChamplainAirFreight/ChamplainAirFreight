@@ -10,6 +10,7 @@ import java.util.Arrays;
 import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBAddFlight;
+import edu.cco.ChamplainAirFreight.Database.Flight.DBDeleteFlight;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBUpdateFlight;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBViewAllFlights;
 import edu.cco.ChamplainAirFreight.Database.Flight.DBViewSelectFlight;
@@ -162,14 +163,9 @@ public class FlightsPage {
         	box.setCenter(editFlightPane()); 
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deleteFlightPane()); 
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
+       
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewFlights page
@@ -543,6 +539,7 @@ private VBox getViewSelected() {
 
 /**
  * addPane - pane for adding a flight in the database. 
+ * Kelly May
  */
 private VBox addPane() {
 	VBox box = new VBox(); 
@@ -645,6 +642,47 @@ private VBox addPane() {
 		    		
 	});
 	    	
+	return box; 
+}
+
+/**
+ * deleteFlightPane - deletes a flight from the database'
+ * Kelly May
+ * 12/3/2020
+ * @return
+ */
+public VBox deleteFlightPane() {
+	DBDeleteFlight delete = new DBDeleteFlight(); 
+	DBViewAllFlights view = new DBViewAllFlights(); //for getting combobox of flight IDs
+	
+	VBox box = new VBox(); 
+	box.setAlignment(Pos.CENTER); 
+	box.setSpacing(10);
+	box.setPadding(new Insets(2,20,2,20));
+	
+	//title and instructions 
+	Text title = new Text("Delete Flight"); 
+	Text instructions = new Text("Select the flightID you wish to delete, then press Enter"); 
+	
+	//add input values into a gridpane
+	GridPane grid = new GridPane(); 
+	grid.setAlignment(Pos.CENTER);
+	grid.setHgap(10);
+	grid.setVgap(4);
+	Text txtFlightID = new Text("Flight ID: "); 
+	ComboBox cbFlightID = new ComboBox(FXCollections.observableArrayList(view.getFlightID()));
+	grid.add(txtFlightID, 0, 0);
+	grid.add(cbFlightID, 1, 0);
+	
+	box.getChildren().addAll(title, instructions, grid); 
+	
+	//actionables:
+	btnEnter.setOnAction(e->{
+		int flightID = Integer.parseInt(cbFlightID.getValue().toString()); //get flight ID
+		delete.deleteFlight(flightID); //delete flight
+		cbFlightID.valueProperty().set(null); //clear combobox
+	});
+	
 	return box; 
 }
 
