@@ -8,6 +8,7 @@ import edu.cco.ChamplainAirFreight.Database.DBFinder;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBAddShipment;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBDeleteShipment;
+import edu.cco.ChamplainAirFreight.Database.Shipment.DBUpdateShipment;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewAllShipments;
 import edu.cco.ChamplainAirFreight.Database.Shipment.DBViewSelectShipment;
 import javafx.collections.FXCollections;
@@ -149,7 +150,7 @@ public class ShipmentsPage {
         	 box.setCenter(addShipmentPane());
         });
         btnEdit.setOnAction(e -> {
-        	 box.setCenter(getClientLBs() );
+        	 box.setCenter(editShipmentPane() );
         });
         btnDelete.setOnAction(e -> {
         	box.setCenter(deleteShipmentPane());
@@ -472,7 +473,127 @@ public class ShipmentsPage {
 	    centerBox.getChildren().addAll(title, instructions, grid); 
 	    return centerBox; 
 	}
-	
+	/**
+	 * editShipmentPane - GUI pane for editing a shipment. calls the DBUpdateShipment class. 
+	 * @return
+	 */
+	private VBox editShipmentPane() {
+		
+DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
+DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
+DBUpdateShipment update =new DBUpdateShipment();	//update
+
+	    VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");	    
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("View Selected Shipment"); 
+	    Text instructions = new Text("Select a ShipmentID and hit find shipment."); 
+	    
+	    // add a combobox and fill with all client names
+	    HBox selection = new HBox(); 
+	    selection.setAlignment(Pos.CENTER);
+	   
+	    ComboBox shipSelect = new ComboBox(FXCollections.observableArrayList(all.getShipID())); 
+	   shipSelect.setVisibleRowCount(5); 
+	    
+	    Button shipSearch = new Button("Find Shipment"); 
+	    selection.getChildren().addAll(shipSelect, shipSearch); 
+	    
+	    //grid of information: 
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    Label lbID = new Label("Shipment ID: "); 
+		TextField txtID = new TextField(); 
+		txtID.setEditable(false);
+		Label lbVolume = new Label("Shipment Volume: "); 
+		TextField txtVolume = new TextField(); 
+	    Label lblWeight = new Label("Shipment Weight: "); 
+	    TextField txtWeight = new TextField();  
+	    Label lblStatus = new Label("Shipment Status: "); 
+	    TextField txtStatus = new TextField();  
+	    Label lblStart = new Label("Start Date: "); 
+	    TextField txtStart = new TextField();  
+	    Label lblEnd = new Label("End Date: "); 
+	    TextField txtEnd = new TextField(); 
+	    Label lblNotes = new Label("Notes: "); 
+	    TextField txtNotes = new TextField();  
+	    Label lblClientID =new Label("Client ID");
+	    TextField txtClientID=new TextField();
+	     	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(txtID, 1,  0);
+	    grid.add(lblClientID,0,1);
+	    grid.add(txtClientID, 1,1);
+	    grid.add(lbVolume, 0, 2);
+	    grid.add(txtVolume, 1,  2);
+	    grid.add(lblWeight, 0,  3);
+	    grid.add(txtWeight, 1,  3);
+	    grid.add(lblStatus, 0, 4);
+	    grid.add(txtStatus, 1, 4);
+	    grid.add(lblStart, 0, 5);
+	    grid.add(txtStart,1 ,5);
+	    grid.add(lblEnd, 0, 6);
+	    grid.add(txtEnd, 1, 6);
+	    grid.add(lblNotes, 0, 7);
+	    grid.add(txtNotes, 1, 7);
+	   
+	   // fill text with selected flight information
+	    shipSearch.setOnAction(e->{
+		   try {
+		
+			String index = shipSelect.getValue().toString(); 
+	    	int id = Integer.parseInt(index);  
+	    	view.viewSelected(id);
+
+	    	txtID.setText(Integer.toString(view.getShipID()));
+	    	txtClientID.setText(Integer.toString(view.getClientID()));
+	    	txtVolume.setText(Double.toString(view.getShipVolume()));
+	    	txtWeight.setText(Double.toString(view.getShipWeight()));
+	    	txtStatus.setText(Integer.toString(view.getStatusID()));
+	    	txtStart.setText(String.valueOf(view.getStartDate()));
+	    	txtEnd.setText(String.valueOf(view.getEndDate()));
+	    	txtNotes.setText(view.getNotes());    	   	
+	    	
+		   } catch(Exception ex) {
+			   shipSelect.requestFocus(); 
+		   }
+		   
+	    });
+	    centerBox.getChildren().addAll(title, instructions, selection, grid);
+	    //enter for update
+	    btnEnter.setOnAction(e->{
+	    	
+	    	int cID=Integer.parseInt(txtClientID.getText());
+			float sVol=Float.parseFloat(txtVolume.getText());
+			float sWeight=Float.parseFloat(txtWeight.getText());
+			int sID=Integer.parseInt(txtID.getText());
+			int status=Integer.parseInt(txtStatus.getText());
+			Date sDate = null;
+			Date eDate = null;
+			String sNote=txtNotes.getText();
+			
+			update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);
+
+	    	
+	    	
+	    	
+	    	
+	    	
+	    });
+	    //clear textfields
+
+    	txtID.clear();
+    	txtVolume.clear();
+    	txtWeight.clear();
+    	txtStatus.clear();
+    	txtStart.clear();
+    	txtEnd.clear();
+    	txtNotes.clear();   
+	    return centerBox; 
+	}
 	/**
 	 * deleteShipmentPane - pane for deleting a shipment functionality
 	 * @return

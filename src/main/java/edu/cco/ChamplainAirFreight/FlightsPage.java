@@ -411,8 +411,8 @@ DBUpdateFlight update =new DBUpdateFlight();
     	
     	int flightID=Integer.parseInt(txtID.getText());
     	int airCraftID=Integer.parseInt(txtAirID.getText());
-    	//Date startTime;
-    	//Date endTime;
+    	Date startTime = null;
+    	Date endTime = null;
     	int pilotID=Integer.parseInt(txtPilotID.getText());
     	int startAirport =Integer.parseInt(txtStartAirport.getText());
     	int endAirport =Integer.parseInt(txtEndAirport.getText());
