@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBAddAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBDeleteAircraft;
+import edu.cco.ChamplainAirFreight.Database.Aircraft.DBUpdateAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewSelectAircraft;
 import javafx.collections.FXCollections;
@@ -151,7 +152,7 @@ public class AircraftPage {
             box.setCenter(getAdd()); 
         });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getCraftViewLBs()); 
+        	box.setCenter(editAircraft()); 
         });
         btnDelete.setOnAction(e -> {
         	box.setCenter(getDelete());
@@ -432,6 +433,77 @@ public class AircraftPage {
 		
 		
 		return centerBox; 
+	}
+	private VBox editAircraft() {
+		DBViewAllAircraft all  = new DBViewAllAircraft(); 
+		DBUpdateAircraft update=new DBUpdateAircraft();
+		
+		VBox centerBox = new VBox(); 
+		 centerBox.setAlignment(Pos.TOP_CENTER);
+		 centerBox.setMinHeight(300);
+		 centerBox.setStyle("-fx-background-color: white");
+		 
+		// add title and subtitle instructions 
+		    Text title = new Text("View Selected Aircraft"); 
+		    Text instructions = new Text("Select an Aircraft and hit find aircraft.");
+		    HBox selection = new HBox(); 
+		    selection.setAlignment(Pos.CENTER);
+		    ComboBox airSelect = new ComboBox(FXCollections.observableArrayList(all.getAircraftID())); 
+		    airSelect.setVisibleRowCount(5);
+		    Button airSearch = new Button("Find Aircraft"); 
+		    selection.getChildren().addAll(airSelect, airSearch); 
+		
+		    
+		  //grid of information
+		    GridPane grid = new GridPane(); 
+		    grid.setAlignment(Pos.CENTER); 
+		    Label lbID = new Label("Aircraft ID: "); 
+		  //  Label lbStatusID = new Label("Status ID: "); 
+		    
+		    Label lbModelID = new Label("Model ID: "); 
+		   
+		    
+		    TextField txtID = new TextField(); 
+		 //   TextField txtStatusID = new TextField(); 		 
+		    TextField txtModelID = new TextField(); 
+		  
+		    
+		    grid.add(lbID, 0, 0);
+		    grid.add(lbModelID, 0, 1);
+		   // grid.add(lbStatusID, 0, 2);
+		    grid.add(txtID, 1, 0);
+		    grid.add(txtModelID, 1, 1);
+		  //  grid.add(txtStatusID, 1, 2);
+		
+		    
+		    airSearch.setOnAction(e->{
+		    	DBViewSelectAircraft view = new DBViewSelectAircraft(); 
+		    	int entry = 0; 
+		    	entry = Integer.parseInt(airSelect.getValue().toString());
+		    	view.viewSelected(entry);
+		    	
+		    	txtID.setText(Integer.toString(view.getAircraftID()));
+		    	//txtStatusID.setText(Integer.toString(view.getStatusID()));
+		    	txtModelID.setText(Integer.toString(view.getModelID()));
+		    	
+		    });
+		    
+		    centerBox.getChildren().addAll(title,instructions, selection, grid); 
+		    
+
+		    btnEnter.setOnAction(e->{
+		    	int aID=Integer.parseInt(txtID.getText());
+		    	int modelID=Integer.parseInt(txtModelID.getText());
+		    //	int statusID=Integer.parseInt(txtStatusID.getText());
+		    	update.updateAircraft(aID, modelID);
+		    });
+		    //clear
+		    txtID.clear();
+		   // txtStatusID.clear();
+		    txtModelID.clear();
+		    
+		return centerBox; 
+		
 	}
 	
 	/**

@@ -28,14 +28,13 @@ public class DBUpdateAircraft extends DBConnection {
 	public CallableStatement callable = null;
 	public int modelID;
 	public int aID;
-	private int idStatus;
+	//private int idStatus;
 
 /**
  * Database structure:
  * 1. AircraftID int
  * 2. ACModelID int
- * 3. AircraftStatusID int
- * 
+ *  
 * Default Constructor
 * Matt Ridgway 
 * 11/19/2020
@@ -54,14 +53,14 @@ public DBUpdateAircraft() {
 * @param modelID
 * @param idStatus
 */	
-public void updateAircraft(int aID, int modelID, int idStatus) {
+public void updateAircraft(int aID, int modelID) {
     try {
-    	String storedP = "{call CAFDB.dbo.Update_Aircraft(?,?,?)}"; 
+    	String storedP = "{call CAFDB.dbo.Update_Aircraft(?,?)}"; 
      
         callable = connection.prepareCall(storedP);
         callable.setInt(1, aID);
         callable.setInt(2,modelID);
-        callable.setInt(3, idStatus);
+      
        
         ResultSet rs = callable.executeQuery(); 
 
@@ -82,9 +81,9 @@ public int getaID() {
 	return aID;
 }
 
-public int getIdStatus() {
-	return idStatus;
-}
+//public int getIdStatus() {
+//	return idStatus;
+//}
 
 }//end class
 
