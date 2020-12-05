@@ -2,6 +2,7 @@ package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
 
+import edu.cco.ChamplainAirFreight.Database.User.DBValidateUserPassword;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -58,7 +59,7 @@ public class LoginPage {
 	}
 	
 	private BorderPane login() {
-		BorderPane box = new BorderPane();
+		BorderPane loginBPane = new BorderPane();
 		
 		VBox titleBox = new VBox();
         titleBox.setAlignment(Pos.CENTER);
@@ -107,13 +108,20 @@ public class LoginPage {
         buttonBox.getChildren().addAll(btnLogin, btnForgotPassword, btnExit);
 
         //add title, center, and buttons to clients pane:
-        box.setTop(titleBox);
-        box.setCenter(grid); //call a method to show db of clients  
-        box.setBottom(buttonBox);
+        loginBPane.setTop(titleBox);
+        loginBPane.setCenter(grid); //call a method to show db of clients  
+        loginBPane.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
         btnLogin.setOnAction(e -> {
+        	DBValidateUserPassword validatePassword = new DBValidateUserPassword();
         	
+        	String userName = tfUsername.getText();
+        	String password = tfPassword.getText();
+        	
+        	if(validatePassword.validateUser(userName, password)) {
+        		
+        	}
         });
         
         btnForgotPassword.setOnAction(e -> {
@@ -125,7 +133,7 @@ public class LoginPage {
             
         });
 		
-		return box;
+		return loginBPane;
 	}
 	
 }
