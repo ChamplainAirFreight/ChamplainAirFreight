@@ -2,6 +2,7 @@ package edu.cco.ChamplainAirFreight.Database.User;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
 public class DBValidateUserPassword extends DBConnection {
 	public CallableStatement callable = null;
-	private int userID;
+	private String userName;
 	private String userPassword;
 	private int answer;
 	
@@ -31,16 +32,18 @@ public class DBValidateUserPassword extends DBConnection {
 		}
 	}
 	
-	public boolean validateUser(int uID, String uPass) {
+	public boolean validateUser(String uName, String uPass) {
+		
 		try {
-			String method = "{call CAFDB.dbo.Delete_User(?,?)}"; 
-			userID = uID;
+			String method = "{call CAFDB.dbo.Validate_User_Password(?,?,?)}"; 
+			userName = uName;
 			userPassword = uPass;
 			callable = connection.prepareCall(method); 
-			callable.setInt(1, userID);	
+			callable.setString(1, userName);	
 			callable.setString(2, userPassword);
-			callable.registerOutParameter(3, answer);
-			callable.executeQuery();
+			callable.registerOutParameter(3, Types.NUMERIC);
+			callable.execute();
+			answer = callable.getInt(3);
 			
 			if(answer == 1) {
 				return true;

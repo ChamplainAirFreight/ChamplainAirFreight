@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import edu.cco.ChamplainAirFreight.Database.DBConnection;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
+import edu.cco.ChamplainAirFreight.Database.User.DBValidateUserPassword;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -74,54 +75,58 @@ public class CAF extends Application {
  * @throws Exception
  */
 @Override
-public void start(Stage primaryStage) throws Exception {
-		
-    bPane.setTop(topNavigation()); // navigation buttons in here
+public void start(Stage primaryStage) throws Exception { 
+	
+	bPane.setTop(topNavigation()); // navigation buttons in here
     bPane.setCenter(homePage.getPane()); // change the center pane to each new page
     bPane.setBottom(bottomCreds()); // bottom credentials/copyright
 
-    //button actionables:
-    btonhomepage.setOnAction(e -> {
-        bPane.setCenter(homePage.getPane());
-    });
-
-    btonclients.setOnAction(e -> {
-        bPane.setCenter(clientsPage.getPane());
-    });
-
-
-    btonflights.setOnAction(e -> {
-        // set center to flights page
-        bPane.setCenter(flightsPage.getPane());
-    });
-
-    btonpilot.setOnAction(e -> {
-        // set center to pilot page
-        bPane.setCenter(pilotPage.getPane());
-    });
-    btonshipment.setOnAction(e -> {
-        // set center to shipment page
-        bPane.setCenter(shipPage.getPane());
-    });
-   
-    btonaircraft.setOnAction(e->{
-   	bPane.setCenter(aircraftPage.getPane());
-    });
-
-    btoncontact.setOnAction(e -> {
-        // set center to contact page
-        bPane.setCenter(contactPage.getPane());
-    });
-
-    btonexit.setOnAction(e -> {
-        // add log-out actions
-        Platform.exit(); //leave CAF
-    });
-
-    Scene scene = new Scene(bPane, 1000, 700);
-    primaryStage.setTitle("Champlain Air Freight");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+        //button actionables:
+        btonhomepage.setOnAction(e -> {
+            bPane.setCenter(homePage.getPane());
+        });
+        btonclients.setOnAction(e -> {
+            bPane.setCenter(clientsPage.getPane());
+        });
+        btonflights.setOnAction(e -> {   
+            bPane.setCenter(flightsPage.getPane());
+        });
+        btonpilot.setOnAction(e -> {
+            bPane.setCenter(pilotPage.getPane());
+        });
+        btonshipment.setOnAction(e -> {
+            bPane.setCenter(shipPage.getPane());
+        });       
+        btonaircraft.setOnAction(e->{
+       	bPane.setCenter(aircraftPage.getPane());
+        });
+        btoncontact.setOnAction(e -> {
+            bPane.setCenter(contactPage.getPane());
+        });
+        btonexit.setOnAction(e -> {
+            Platform.exit(); //leave CAF
+        }); 
+	
+	LoginPage login = new LoginPage(); //for logging into Champlain Air Freight 
+			
+	
+	primaryStage.setTitle("Champlain Air Freight");
+	primaryStage.setScene(login.loginStage());
+	primaryStage.show(); 
+	
+	//grab button from LoginPage.java to set an action in order to switch scenes
+	// this needs to be done in CAF, but the page design can be in its own class 
+	login.buttonLog().setOnAction(e->{
+		DBValidateUserPassword validatePassword = new DBValidateUserPassword(); 
+		if(validatePassword.validateUser(login.getUserName(), login.getPassword())) {
+		System.out.println("loading new screen");
+		Scene scene = new Scene(bPane, 1000, 700);
+		primaryStage.setScene(scene); 
+		}
+		else {
+			primaryStage.setScene(login.loginStage());
+		}
+		}); 
 }
 
 /**
