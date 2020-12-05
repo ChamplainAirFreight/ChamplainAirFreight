@@ -1,12 +1,24 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +36,7 @@ import javafx.scene.text.Text;
  * @Assignment Name: caf
  * @Date: Oct 28, 2020
  * @Subclass ClientsPage Description: GUI panes for client information 
+ * 
  */
 //Imports
 //Begin Subclass ClientsPage
@@ -49,6 +62,16 @@ public class ClientsPage {
 
     //passed border pane from CAF. 
     BorderPane bPane = new BorderPane();
+    
+  //make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Client");
+    Button btnEdit = new Button("Edit Client");
+    Button btnDelete = new Button("Delete Client");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
+
     
 
     /**
@@ -93,28 +116,15 @@ public class ClientsPage {
         //add titles to titlebox. 
         titleBox.getChildren().addAll(title, instruct);
 
-        //creating center box to add client information - Pierre
-        HBox centerBox = new HBox();
-        centerBox.setAlignment(Pos.CENTER_LEFT);
-        centerBox.setMinHeight(300);
-        centerBox.setStyle("-fx-background-color: white");
-        centerBox.getChildren().addAll();
+        
         
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setSpacing(20);
 
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Client");
-        Button btnEdit = new Button("Edit Client");
-        Button btnDelete = new Button("Delete Client");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
-
-        //style buttons
+      //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
                 btnCancel).forEach((b) -> {
                     b.setStyle(s.entryButtons);
@@ -132,7 +142,7 @@ public class ClientsPage {
 
         //add title, center, and buttons to clients pane:
         box.setTop(titleBox);
-        box.setCenter(centerBox); //call a method to show db of clients  
+        box.setCenter(getViewSelected()); //call a method to show db of clients  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
@@ -141,99 +151,29 @@ public class ClientsPage {
         //	getClientInfolb(), getClientInfotx()
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            //box.setCenter(getClientLBs()); 
+        	box.setCenter(addPane());
            
          });
         btnEdit.setOnAction(e -> {
-        	box.setCenter(getClientLBs());        	
-        	
- 
+        	//box.setCenter(getClientLBs());   	
+        	box.setCenter(addPaneUpdate());
+        
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deletePane()); 
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
+       
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewClient page
-            box.setCenter(centerBox);
+            box.setCenter(getViewSelected());
         });
 
         return box;
-    }
-
-    /**
-     * will connect to db to view select client information 
-     * @return 
-     */
-    private ScrollPane addClient() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(560);
-        chart.setMaxHeight(360);
-             
-
-        return chart;
-    }
-    /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getClientLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
-    	return hboxlb;
-    }   
-    /*
-     * This function will display the client information for the client page
-     */
-    private VBox getClientInfolb() {
-    	VBox vboxi = new VBox();
-        GridPane gPane = new GridPane();
-        lbName.setStyle(s.clientLB);
-        lbAddress.setStyle(s.clientLB);
-        lbCity.setStyle(s.clientLB);
-        lbZip.setStyle(s.clientLB);
-        lbName = new Label("Client Name");
-    	lbAddress = new Label("Address");
-    	lbCity = new Label("City");
-    	
-    	vboxi.getChildren().addAll(lbName, lbAddress, lbCity, lbState);
-    	return vboxi;
-    }
-    /*
-     * This function will display the client information for the client page
-     */
-    private VBox getClientInfotx() {
-    	VBox vboxi = new VBox();
-    	TextField txName = new TextField();
-    	TextField txAddress = new TextField();
-    	TextField txCity = new TextField();
-    	vboxi.getChildren().addAll(txName, txAddress, txCity, getClientInfotxZip());
-    	return vboxi;
-    }   
-    /*
-     * This function will display the State and zip code information for the client page
-     */
-    private HBox getClientInfotxZip() {
-    	HBox hboxi = new HBox();
-    	lbZip = new Label("Zip");
-    	ComboBox<String> cbState = new ComboBox();
-    	txZip = new TextField();
-		cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
-				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
-				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
-				"VA", "WA", "WV", "WI", "WY");
-    	hboxi.getChildren().addAll(cbState, lbZip,txZip);
-    	return hboxi;
     } 
+ 
+    //getClientInfortxZip, getClientInfotx, getClientInfolb, getClientLBs all incorporated into addPane
     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
@@ -261,16 +201,12 @@ public class ClientsPage {
 		Label City = new Label("City");
 		Label State = new Label("State");
 		Label Zip = new Label("Zip Code");
-//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		hboxv.getChildren().addAll(name, Address, City, State,Zip);
 		return hboxv;
 	}
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * This TextArea will display the output or result for the shipment information 
+	 * This TextArea will display the output or result for the View All shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 
 	 * change the shipment information from this shipment view.
 	 * @return
@@ -280,14 +216,9 @@ public class ClientsPage {
 		ScrollPane box = new ScrollPane();
 		box.setFitToWidth(true);
 		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
-		//texReaOne = new TextArea();
-		//texReaOne.setStyle("-fx-border-color: black");
-		//texReaOne.setFont(new Font("Time New Roman", 10));
-		//texReaOne.setEditable(false);
-		//texReaOne.setWrapText(true);
-		//texReaOne.setPrefSize(900, 500);
-		
+				
 		 GridPane gpane = new GridPane(); 
+		 gpane.setStyle("-fx-background-color: white; -fx-border-color: black"); 
 		 gpane.setPadding(new Insets(2,20,2,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
 		 gpane.setHgap(110);
@@ -315,6 +246,380 @@ public class ClientsPage {
 		
 		 box.setContent(gpane);
 		return box;
+	}
+	
+	/**
+	 * getViewSelected - the initial pane for the ViewClients page. Will hold a feature 
+	 * to view an individual client with the DBViewSelectClient class 
+	 * @return
+	 */
+	private VBox getViewSelected() {
+	DBViewAllClient all = new DBViewAllClient(); // for filling the combo box
+		
+    VBox centerBox = new VBox();
+    centerBox.setAlignment(Pos.TOP_CENTER);
+    centerBox.setMinHeight(300);
+    centerBox.setStyle("-fx-background-color: white");
+    
+    // add title and subtitle instructions 
+    Text title = new Text("View Selected Client"); 
+    Text instructions = new Text("Use the scroll bar to select a client, then click SEARCH. \n"
+    		+ "This will allow you to view all client information for selected client."); 
+    
+    // add a combobox and fill with all client names
+    HBox selection = new HBox(); 
+    selection.setAlignment(Pos.CENTER);
+    ComboBox clientSelect = new ComboBox(FXCollections.observableArrayList(all.getName())); 
+    clientSelect.setVisibleRowCount(5); 
+    Button clientSearch = new Button("Search"); 
+    selection.getChildren().addAll(clientSelect, clientSearch); 
+    
+    //grid of information: 
+    GridPane grid = new GridPane(); 
+    grid.setAlignment(Pos.CENTER);
+    Label lbName = new Label("Client Name: "); 
+    grid.add(lbName, 0, 0);
+    Label lbType = new Label ("Client Type: "); 
+    grid.add(lbType, 0, 1);
+    Label lbPhone = new Label("Client Phone: "); 
+    grid.add(lbPhone, 0, 2);
+    Label lbAddress = new Label("Address: "); 
+    grid.add(lbAddress, 0, 3);
+    Label lbCity = new Label("City: "); 
+    grid.add(lbCity, 0, 4);
+    Label lbState = new Label("State: "); 
+    grid.add(lbState, 0, 5);
+    Label lbZip = new Label("Zip: "); 
+    grid.add(lbZip,  0,  6);
+    
+    Text txtSelectName = new Text(); 
+	grid.add(txtSelectName, 1, 0);
+	Text txtSelectType = new Text(); 
+	grid.add(txtSelectType, 1, 1);
+	Text txtSelectPhone = new Text(); 
+	grid.add(txtSelectPhone, 1, 2);
+	Text txtSelectAddress = new Text(); 
+	grid.add(txtSelectAddress, 1, 3);
+	Text txtSelectCity = new Text(); 
+	grid.add(txtSelectCity, 1, 4);
+	Text txtSelectState = new Text(); 
+	grid.add(txtSelectState, 1, 5);
+	Text txtSelectZip = new Text();
+	grid.add(txtSelectZip, 1,  6); 
+	
+	 
+   clientSearch.setOnAction(e->{
+	   try {
+		DBViewSelectClient view = new DBViewSelectClient(); //to view a select Client
+	   	String entry = clientSelect.getValue().toString();
+    	int id = all.getName().indexOf(entry); //get the index of arraylist where = entry 
+    	view.viewSelected(all.getID().get(id));
+
+    	txtSelectName.setText(view.getClientName());
+    	txtSelectType.setText(view.getClientType());
+    	txtSelectPhone.setText(view.getPhone());
+    	txtSelectAddress.setText(view.getAddress1()+ " " + view.getAddress2());
+    	txtSelectCity.setText(view.getCity());
+    	txtSelectState.setText(view.getState());
+    	txtSelectZip.setText(view.getZip());
+    	
+	   } catch(Exception ex) {
+		   clientSelect.requestFocus(); 
+	   }
+	   
+    });
+    centerBox.getChildren().addAll(title, instructions, selection, grid);
+    
+    return centerBox; 
+	}
+	
+	/**
+	 * addPane - pane for adding a client in the database. 
+	 */
+	private VBox addPane() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(23,30,0,20));
+		//add client classes
+		DBAddClient add = new DBAddClient();
+		//title and instructions 
+		Text title = new Text("Add a new Client"); 
+		Text instructions = new Text("Enter valid information for a client, and then press Enter"); 
+		//labels
+		Label lblName = new Label ("Client Name: "); 
+		Label lblType = new Label ("Client Type ID: "); 
+		Label lblPhone = new Label ("Client Phone Number: "); 
+		Label lblAdd1 = new Label("Address 1: "); 
+		Label lblAdd2 = new Label("Address 2: "); 
+		Label lblCity = new Label("City: "); 
+		Label lblState = new Label("State: "); 
+		Label lblZip = new Label("Zip Code: "); 
+		//style labels
+		Arrays.asList(lblName, lblType, lblPhone, lblAdd1, lblAdd2, lblCity, lblState, lblZip).stream().map((b)->{
+			b.setStyle(s.LBTextColor); 
+			return b; 
+		}); 
+				
+		//entry fields
+		TextField txtName = new TextField(); 
+		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		TextField txtPhone = new TextField(); 
+		TextField txtAdd1 = new TextField(); 
+		TextField txtAdd2 = new TextField(); 
+		TextField txtCity = new TextField(); 
+		ComboBox<String> cbState = new ComboBox();
+    	cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
+				"VA", "WA", "WV", "WI", "WY");
+    	TextField txtZip = new TextField(); 
+    	
+    	//add input values into a gridpane
+    	GridPane grid = new GridPane(); 
+    	grid.setAlignment(Pos.CENTER);
+    	grid.setHgap(10);
+    	grid.setVgap(4);
+    	grid.add(lblName, 0, 0);
+    	grid.add(lblType, 0, 1);
+    	grid.add(lblPhone, 0, 2);
+    	grid.add(lblAdd1, 0, 3);
+    	grid.add(lblAdd2, 0, 4);
+    	grid.add(lblCity, 0, 5);
+    	grid.add(lblState, 0, 6);
+    	grid.add(lblZip, 0, 7);
+    	
+    	grid.add(txtName, 1, 0);
+    	grid.add(spType, 1, 1);
+    	grid.add(txtPhone, 1, 2);
+    	grid.add(txtAdd1, 1, 3);
+    	grid.add(txtAdd2, 1, 4);
+    	grid.add(txtCity, 1, 5);
+    	grid.add(cbState, 1, 6);
+    	grid.add(txtZip, 1, 7);
+    	
+    	box.getChildren().addAll(title,instructions,grid); 
+    	btnEnter.setOnAction(e->{
+    		//variables for SQL stored procedure
+    		String name = txtName.getText(); 
+    		int type = spType.getValue(); 
+    		String phone = txtPhone.getText(); 
+    		//add client
+    		add.insertSQL(name, type, phone);
+    		
+    		//find new clientID for adding address1
+    		DBFinder find = new DBFinder(); 
+    		int id = find.findClientID(name, type, phone); 
+    		System.out.println(id); 
+    		
+    		String add1 = txtAdd1.getText(); 
+    		String add2 = txtAdd2.getText(); 
+    		String city = txtCity.getText(); 
+    		String state = cbState.getValue(); 
+    		int zip = Integer.parseInt(txtZip.getText());
+    		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
+    		
+    		//clear entry fields
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
+    	});
+    	    	
+		return box; 
+	}
+	/**
+ * @Author Name: Matt Ridgway
+ * @Assignment Name: caf
+ * @Date: Nov 28, 2020
+ *  
+ * 
+ * addPaneUpdate - pane for updating a client in the database 
+ */
+	private VBox addPaneUpdate() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(23,30,0,20));
+		//update client classes
+		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist
+		DBViewSelectClient select = new DBViewSelectClient(); 
+		DBUpdateClient updateClient = new DBUpdateClient();
+	
+		
+		//call the get client id from viewAll 
+		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(viewAll.getID()));
+		Button btSelectClient = new Button("Select Client"); 
+		
+		
+		//title and instructions 
+		Text title = new Text("Update Client"); 
+		Text instructions = new Text("Enter Valid Client information and press Enter."); 
+		//labels
+		Label lblClientID =new Label("Client ID: ");
+		Label lblName = new Label ("Client Name: "); 
+		Label lblType = new Label ("Client Type ID: "); 
+		Label lblPhone = new Label ("Client Phone Number: "); 
+	
+		Label lblAdd1 = new Label("Address 1: "); 
+		Label lblAdd2 = new Label("Address 2: "); 
+		Label lblCity = new Label("City: "); 
+		Label lblState = new Label("State: "); 
+		Label lblZip = new Label("Zip Code: "); 
+		//style labels
+		Arrays.asList(lblClientID,lblName, lblType, lblPhone, lblAdd1, lblAdd2, lblCity, lblState, lblZip).stream().map((b)->{
+			b.setStyle(s.LBTextColor); 
+			return b; 
+		}); 
+				
+		//entry fields
+		
+		TextField txtName = new TextField(); 	
+		TextField txtType = new TextField(); 
+		TextField txtPhone = new TextField(); 
+		TextField txtAdd1 = new TextField(); 
+		TextField txtAdd2 = new TextField(); 
+		TextField txtCity = new TextField(); 
+		ComboBox<String> cbState = new ComboBox();
+    	cbState.getItems().addAll("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
+				"VA", "WA", "WV", "WI", "WY");
+    	TextField txtZip = new TextField(); 
+    	    	
+    	//add input values into a gridpane
+    	GridPane grid = new GridPane(); 
+    	grid.setAlignment(Pos.CENTER);
+    	grid.setHgap(11);
+    	grid.setVgap(5);
+    	
+    	grid.add(lblClientID, 0,0);    	
+    	grid.add(lblName, 0, 1);
+    	grid.add(lblType, 0, 2);
+    	grid.add(lblPhone, 0, 3);
+    	grid.add(lblAdd1, 0, 4);
+    	grid.add(lblAdd2, 0, 5);
+    	grid.add(lblCity, 0, 6);
+    	grid.add(lblState, 0, 7);
+    	grid.add(lblZip, 0, 8);
+    	
+    	grid.add(cbClientID, 1,0); //add combobox and select button
+    	grid.add(btSelectClient, 2,0);
+    	grid.add(txtName, 1, 1);
+    	grid.add(txtType, 1, 2);
+    	grid.add(txtPhone, 1, 3);
+    	grid.add(txtAdd1, 1, 4);
+    	grid.add(txtAdd2, 1, 5);
+    	grid.add(txtCity, 1, 6);
+    	grid.add(cbState, 1, 7);
+    	grid.add(txtZip, 1, 8);
+    	    	
+    	box.getChildren().addAll(title,instructions,grid); 
+    	
+    	//set the other textfields to whatever clientID is entered
+    	btSelectClient.setOnAction(e->{
+    		select.viewSelected(cbClientID.getValue());
+    		    		
+    		txtName.setText(select.getClientName());
+    		txtType.setText(select.getClientType()); 
+    		txtPhone.setText(select.getPhone());
+    		txtAdd1.setText(select.getAddress1());
+    		txtAdd2.setText(select.getAddress2());
+    		txtCity.setText(select.getCity());
+    		cbState.setValue(select.getState());
+    		txtZip.setText(select.getZip()); 
+    	});
+    	
+    	
+    	btnEnter.setOnAction(e->{
+    		//variables for SQL stored procedure
+    		int clientID = cbClientID.getValue().intValue();
+    	   
+    		String name = txtName.getText(); 
+    		int type = Integer.parseInt(txtType.getText());     		
+    		String phone = txtPhone.getText(); 
+    		
+    		String add1 = txtAdd1.getText(); 
+    		String add2 = txtAdd2.getText(); 
+    		String city = txtCity.getText(); 
+    		String state = cbState.getValue(); 
+    		int zip = Integer.parseInt(txtZip.getText());
+    		//update client Class
+    		updateClient.updateC(clientID, name, type, phone);			
+    		 
+    		//get index of clientID  
+    		//problem here
+    		select.viewSelected(clientID);
+    		int clientAddressID =select.getAddressID();	
+    		if(clientAddressID == 0) {
+    			DBAddClientAddress addAddress = new DBAddClientAddress(add1, add2, city, state, zip, clientID); 
+    		}
+    		else {
+    		System.out.println("address ID = " + clientAddressID); 
+    		    		
+    		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
+    		//update client address Class
+    		updateClientAddress.updateClientA(clientAddressID, clientID, add1, add2, city, state, zip);
+    		}
+    		//clear text fields    		
+    		cbClientID.valueProperty().set(null);
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
+    	});
+    	    	
+		return box; 
+	}
+
+	/**
+	 * deletePane - method for deleting a client using the DBDeleteClient class
+	 * @return
+	 */
+	private VBox deletePane() {
+		DBViewAllClient view = new DBViewAllClient(); //for arraylist of clients
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(23,30,0,20));
+		box.setMinHeight(300);
+		box.setStyle("-fx-background-color: white");
+		//add client classes
+		DBAddClient add = new DBAddClient();
+		//title and instructions 
+		Text title = new Text("Delete a Client"); 
+		Text instructions = new Text("Select a client, then click DELETE"); 
+		
+		ComboBox cbClients = new ComboBox(FXCollections.observableArrayList(view.getName())); 
+		Button btDelete = new Button("DELETE"); 
+		GridPane gpane = new GridPane(); 
+		gpane.setAlignment(Pos.CENTER);
+		gpane.add(cbClients, 0,0);
+		gpane.add(btDelete, 1, 0);
+		
+		box.getChildren().addAll(title,instructions,gpane); 
+		btDelete.setOnAction(e->{
+			DBDeleteClient delete = new DBDeleteClient(); 
+			DBDeleteClientAddress deleteAdd = new DBDeleteClientAddress(); 
+			//get client ID based on name
+			int index = view.getName().indexOf(cbClients.getValue()); 
+			int id = view.getID().get(index); 
+			delete.deleteClient(id);
+			// deleteAdd.deleteClientAddress(id); 
+			// need to delete client address by clientaddressid, not clientid
+			
+			//clear combobox
+			cbClients.valueProperty().set(null);
+		});
+		
+		return box; 
+		
 	}
   
 } //End Subclass ClientsPage

@@ -1,10 +1,26 @@
 package edu.cco.ChamplainAirFreight;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
+import edu.cco.ChamplainAirFreight.Database.DBFinder;
+import edu.cco.ChamplainAirFreight.Database.Client.DBAddClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBAddPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBDeletePilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBUpdatePilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewAllPilot;
+import edu.cco.ChamplainAirFreight.Database.Pilot.DBViewSelectPilot;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -51,6 +67,15 @@ public class PilotPage {
 
     //passed border pane from CAF. 
     BorderPane bPane = new BorderPane();
+    
+  //make buttons
+    Button btnView = new Button("View");
+    Button btnAdd = new Button("Add Pilot");
+    Button btnEdit = new Button("Edit Pilot");
+    Button btnDelete = new Button("Delete Pilot");
+    Button btnEnter = new Button("Enter");
+    Button btnCancel = new Button("Cancel");
+    Button btnExit = new Button("Exit");
 
     /**
      * constructor pulls the border pane from CAF
@@ -99,17 +124,11 @@ public class PilotPage {
 
         //create button HBox:
         HBox buttonBox = new HBox();
+        buttonBox.setPadding(new Insets(20,0,0,0));
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
 
-        //make buttons
-        Button btnView = new Button("View");
-        Button btnAdd = new Button("Add Pilot");
-        Button btnEdit = new Button("Edit Pilot");
-        Button btnDelete = new Button("Delete Pilot");
-        Button btnEnter = new Button("Enter");
-        Button btnCancel = new Button("Cancel");
-        Button btnExit = new Button("Exit");
+        
 
         //style buttons
         Arrays.asList(btnView, btnAdd, btnEdit, btnDelete, btnEnter,
@@ -129,7 +148,7 @@ public class PilotPage {
 
         //add title, center, and buttons to pilots pane:
         box.setTop(titleBox);
-        box.setCenter(viewPilots()); //call a method to show db of pilots  
+        box.setCenter(getViewSelected()); //call a method to show db of pilots  
         box.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
@@ -137,24 +156,18 @@ public class PilotPage {
         	box.setCenter(getViewLBs());
         });
         btnAdd.setOnAction(e -> {
-            box.setCenter(getClientLBs()); 
+            box.setCenter(addPane()); 
         });
         btnEdit.setOnAction(e -> {
-        	 box.setCenter(getClientLBs()); 	
+        	 box.setCenter(editSelected()); 	
         });
         btnDelete.setOnAction(e -> {
-
+        	box.setCenter(deletePilotPane());
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
-        btnExit.setOnAction(e -> {
+       btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewPilots page
-            box.setCenter(viewPilots());
+            box.setCenter(getViewSelected());
         });
 
         return box;
@@ -189,6 +202,8 @@ public class PilotPage {
      */
     private VBox getClientInfolb() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(20);
+    	vboxi.setPadding(new Insets(23,30,0,20));
         GridPane gPane = new GridPane();
 		 lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
@@ -205,6 +220,8 @@ public class PilotPage {
      */
     private VBox getClientInfotx() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(12);
+    	vboxi.setPadding(new Insets(20,10,0,20));
     	 txfname = new TextField();
     	 txlname = new TextField();
     	 txbirthdate = new TextField();
@@ -259,6 +276,7 @@ public class PilotPage {
 		box.setStyle("-fx-background-color: white; -fx-border-color: black");
 		
 		GridPane gpane = new GridPane(); 
+		gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
 		gpane.setPadding(new Insets(2,20,2,20));
 		gpane.setAlignment(Pos.TOP_CENTER);
 		gpane.setHgap(110);
@@ -285,5 +303,342 @@ public class PilotPage {
 		
 		box.setContent(gpane); //add all the pilot info to the scrollpane
 		return box; 
+	}
+	
+	/**
+	 * getViewSelected - the initial pane for the Pilot Page. Will hold a feature to view an individual 
+	 * pilot with the DBViewSelectPilot class
+	 * Kelly May
+	 * 11/18/2020
+	 */
+	private VBox getViewSelected() {
+		DBViewAllPilot all = new DBViewAllPilot(); // for filling the combo box
+		
+	    VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("View Selected Pilot"); 
+	    Text instructions = new Text("Use the scroll bar to select a Pilot Name, then click SEARCH. \n"
+	    		+ "This will allow you to view all pilot information for selected pilot."); 
+	    
+	    // add a combobox and fill with all client names
+	    HBox selection = new HBox(); 
+	    selection.setAlignment(Pos.CENTER);
+	    //make arraylist with first and last names together
+	    ArrayList<String> name = new ArrayList<>(); 
+	    for (int i =0; i < all.getFirstName().size(); i++) {
+	    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
+	    }
+	    ComboBox pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
+	    pilotSelect.setVisibleRowCount(5); 
+	    
+	    Button pilotSearch = new Button("Search"); 
+	    selection.getChildren().addAll(pilotSelect, pilotSearch); 
+	    
+	    //grid of information: 
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    Label lbID = new Label("Pilot ID: "); 
+		Text txtID = new Text(); 
+		Label lbFirstName = new Label("First Name: "); 
+		Text txtFirstName = new Text(); 
+	    Label lblLastName = new Label("Last Name: "); 
+	    Text txtLastName = new Text();  
+	    Label lblDob = new Label("Date of Birth: "); 
+	    Text txtDob = new Text();  
+	    Label lblEmployeeNum = new Label("Employee Number: "); 
+	    Text txtEmployeeNum = new Text();  
+	    Label lblDateOfHire = new Label("Date of Hire: "); 
+	    Text txtDateOfHire = new Text(); 
+	    Label lblDateLeft = new Label("Date Left CAF: "); 
+	    Text txtDateLeft = new Text();  
+	     
+	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(txtID, 1,  0);
+	    grid.add(lbFirstName, 0, 1);
+	    grid.add(txtFirstName, 1,  1);
+	    grid.add(lblLastName, 0,  2);
+	    grid.add(txtLastName, 1,  2);
+	    grid.add(lblDob, 0, 3);
+	    grid.add(txtDob, 1, 3);
+	    grid.add(lblEmployeeNum, 0, 4);
+	    grid.add(txtEmployeeNum,1 ,4);
+	    grid.add(lblDateOfHire, 0, 5);
+	    grid.add(txtDateOfHire, 1, 5);
+	    grid.add(lblDateLeft, 0, 6);
+	    grid.add(txtDateLeft, 1, 6);
+	   
+	    
+	   // fill text with selected flight information
+	    pilotSearch.setOnAction(e->{
+		   try {
+			DBViewSelectPilot view = new DBViewSelectPilot(); //to view a select flight
+			int index = name.indexOf(pilotSelect.getValue()); 
+	    	int id = all.getPilotID().get(index); 
+	    	view.viewSelected(id);
+
+	    	txtID.setText(Integer.toString(view.getPilotID()));
+	    	txtFirstName.setText(view.getPilotFirstName());
+	    	txtLastName.setText(view.getPilotLastName());
+	    	txtDob.setText(String.valueOf(view.getDateOfBirth()));
+	    	txtEmployeeNum.setText(view.getEmployeeNum());
+	    	txtDateOfHire.setText(String.valueOf(view.getDateOfHire()));
+	    	txtDateLeft.setText(String.valueOf(view.getDateLeftCAF()));
+	    	   	
+	    	
+		   } catch(Exception ex) {
+			   pilotSelect.requestFocus(); 
+		   }
+		   
+	    });
+	    centerBox.getChildren().addAll(title, instructions, selection, grid);
+	    
+	    return centerBox; 
+	}
+	/**
+	 * editSelected Used to select a pilot and import the textfields 
+	 * Kelly May	  
+	 * 11/18/2020
+	 * Modified by Matt Ridgway for editing a pilot 
+	 * 12/1/2020 Problems with DATE
+	 */
+	private VBox editSelected() {
+		DBViewAllPilot all = new DBViewAllPilot(); // for filling the combo box with Pilots
+		DBUpdatePilot update =new DBUpdatePilot();
+		
+	    VBox centerBox = new VBox();
+	    centerBox.setAlignment(Pos.TOP_CENTER);
+	    centerBox.setMinHeight(300);
+	    centerBox.setStyle("-fx-background-color: white");
+	    
+	    
+	    // Add title and subtitle for instructions
+	    Text title = new Text("Edit Selected Pilot"); 
+	    Text instructions = new Text("Select a Pilot to edit."); 
+	    
+	   
+	    HBox selection = new HBox(); 
+	    selection.setAlignment(Pos.CENTER);
+	    //make arraylist with first and last names together
+	    ArrayList<String> name = new ArrayList<>(); 
+	    for (int i =0; i < all.getFirstName().size(); i++) {
+	    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
+	    }
+	    ComboBox pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
+	    pilotSelect.setVisibleRowCount(5); 
+	    
+	    Button pilotSearch = new Button("Select Pilot"); 
+	    selection.getChildren().addAll(pilotSelect, pilotSearch); 
+	    
+	    //grid of information: 
+	    GridPane grid = new GridPane(); 
+	    grid.setAlignment(Pos.CENTER);
+	    Label lbID = new Label("Pilot ID: "); 
+		TextField txtID = new TextField(); 
+		txtID.setEditable(false);// So this text field can't be edited
+		Label lbFirstName = new Label("First Name: "); 
+		TextField txtFirstName = new TextField(); 
+	    Label lblLastName = new Label("Last Name: "); 
+	    TextField txtLastName = new TextField();  
+	    Label lblDob = new Label("Date of Birth: "); 
+	    DatePicker txtDob = new DatePicker();  
+	    Label lblEmployeeNum = new Label("Employee Number: "); 
+	    TextField txtEmployeeNum = new TextField();  
+	    Label lblDateOfHire = new Label("Date of Hire: "); 
+	    DatePicker txtDateOfHire = new DatePicker(); 
+	    Label lblDateLeft = new Label("Date Left CAF: "); 
+	    DatePicker txtDateLeft = new DatePicker();  
+	     
+	    
+	    grid.add(lbID, 0,  0);
+	    grid.add(txtID, 1,  0);
+	    grid.add(lbFirstName, 0, 1);
+	    grid.add(txtFirstName, 1,  1);
+	    grid.add(lblLastName, 0,  2);
+	    grid.add(txtLastName, 1,  2);
+	    grid.add(lblDob, 0, 3);
+	    grid.add(txtDob, 1, 3);
+	    grid.add(lblEmployeeNum, 0, 4);
+	    grid.add(txtEmployeeNum,1 ,4);
+	    grid.add(lblDateOfHire, 0, 5);
+	    grid.add(txtDateOfHire, 1, 5);
+	    grid.add(lblDateLeft, 0, 6);
+	    grid.add(txtDateLeft, 1, 6);
+	   
+	    
+	   // fill text with selected pilot information
+	    pilotSearch.setOnAction(e->{
+		   try {
+			DBViewSelectPilot view = new DBViewSelectPilot(); //to view a select pilot
+			int index = name.indexOf(pilotSelect.getValue()); 
+	    	int id = all.getPilotID().get(index); 
+	    	view.viewSelected(id);
+
+	    	txtID.setText(Integer.toString(view.getPilotID()));
+	    	txtFirstName.setText(view.getPilotFirstName());
+	    	txtLastName.setText(view.getPilotLastName());
+	    	txtDob.valueProperty().set(view.getDateOfBirth().toLocalDate());
+	    	txtEmployeeNum.setText(view.getEmployeeNum());
+	    	txtDateOfHire.valueProperty().set(view.getDateOfHire().toLocalDate()); //(String.valueOf(view.getDateOfHire()));
+	    	txtDateLeft.valueProperty().set(view.getDateLeftCAF().toLocalDate());	    	   	
+	    	
+		   } catch(Exception ex) {
+			   pilotSelect.requestFocus(); 
+		   }
+		
+	    });
+	    centerBox.getChildren().addAll(title, instructions, selection, grid);
+	  btnEnter.setOnAction(e->{
+		  int pilotID = Integer.parseInt(txtID.getText());
+		  String firstName = txtFirstName.getText(); 
+		  String lastName = txtLastName.getText();
+		  String eNumber = txtEmployeeNum.getText();
+		  
+		  Date dob = Date.valueOf(txtDob.getValue());		
+		  Date hireDate = Date.valueOf(txtDateOfHire.getValue());
+		  Date leftDate; 
+		 try {
+		  leftDate = Date.valueOf(txtDateLeft.getValue()); 
+		  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+		  System.out.println("date left - " + leftDate);
+		  } catch (NullPointerException ex) {
+			  update.updatePilot(pilotID,  firstName,  lastName,  dob,  eNumber,  hireDate, null);
+		  }
+		  		  
+		   //clear textFields
+		   txtID.clear();
+		   txtFirstName.clear();
+		   txtLastName.clear();
+		   txtDob.valueProperty().set(null);
+		   txtEmployeeNum.clear();
+		   txtDateOfHire.valueProperty().set(null);
+		   txtDateLeft.valueProperty().set(null);		  
+	  });
+	    
+	    return centerBox; 
+	}
+	/**
+	 * addPane - pane for adding a Pilot in the database. 
+	 * Kelly May
+	 */
+	private VBox addPane() {
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(2,20,2,20));
+		
+		DBFinder finder = new DBFinder(); 
+		
+		
+		//title and instructions 
+		Text title = new Text("Add a new Pilot"); 
+		Text instructions = new Text("Enter valid information for a Pilot, and then press Enter"); 
+		//labels
+		Label lblFirstName = new Label ("First Name: "); 
+		Label lblLastName = new Label ("Last Name: "); 
+		Label lblDOB = new Label ("Date of Birth: "); 
+		Label lblEmpNum = new Label("Employee Number: "); 
+				
+		//style labels
+		Arrays.asList(lblFirstName, lblLastName, lblDOB, lblEmpNum).stream().map((b)->{
+			b.setStyle(s.clientLB); 
+			return b; 
+		}); 
+				
+		//entry fields
+		TextField txtFirstName = new TextField(); 
+		TextField txtLastName = new TextField(); 
+		DatePicker dpDOB = new DatePicker(); 
+		TextField txtEmpNum = new TextField(); 
+		
+		//add input values into a gridpane
+		GridPane grid = new GridPane(); 
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(4);
+		grid.add(lblFirstName, 0, 0);
+		grid.add(lblLastName, 0, 1);
+		grid.add(lblDOB, 0, 2);
+		grid.add(lblEmpNum, 0, 3);
+				
+		grid.add(txtFirstName, 1, 0);
+		grid.add(txtLastName, 1, 1);
+		grid.add(dpDOB, 1, 2);
+		grid.add(txtEmpNum, 1, 3);
+			
+		box.getChildren().addAll(title,instructions,grid); 
+		btnEnter.setOnAction(e->{
+			//variables for SQL stored procedure
+			String fName = txtFirstName.getText(); 
+			String lName = txtLastName.getText(); 
+			Date dob = Date.valueOf(dpDOB.getValue());
+			String empNum = txtEmpNum.getText(); 
+			Date dateHire = Date.valueOf(java.time.LocalDate.now()); //today's date auto added
+						
+			//add pilot
+			DBAddPilot addPilot = new DBAddPilot(fName, lName, dob, empNum, dateHire); 		
+			//clear entry fields
+			txtFirstName.clear(); 
+			txtLastName.clear(); 
+			dpDOB.valueProperty().set(null);
+			txtEmpNum.clear(); 
+		});
+		    	
+		return box; 
+	}
+	
+	/**
+	 * deletePilotPane() - deletes a pilot from the db
+	 * Kelly May
+	 * 12/3/2020
+	 * @return
+	 */
+	public VBox deletePilotPane() {
+		DBViewAllPilot all = new DBViewAllPilot(); 
+		
+		VBox box = new VBox(); 
+		box.setAlignment(Pos.CENTER); 
+		box.setSpacing(10);
+		box.setPadding(new Insets(2,20,2,20));
+		
+		 ArrayList<String> name = new ArrayList<>(); 
+		    for (int i =0; i < all.getFirstName().size(); i++) {
+		    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
+		    }
+		    
+		//title and instructions 
+		Text title = new Text("Delete a Pilot"); 
+		Text instructions = new Text("Select a Pilot you wish to delete, and then press Enter"); 
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(4);
+		
+		Label lblPilotName = new Label("Pilot Name: "); 
+		ComboBox cbPilotName = new ComboBox(FXCollections.observableArrayList(name)); 
+		grid.add(lblPilotName, 0, 0);
+		grid.add(cbPilotName, 1, 0);
+		
+		box.getChildren().addAll(title, instructions, grid); 
+		
+		btnEnter.setOnAction(e->{
+			int index = name.indexOf(cbPilotName.getValue());  //get pilot ID based on index of name
+	    	int id = all.getPilotID().get(index);
+	    	
+	    	DBDeletePilot delete = new DBDeletePilot(); 
+	    	delete.deletePilot(id); //delete pilot based on pilot ID
+	    	
+	    	cbPilotName.valueProperty().set(null);
+	    	deletePilotPane(); //reopen deletePilotPane
+		});
+		
+		return box; 
+		
 	}
 } //End Subclass PilotPage
