@@ -25,10 +25,14 @@ import java.util.logging.Logger;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.thoughtworks.qdox.model.JavaModel;
 /**
@@ -39,26 +43,27 @@ import com.thoughtworks.qdox.model.JavaModel;
  */
 //Begin Subclass ContactPage
 public class ContactPage {
-	
+
     //variables
     BorderPane bPane = new BorderPane();
     
 	//TextArea for the view - By Pierre
 	static TextArea texReaOne = new TextArea();
+	
+    //make buttons
+    static Button btnCancel = new Button("Cancel");
+    static Button btnSend = new Button("Send");
+    static Button btnExit = new Button("Exit");
     
 	// Client address labels - By Pierre
 	static Label lbfname;
 	static Label lblname;
-	static Label lbcompany;
 	static Label lbsubject;
-	static Label lbmessage;
 
 	//Text field - By Pierre
 	static TextField txfname;
 	static TextField txlname;
-	static TextField txcompany;
 	static TextField txsubject;
-	static TextField txmessage;
 
     //classes
     Styles s = new Styles();
@@ -72,11 +77,7 @@ public class ContactPage {
         bPane = bp;
     }
 
-    /**
-     * getPane - this will call the Contact pane into the CAF main page.
-     *
-     * @return
-     */
+
     public VBox getPane() {
         VBox vbox = new VBox();
         vbox.getChildren().add(contacts());
@@ -114,25 +115,81 @@ public class ContactPage {
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setMinHeight(300);
         centerBox.setStyle("-fx-background-color: white");
-        centerBox.getChildren().addAll( getContactLBs());
+      // centerBox.getChildren().addAll(getEmail());
   
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setMinHeight(50);
-        buttonBox.getChildren().addAll( getContactButtons());
+       buttonBox.getChildren().addAll(getContactButtons());
         
         //add title and center to pane:
         box.setTop(titleBox);
         box.setCenter(centerBox);
         box.setBottom(buttonBox);
         
-      //  centerBox.getChildren().addAll(getClientLBs());
+        centerBox.getChildren().addAll(getContactLBs() );
+
+        /**
+         * This send button will activate when user click send. Then the user's email will be send to
+         * a designated email address
+         */
+        btnSend.setOnAction(e -> {
+        	
+    		System.out.println("Preparing to send your email");
+    		final String calEmail = "champlainairfreight@gmail.com";
+    		final String password = "Admin@100";
+    		
+    		Properties emailProperty = new Properties();
+    		emailProperty.put("mail.smtp.auth", "true");
+    		emailProperty.put("mail.smtp.starttls.enable", "true");
+    		emailProperty.put("mail.smtp.host", "smtp.gmail.com");
+    		emailProperty.put("mail.smtp.port", "587");
+    		
+    		Session session = Session.getInstance(emailProperty, new Authenticator() {
+    		@Override
+    			protected PasswordAuthentication getPasswordAuthentication() {
+    				return new PasswordAuthentication(calEmail, password);
+    			}
+    		});
+    		
+    		Message mymessage = new MimeMessage(session);
+    		String fName = String.valueOf(txfname.getText());
+    		String lName = String.valueOf(txlname.getText());
+    		String subjk = String.valueOf(txsubject.getText());
+    		
+
+    		try {
+    			mymessage.setFrom(new InternetAddress(calEmail));
+    			mymessage.addRecipient(Message.RecipientType.TO, new InternetAddress(calEmail));
+    			mymessage.setSubject(subjk);
+    			
+    			Multipart parts = new MimeMultipart();	
+    			//Body part
+    			MimeBodyPart bodyText = new MimeBodyPart();
+    			
+    			bodyText.setText("This is a NEW TEST to see if the email is delevered");
+    			parts.addBodyPart(bodyText);
+    			mymessage.setContent(parts);
+    			
+    			Transport.send(mymessage);
+    		} catch(Exception ex) {
+    			ex.printStackTrace();
+    		}
+
+    		System.out.println("Your email was sent successfully");
+    		
+			 txfname.clear();
+			 txlname.clear();
+			 txsubject.clear();
+			 texReaOne.clear();  
+
+        });
        
         return box;
     }
 
-    private ScrollPane viewContact() {
+	private ScrollPane viewContact() {
         ScrollPane chart = new ScrollPane();
         chart.setMinHeight(400);
         chart.setMaxHeight(400);
@@ -147,13 +204,9 @@ public class ContactPage {
     private HBox getContactButtons() {
     	HBox hboxcb = new HBox();
 
-        //make buttons
-        Button btnCancel = new Button("Cancel");
-        Button btnSubmit = new Button("Send");
-        Button btnExit = new Button("Exit");
         
         //style buttons
-        Arrays.asList(  btnCancel,btnSubmit, btnExit).forEach((b) -> {
+        Arrays.asList(  btnCancel,btnSend, btnExit).forEach((b) -> {
                     b.setStyle(s.entryButtons);
                     b.setMinHeight(30);
                     b.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 14));
@@ -166,7 +219,9 @@ public class ContactPage {
     	hboxcb.setAlignment(Pos.CENTER);
     	
         //add buttons to button HBox
-        hboxcb.getChildren().addAll(btnCancel,btnSubmit, btnExit);   	
+        hboxcb.getChildren().addAll(btnCancel,btnSend, btnExit);   
+     
+
     	return hboxcb;
     }
     /** By - Pierre
@@ -179,6 +234,7 @@ public class ContactPage {
     	hboxlb.setStyle("-fx-background-color: white");
     	hboxlb.setAlignment(Pos.CENTER_LEFT);
     	hboxlb.getChildren().addAll(getContactInfolb(),getContactInfotx());
+    	
     	return hboxlb;
     }   
     /**By - Pierre
@@ -189,11 +245,9 @@ public class ContactPage {
     	VBox vboxi = new VBox();
         lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
-		 lbcompany = new Label("Company ");
 		 lbsubject = new Label("Subject");
-		 lbmessage  = new Label("Message");
     	
-    	vboxi.getChildren().addAll(lbfname,lblname,lbcompany,lbsubject,lbmessage);
+    	vboxi.getChildren().addAll(lbfname,lblname,lbsubject);
     	return vboxi;
     }
   /**By - Pierre
@@ -204,10 +258,8 @@ public class ContactPage {
     	VBox vboxi = new VBox();
     	 txfname = new TextField();
     	 txlname = new TextField();
-    	 txcompany = new TextField();
     	 txsubject = new TextField();
-    	 txmessage = new TextField();
-    	vboxi.getChildren().addAll(txfname,txlname ,txcompany, txsubject,txmessage, getTextAreaOne());
+    	vboxi.getChildren().addAll(txfname,txlname, txsubject, getTextAreaOne());
     	return vboxi;
     } 
 	/**By - Pierre
@@ -223,55 +275,23 @@ public class ContactPage {
 		hboxt.setAlignment(Pos.CENTER);
 		texReaOne.setStyle("-fx-border-color: black");
 		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(false);
+		texReaOne.setEditable(true);
 		texReaOne.setWrapText(true);
 		texReaOne.setPrefSize(900, 500);
 		hboxt.getChildren().addAll(texReaOne);
 		return hboxt;
 	}
-	private HBox getEmail(String recepient) {
-		HBox hboxe = new HBox();
-	//	String champlainairfreight = "pierresystem1@gmail.com";
-		String calEmail = "champlainairfreight@gmail.com";
-		String password = "Admin@100";
-		
-		Properties emailProperty = new Properties();
-		emailProperty.put("mail.smtp.auth", "true");
-		emailProperty.put("mail.smtp.starttls.enable", "true");
-		emailProperty.put("mail.smtp.host", "smtp.gmail.com");
-		emailProperty.put("mail.smtp.port", "587");
-		
-		Session session = Session.getInstance(emailProperty, new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(calEmail, password);
-			}
-		});
-		
-		Message mymessage = calMessage(session, calEmail, recepient);
-		//calMessage(session, calEmail, recepient);
-		
-		return hboxe;
+	private HBox getMessage() {
+		HBox hboxt = new HBox();
+	//	texReaOne = new TextArea();
+		hboxt.setAlignment(Pos.CENTER);
+		texReaOne.setStyle("-fx-border-color: black");
+		texReaOne.setFont(new Font("Time New Roman", 10));
+		texReaOne.setEditable(true);
+		texReaOne.setWrapText(true);
+		texReaOne.setPrefSize(900, 500);
+		hboxt.getChildren().addAll(texReaOne);
+		return hboxt;
 	}
-	private static Message calMessage(Session session, String calEmail, String recepient) {
-		Message mymessage = new MimeMessage(session);
-		try {
-			mymessage.setFrom(new InternetAddress(calEmail));
-			mymessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-			//mymessage.setSubject(txsubject);
-		} catch(Exception ex) {
-			Logger.getLogger(ContactPage.class.getName()).log(Level.SEVERE, null, ex);
-			//e.printStackTrace();
-		}
-		return null;
-	}
-//	private static calMessage(Session session, String calEmail) {
-//		try {
-//		Message mymessage = new MimeMessage(session);
-//		mymessage.setFrom(new InternetAddress(calEmail));
-//		}catch(Exception ex) {
-//			Logger.getLogger(JavaMailUtil.class.getName()).log(Level.SEVERE, null, ex);
-//		}
-//		return null;
-//	}
 
 } //End Subclass ContactPage

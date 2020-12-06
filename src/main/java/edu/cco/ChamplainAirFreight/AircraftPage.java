@@ -252,10 +252,6 @@ public class AircraftPage {
 		 lbcraftModel = new Label("AirCraft Model");
 		 lbcraftRang = new Label("AirCraft Range");
 		 lbcraftRC = new Label("Range Clasification");
-//		name.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		Address.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		City.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
-//		State.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 10));
 		hboxv.getChildren().addAll(lbcraftID, lbStatusID, lbcraftMake, lbcraftModel, lbcraftRang, lbcraftRC);
 		return hboxv;
 	}

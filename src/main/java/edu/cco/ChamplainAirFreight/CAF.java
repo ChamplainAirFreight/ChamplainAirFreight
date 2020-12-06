@@ -34,7 +34,9 @@ import java.io.IOException;
  */
 public class CAF extends Application {
 
-	   BorderPane bPane = new BorderPane();
+	   private static final String JavaMailUtil = null;
+
+	BorderPane bPane = new BorderPane();
 
 	    //Buttons:
 	    static Button btonhomepage = new Button("HOMEPAGE");
@@ -59,7 +61,7 @@ public class CAF extends Application {
 	    AircraftPage aircraftPage = new AircraftPage(bPane); //
 	   // ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    ContactPage contactPage = new ContactPage(bPane);//contact us page 
-	    Model model = new Model(bPane); //Model page 
+//	    Model model = new Model(bPane); //Model page 
 	    
 	    //Database classes
 	    DBConnection connection = new DBConnection(); 
@@ -111,12 +113,16 @@ public void start(Stage primaryStage) throws Exception {
     btoncontact.setOnAction(e -> {
         // set center to contact page
         bPane.setCenter(contactPage.getPane());
+        
+
     });
 
     btonexit.setOnAction(e -> {
         // add log-out actions
         Platform.exit(); //leave CAF
     });
+    
+  //SendMail("champlainairfreight@gmail.com");
 
     Scene scene = new Scene(bPane, 1000, 700);
     primaryStage.setTitle("Champlain Air Freight");

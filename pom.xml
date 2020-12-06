@@ -82,12 +82,12 @@
     	<artifactId>tornadofx-controls</artifactId>
     	<version>1.0.3</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+			
+		<!-- https://stackoverflow.com/questions/16807758/java-lang-noclassdeffounderror-com-sun-mail-util-maillogger-for-junit-test-case -->
 		<dependency>
-    	<groupId>javax.mail</groupId>
-    	<artifactId>javax.mail-api</artifactId>
-    	<version>1.6.2</version>
+    	<groupId>com.sun.mail</groupId>
+    	<artifactId>javax.mail</artifactId>
+   		 <version>1.6.0</version>
 		</dependency>
 		
 	</dependencies>
