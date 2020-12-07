@@ -3,8 +3,10 @@ package edu.cco.ChamplainAirFreight;
 import java.util.Arrays;
 
 import edu.cco.ChamplainAirFreight.Database.User.DBValidateUserPassword;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * @Author Name: Andrew Dockan
@@ -26,30 +29,31 @@ import javafx.scene.text.Text;
  */
 
 public class LoginPage {
-	
+	public boolean logSuccess = false; 
+
 	Styles s = new Styles();
-	
+
 	//labels for login fields
 	static Label lbUsername = new Label("User Name: ");
 	static Label lbPassword = new Label("Password: ");
-	
+
 	//login fields
 	static TextField tfUsername = new TextField();
 	static TextField tfPassword = new TextField();
-	
+
 	//login buttons
 	Button btnLogin = new Button("Login");
 	Button btnForgotPassword = new Button("Forgot Password");
 	Button btnExit = new Button("Exit");
-	
+
 	//passed borderpane from CAF
 	BorderPane bPane = new BorderPane();
-	
+
 	//constructor takes borderpane from CAF
-	LoginPage(BorderPane bp){
-		bPane = bp;
+	LoginPage(){
+		//does nothing just used to call the class
 	}
-	
+
 	// getPane - what gets called in caf to view loginPage data 
     // @return 
 	public VBox getPane() {
@@ -57,10 +61,14 @@ public class LoginPage {
 		vlogin.getChildren().addAll(login());
         return vlogin;
 	}
-	
-	private BorderPane login() {
+
+	/**
+	 * login - border pane for login information 
+	 * @return
+	 */
+	protected BorderPane login() {
 		BorderPane loginBPane = new BorderPane();
-		
+
 		VBox titleBox = new VBox();
         titleBox.setAlignment(Pos.CENTER);
         titleBox.setSpacing(10);
@@ -86,7 +94,7 @@ public class LoginPage {
     	grid.add(lbPassword, 0, 1);    	
     	grid.add(tfUsername, 1, 0);
     	grid.add(tfPassword, 1, 1);
-        
+
         //create button HBox:
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -113,27 +121,64 @@ public class LoginPage {
         loginBPane.setBottom(buttonBox);
 
         //add actionables to change the setCenter based on button responses:
-        btnLogin.setOnAction(e -> {
-        	DBValidateUserPassword validatePassword = new DBValidateUserPassword();
-        	
-        	String userName = tfUsername.getText();
-        	String password = tfPassword.getText();
-        	
-        	if(validatePassword.validateUser(userName, password)) {
-        		
-        	}
-        });
-        
+        //btnLogin.setOnAction(e -> {
+        	//DBValidateUserPassword validatePassword = new DBValidateUserPassword();
+
+        	//String userName = tfUsername.getText();
+        	//String password = tfPassword.getText();
+
+        //if(validatePassword.validateUser(userName, password)) {
+        	//logSuccess = true; 
+        	//System.out.println("user validated " + logSuccess);  
+        //	}
+        //});
+
         btnForgotPassword.setOnAction(e -> {
-          
-           
+
+
          });
-        
+
         btnExit.setOnAction(e -> {
-            
+        	Platform.exit(); 
         });
-		
+
 		return loginBPane;
 	}
+
+	/**
+	 * returns a boolean if the user successfully logs in
+	 * @return
+	 */
+	public boolean isSuccess() {
+		return logSuccess; 
+	}
 	
+	/**
+	 * Scene for login page
+	 * @return
+	 */
+	public Scene loginStage() {
+		Scene logScene = new Scene(getPane(), 400, 200); 
+		//Stage logStage = new Stage(); 
+		//logStage.setTitle("Log into Champlain AirFreight");
+		//logStage.setScene(logScene); 
+		
+		return logScene; 
+	}
+	
+	
+	//CALL THE BUTTON, USERNAME AND PASSWORD IN CAF.JAVA to change the scene if validated
+	public Button buttonLog() {
+		return btnLogin; 
+	}
+	
+	public String getUserName() {
+		String username = tfUsername.getText(); 
+		return username; 
+	}
+	
+	public String getPassword() {
+		String pw = tfPassword.getText();
+		return pw; 
+	}
 }
