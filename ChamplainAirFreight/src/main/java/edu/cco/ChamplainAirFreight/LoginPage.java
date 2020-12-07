@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -39,7 +40,7 @@ public class LoginPage {
 
 	//login fields
 	static TextField tfUsername = new TextField();
-	static TextField tfPassword = new TextField();
+	static PasswordField pfPassword = new PasswordField();
 
 	//login buttons
 	Button btnLogin = new Button("Login");
@@ -93,7 +94,7 @@ public class LoginPage {
     	grid.add(lbUsername, 0, 0);
     	grid.add(lbPassword, 0, 1);    	
     	grid.add(tfUsername, 1, 0);
-    	grid.add(tfPassword, 1, 1);
+    	grid.add(pfPassword, 1, 1);
 
         //create button HBox:
         HBox buttonBox = new HBox();
@@ -178,7 +179,7 @@ public class LoginPage {
 	}
 	
 	public String getPassword() {
-		String pw = tfPassword.getText();
+		String pw = pfPassword.getText();
 		return pw; 
 	}
 }
