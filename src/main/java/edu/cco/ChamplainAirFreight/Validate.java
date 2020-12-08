@@ -1,6 +1,7 @@
 package edu.cco.ChamplainAirFreight;
 
 
+import java.sql.Date;
 import java.util.Scanner;
 
 public class Validate {
@@ -73,7 +74,45 @@ public class Validate {
 		      String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		      return email.matches(regex);
 		   }
-
+	   //string length
+	   public static int stringLength(String s) {
+		   
+		   int length=s.length();
+		return length;
+	   }
+	   //compare Date date1 is after date2
+	   static boolean afterDate(Date date1, Date date2)  {
+		   if (date1.compareTo(date2)>0) {
+			   return true;
+		   }else {
+			   
+			   	return false;
+		   }
+		   
+		   
+	   }
+	 //compare Date date 1 is before date 2
+	   static boolean beforeDate(Date date1, Date date2)  {
+		   if (date1.compareTo(date2)<0) {
+			   return true;
+		   }else {
+			   
+			   	return false;
+		   }
+		   
+		   
+	   }
+	   //compare Date date1 is equal to date2
+	   static boolean datesEqual(Date date1, Date date2)  {
+		   if (date1.compareTo(date2)==0) {
+			   return true;
+		   }else {
+			   
+			   	return false;
+		   }
+		   
+		   
+	   }
 	
 	   
 }
