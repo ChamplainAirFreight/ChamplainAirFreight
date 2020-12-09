@@ -1,5 +1,13 @@
 package edu.cco.ChamplainAirFreight;
 
+/**
+ * @Author Name: Matt Ridgway
+ * @Assignment Name: caf
+ * @Date: Dec 8, 2020
+ * @Validation class:
+ * Includes date, int, string, email, zip, phone number and string length validation 
+ */
+//Begi
 
 import java.sql.Date;
 import java.util.Scanner;
