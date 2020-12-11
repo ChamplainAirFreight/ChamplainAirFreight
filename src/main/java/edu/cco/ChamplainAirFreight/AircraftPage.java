@@ -490,18 +490,21 @@ public class AircraftPage {
 		    btnEnter.setOnAction(e->{
 		    	//Check for int if not get Message PopUp
 		    	String head="AirCraft ID";
-		    	String cont="Not a String";
+		    	String cont="Not and Int";
 		    	int aID=valid.intChecker(txtID.getText(),head,cont);
 		    	head ="Model ID";
 		    	int modelID=valid.intChecker(txtModelID.getText(),head,cont);
 		    	//if zero for aID and or modelID call error message
 		        if(aID==0 && modelID==0) {
 		        	valid.error.setError("AirCraft ID and Model ID", "need to be reentered");
-		        	
+		        	 txtID.clear();
+		        	  txtModelID.clear();
 		        }else if(aID==0) {
 		        	valid.error.setError("AirCraft ID ", "needs to be reentered");
+		        	 txtID.clear();
 		        }else if(modelID==0) {
 		        	valid.error.setError("Model ID", "needs to be reentered");
+		        	  txtModelID.clear();
 		        }else {
 		        	//good send to DB 
 		        	update.updateAircraft(aID, modelID);

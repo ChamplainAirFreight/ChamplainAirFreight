@@ -72,7 +72,7 @@ public class ValidateFields {
 			   error.setError(head, cont);
 			   System.out.print("int error");
 		   }
-		return intNumber=0;
+		return intNumber;
 		   
 	   }
 	   //phone number
