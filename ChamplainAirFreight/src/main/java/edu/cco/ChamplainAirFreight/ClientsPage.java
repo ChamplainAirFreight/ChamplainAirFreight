@@ -416,7 +416,7 @@ public class ClientsPage {
     		String add2 = txtAdd2.getText(); 
     		String city = txtCity.getText(); 
     		String state = cbState.getValue(); 
-    		int zip = Integer.parseInt(txtZip.getText());
+    		String zip = txtZip.getText();
     		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
     		
     		//clear entry fields
@@ -546,7 +546,7 @@ public class ClientsPage {
     		String add2 = txtAdd2.getText(); 
     		String city = txtCity.getText(); 
     		String state = cbState.getValue(); 
-    		int zip = Integer.parseInt(txtZip.getText());
+    		String zip = txtZip.getText();
     		//update client Class
     		updateClient.updateC(clientID, name, type, phone);			
     		 

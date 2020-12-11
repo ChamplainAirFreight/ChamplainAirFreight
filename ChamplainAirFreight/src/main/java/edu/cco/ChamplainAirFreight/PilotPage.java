@@ -501,7 +501,7 @@ public class PilotPage {
 		  
 		  Date dob = Date.valueOf(txtDob.getValue());		
 		  Date hireDate = Date.valueOf(txtDateOfHire.getValue());
-		  Date leftDate; 
+		  Date leftDate=Date.valueOf(txtDateLeft.getValue()); 
 		 try {
 		  leftDate = Date.valueOf(txtDateLeft.getValue()); 
 		  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
