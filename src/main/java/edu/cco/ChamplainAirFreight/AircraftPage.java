@@ -488,10 +488,13 @@ public class AircraftPage {
 		    ValidateFields valid=new ValidateFields();
 
 		    btnEnter.setOnAction(e->{
-		    	
-		    	int aID=Integer.parseInt(txtID.getText());
-		    	int modelID=Integer.parseInt(txtModelID.getText());
-		    //	int statusID=Integer.parseInt(txtStatusID.getText());
+		    	//Check for int if not get Message PopUp
+		    	String head="AirCraft ID";
+		    	String cont="Not a String";
+		    	int aID=valid.intChecker(txtID.getText(),head,cont);
+		    	head ="Model ID";
+		    	int modelID=valid.intChecker(txtModelID.getText(),head,cont);
+		  
 		    	update.updateAircraft(aID, modelID);
 		    });
 		    //clear

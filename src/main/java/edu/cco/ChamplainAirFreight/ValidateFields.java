@@ -12,6 +12,22 @@ package edu.cco.ChamplainAirFreight;
 import java.sql.Date;
 import java.util.Scanner;
 
+import javafx.scene.control.Alert;
+
+class ErrorMessage<String> {//Generic mehtod that takes in
+	 //2 strings for messages
+
+	     public void setError(String header, String content) {
+
+	         Alert alert = new Alert(Alert.AlertType.WARNING);
+	         alert.setTitle("Warning");
+	         alert.setHeaderText(header.toString());
+	         alert.setContentText(content.toString());
+	         alert.showAndWait();
+
+	     }
+
+	 }//end error
 public class ValidateFields {
 
 	
@@ -21,8 +37,10 @@ public class ValidateFields {
 	   public ValidateFields() {
 		   
 	   }
+       ErrorMessage<String> error=new ErrorMessage();
+	   
 	   //String checker
-	   public static boolean isString(String str) {
+	   public String isString(String str, String head, String cont) {
 		    String[] splitString = str.split(" ");
 		    boolean string1 = splitString.length == 2;
 		    boolean string2= true;
@@ -33,12 +51,16 @@ public class ValidateFields {
 		    }//end split
 
 		    if (string1 && string2) {//if 1 and 2
-		        return true;
+		        return str;
+		    }else {
+		    	error.setError(head, cont);
+				   System.out.print("String Error");
+		    	  return "";
 		    }
-		    return false;
+		  
 		}
 	   //int checker
-	   public static int intChecker(String num) {
+	   public int intChecker(String num, String head, String cont) {
 		   Scanner sc = new Scanner(System.in);
 		   int intNumber = 0;
 		  
@@ -47,43 +69,63 @@ public class ValidateFields {
 		     
 		   } catch (NumberFormatException ex) {
 		       //Error not number
+			   error.setError(head, cont);
+			   System.out.print("int error");
 		   }
 		return intNumber;
 		   
 	   }
 	   //phone number
-	   private static boolean checkPhoneNumber(String phoneNumber) {
+	   public String checkPhoneNumber(String phoneNumber,String head, String cont) {
 			//number format
 			if (phoneNumber.matches("\\d{10}")) { 
-				return true;
+				return phoneNumber;
 			}
 			// -, . or spaces format
 			else if(phoneNumber.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) {
-				return true;				
+				return phoneNumber;				
 			} 
 			//3 to 5 extension format
 			else if(phoneNumber.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) {
-				return true;				
+				return phoneNumber;				
 			} 
 			//area code in brackets format
 			else if(phoneNumber.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) { 
-				return true;
+				return phoneNumber;
 			}
 			//doesn't match
-			else return false;
+			else {
+				  error.setError(head, cont);
+				   System.out.print("Error in phone number");
+			return "";	
+			}
 			
 		}
 	   //zip code 
-	   public static boolean zipCodeUS( String s ) {
-		      return s.matches( "\\d{5}" );
+	   public String zipCodeUS( String zip,String head,String cont ) {
+		      if (zip.matches( "\\d{5}" )) {
+		    	 return zip;		    	  
+		      }else {
+		    	  error.setError(head, cont);
+				   System.out.print("zip error");
+		    	  return "";
+		      }
+			
 		   }
 	   //email 
-	   static boolean isValidEmail(String email) {
+	   public String isValidEmail(String email,String head,String cont ) {
 		      String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-		      return email.matches(regex);
+		      if (email.matches(regex)) {
+		    	 return email;  
+		      }else {
+		    	  error.setError(head, cont);
+				   System.out.print("Email error");
+		    	  return "";
+		      }
+		     
 		   }
 	   //string length
-	   public static int stringLength(String s) {
+	   public int stringLength(String s) {
 		   
 		   int length=s.length();
 		return length;
