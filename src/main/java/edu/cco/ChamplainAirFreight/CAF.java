@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -124,7 +125,13 @@ public void start(Stage primaryStage) throws Exception {
 		primaryStage.setScene(scene); 
 		}
 		else {
-			primaryStage.setScene(login.loginStage());
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Warning");
+			alert.setHeaderText("Login Error");
+			alert.setContentText("Incorrect Username or Password");
+			alert.showAndWait();
+			LoginPage.tfUsername.requestFocus();
+			//primaryStage.setScene(login.loginStage());
 		}
 		}); 
 }
