@@ -64,6 +64,8 @@ public class FlightsPage {
 	
     //variables
     BorderPane bPane = new BorderPane();
+    //used for validation
+    ValidateFields valid=new ValidateFields();
     
     //make buttons
     Button btnView = new Button("View");
@@ -408,27 +410,48 @@ DBUpdateFlight update =new DBUpdateFlight();
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     btnEnter.setOnAction(e->{
+    	String head="Flight ID";
+		String cont="Not a int";		
+    	int flightID=valid.intChecker(txtID.getText(),head,cont);
     	
-    	int flightID=Integer.parseInt(txtID.getText());
-    	int airCraftID=Integer.parseInt(txtAirID.getText());
+    	head ="Aircraft ID";
+    	int airCraftID=valid.intChecker(txtAirID.getText(),head,cont);
     	Date startTime = null;
     	Date endTime = null;
-    	int pilotID=Integer.parseInt(txtPilotID.getText());
-    	int startAirport =Integer.parseInt(txtStartAirport.getText());
-    	int endAirport =Integer.parseInt(txtEndAirport.getText());
-    	//update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startTime, endTime);
+    	head="Pilot ID";
+    	int pilotID=valid.intChecker(txtPilotID.getText(),head,cont);
+    	head="Starting Airport";
+    	int startAirport =valid.intChecker(txtStartAirport.getText(),head,cont);
+    	head="Ending Airport";
+    	int endAirport =valid.intChecker(txtEndAirport.getText(),head,cont);
+    	if (flightID==0) {
+    		txtID.clear();
+    	}else if(airCraftID==0) {
+    		txtAirID.clear();
+    	}else if(pilotID==0) {
+    		txtPilotID.clear();
+    	}else if(startAirport==0) {
+    		txtStartAirport.clear();
+    	}else if (endAirport==0) {	
+           	txtEndAirport.clear();		
+    	// NEED TO ADD ELSE IF CHECK FOR DATEs
+    	}else {
+    		//update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startTime, endTime);
+    		 //clear textFields
+    	    txtID.clear();
+    	    txtAirID.clear();
+    	    txtStartTime.clear();
+    	    txtEndTime.clear();
+    	    txtPilotID.clear();
+    	    txtStartAirport.clear();
+    	    txtEndAirport.clear();
+    	}
+    	
     	
     	
     	
     });
-    //clear textFields
-    txtID.clear();
-    txtAirID.clear();
-    txtStartTime.clear();
-    txtEndTime.clear();
-    txtPilotID.clear();
-    txtStartAirport.clear();
-    txtEndAirport.clear();
+   
     return centerBox; 
 	}
 
@@ -639,6 +662,7 @@ private VBox addPane() {
 		cbEndLoc.valueProperty().set(null); 
 		dtStart.valueProperty().set(null);
 		dtEnd.valueProperty().set(null);
+		
 		    		
 	});
 	    	
