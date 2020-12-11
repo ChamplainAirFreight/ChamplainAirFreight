@@ -12,13 +12,13 @@ package edu.cco.ChamplainAirFreight;
 import java.sql.Date;
 import java.util.Scanner;
 
-public class Validate {
+public class ValidateFields {
 
 	
 	/** Blank
 	    * Default Constructor 
 	    */
-	   public Validate() {
+	   public ValidateFields() {
 		   
 	   }
 	   //String checker

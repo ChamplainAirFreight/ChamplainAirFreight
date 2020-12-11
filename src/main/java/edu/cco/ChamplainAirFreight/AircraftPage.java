@@ -485,9 +485,10 @@ public class AircraftPage {
 		    });
 		    
 		    centerBox.getChildren().addAll(title,instructions, selection, grid); 
-		    
+		    ValidateFields valid=new ValidateFields();
 
 		    btnEnter.setOnAction(e->{
+		    	
 		    	int aID=Integer.parseInt(txtID.getText());
 		    	int modelID=Integer.parseInt(txtModelID.getText());
 		    //	int statusID=Integer.parseInt(txtStatusID.getText());
