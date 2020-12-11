@@ -348,7 +348,7 @@ public class ClientsPage {
 		Text instructions = new Text("Enter valid information for a client, and then press Enter"); 
 		//labels
 		Label lblName = new Label ("Client Name: "); 
-		Label lblType = new Label ("Client Type ID: "); 
+		Label lblType = new Label ("Client Type: "); 
 		Label lblPhone = new Label ("Client Phone Number: "); 
 		Label lblAdd1 = new Label("Address 1: "); 
 		Label lblAdd2 = new Label("Address 2: "); 
