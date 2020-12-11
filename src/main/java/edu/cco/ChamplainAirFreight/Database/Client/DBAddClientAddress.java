@@ -23,7 +23,7 @@ public class DBAddClientAddress extends DBConnection{
 	public String clientAdd2;
 	public String clientCity;
 	public String clientState;
-	public int clientZip;
+	public String clientZip;
 	public int clientID;
 	
 /**
@@ -31,7 +31,7 @@ public class DBAddClientAddress extends DBConnection{
 * Matt Ridgway 
 * 11/12/2020
 */
-public DBAddClientAddress(String add1,String add2,String city,String state, int zip, int id) {
+public DBAddClientAddress(String add1,String add2,String city,String state, String zip, int id) {
 	try {
 		this.clientAdd1=add1;
 		this.clientAdd2=add2;
@@ -73,7 +73,7 @@ public DBAddClientAddress(String add1,String add2,String city,String state, int 
 * 6 ClientZip int
 *
 */
-public void insertSQL(String add1,String add2,String city,String state, int zip, int id) {
+public void insertSQL(String add1,String add2,String city,String state, String zip, int id) {
 	try {
 		String sql = "{call CAFDB.dbo.Add_Client_Address(?,?,?,?,?,?)}";
 		callable=connection.prepareCall(sql);
@@ -82,7 +82,7 @@ public void insertSQL(String add1,String add2,String city,String state, int zip,
 		callable.setString(3, add2);
 		callable.setString(4, city);
 		callable.setString(5, state);
-		callable.setInt(6, zip);
+		callable.setString(6, zip);
 		//Execute Stored Procedure
 		callable.executeQuery();
 		callable.close(); 

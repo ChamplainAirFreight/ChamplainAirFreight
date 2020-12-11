@@ -29,7 +29,7 @@ public class DBUpdateClientAddress  extends DBConnection {
 	public String clientCity;
 	public String clientState;
 	public String clientInfo;
-	public int clientZip;
+	public String clientZip;
 	public int cID;
 	public int cAddressID;
 
@@ -66,7 +66,7 @@ public class DBUpdateClientAddress  extends DBConnection {
 * Matt Ridgway 
 * 11/20/2020
 */
-public void updateClientA(int cAddressID, int cID, String add1, String add2,String city,String state,int zip) {
+public void updateClientA(int cAddressID, int cID, String add1, String add2,String city,String state,String zip) {
     try {
     	String storedP = "{call CAFDB.dbo.Update_Client_Address(?,?,?,?,?,?,?)}"; 
      
@@ -77,7 +77,7 @@ public void updateClientA(int cAddressID, int cID, String add1, String add2,Stri
           callable.setString(4, add2);
           callable.setString(5, city);
           callable.setString(6, state);
-          callable.setInt(7, zip);
+          callable.setString(7, zip);
 
 
           ResultSet rs = callable.executeQuery(); 
@@ -107,7 +107,7 @@ public String getClientState() {
 public String getClientInfo() {
 	return clientInfo;
 }
-public int getClientZip() {
+public String getClientZip() {
 	return clientZip;
 }
 public int getcID() {
