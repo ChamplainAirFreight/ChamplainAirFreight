@@ -63,6 +63,8 @@ public class ClientsPage {
     //passed border pane from CAF. 
     BorderPane bPane = new BorderPane();
     
+    //used for validation
+    ValidateFields valid=new ValidateFields();
   //make buttons
     Button btnView = new Button("View");
     Button btnAdd = new Button("Add Client");
@@ -400,33 +402,103 @@ public class ClientsPage {
     	
     	box.getChildren().addAll(title,instructions,grid); 
     	btnEnter.setOnAction(e->{
-    		//variables for SQL stored procedure
-    		String name = txtName.getText(); 
-    		int type = spType.getValue(); 
-    		String phone = txtPhone.getText(); 
-    		//add client
-    		add.insertSQL(name, type, phone);
+    		//strings for validation
+    		String head="Name";
+    		String cont="Not a string";
     		
+    		//variables for SQL stored procedure
+    		String name;
+    				if(valid.isString(txtName.getText().toString())) {
+    				name =txtName.getText();	
+    				} else {
+    					valid.error.setError(head, cont);
+    					name ="";
+    				}
+    		head="Client type";
+    		cont="Not a int";
+    		int type = valid.intChecker(spType.getValue().toString(), head, cont); 
+    		head="Client Phone Number";
+    		cont="Not Correct";
+    		String phone = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
+    		//add client IF 
+    		head="Client Address 1";
+    		cont="Empty";
+    		String add1 = txtAdd1.getText(); 
+    		//check string length
+    		int add1L=valid.stringLength(add1);
+    		if (add1L==0) {
+    			valid.error.setError(head, cont);
+    		}
+    		head="Client Address 2";
+    		String add2 = txtAdd2.getText(); 
+    		//check string length
+    		int add2L=valid.stringLength(add2);
+    		if (add2L==0) {
+    			valid.error.setError(head, cont);
+    		}
+    		String city;
+    		head="Client City";
+    		cont="Empty";
+    		if(valid.isString(txtCity.getText().toString())) {
+				city =txtCity.getText();	
+				} else {
+					valid.error.setError(head, cont);
+			     city ="";
+				}
+    		
+    		String state = cbState.getValue(); 
+    		head="Client Zip";
+    		cont="Not Correct";
+    		String zip = valid.zipCodeUS(txtZip.getText(), head, cont);
     		//find new clientID for adding address1
     		DBFinder find = new DBFinder(); 
     		int id = find.findClientID(name, type, phone); 
     		System.out.println(id); 
+    		if (name=="") {
+    			//error
+    			txtName.clear();    			
+    		}else if(type==0) {
+    			valid.error.setError("Type", "Error");
+    			
+    		}else if(phone=="") {
+    			//error
+    			txtPhone.clear();
+    		}else if(add1L==0) {
+    			txtAdd1.clear();
+    			
+    		}else if(add2L==0) {
+    			txtAdd2.clear();
+    			
+    		}
+    		else if(city=="") {
+    			//error
+    			txtCity.clear();
+    			
+    		}
+    		else if(zip=="") {
+    			//error
+    			txtZip.clear();
+    		}
+    		else {//good send to DB
+    			add.insertSQL(name, type, phone);
+    			DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
+    			//clear entry fields
+        		txtName.clear(); 
+        		txtPhone.clear(); 
+        		txtAdd1.clear(); 
+        		txtAdd2.clear();
+        		txtCity.clear();
+        		cbState.valueProperty().set(null);
+        		txtZip.clear(); 
+    		}
     		
-    		String add1 = txtAdd1.getText(); 
-    		String add2 = txtAdd2.getText(); 
-    		String city = txtCity.getText(); 
-    		String state = cbState.getValue(); 
-    		String zip = txtZip.getText();
-    		DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
     		
-    		//clear entry fields
-    		txtName.clear(); 
-    		txtPhone.clear(); 
-    		txtAdd1.clear(); 
-    		txtAdd2.clear();
-    		txtCity.clear();
-    		cbState.valueProperty().set(null);
-    		txtZip.clear(); 
+    		
+    		
+    	
+    	
+    		
+    		
     	});
     	    	
 		return box; 
@@ -478,7 +550,7 @@ public class ClientsPage {
 		//entry fields
 		
 		TextField txtName = new TextField(); 	
-		TextField txtType = new TextField(); 
+		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
 		TextField txtAdd2 = new TextField(); 
@@ -509,7 +581,7 @@ public class ClientsPage {
     	grid.add(cbClientID, 1,0); //add combobox and select button
     	grid.add(btSelectClient, 2,0);
     	grid.add(txtName, 1, 1);
-    	grid.add(txtType, 1, 2);
+    	grid.add(spType, 1, 2);
     	grid.add(txtPhone, 1, 3);
     	grid.add(txtAdd1, 1, 4);
     	grid.add(txtAdd2, 1, 5);
@@ -524,7 +596,8 @@ public class ClientsPage {
     		select.viewSelected(cbClientID.getValue());
     		    		
     		txtName.setText(select.getClientName());
-    		txtType.setText(select.getClientType()); 
+    		
+    		spType.equals(select.getClientType());
     		txtPhone.setText(select.getPhone());
     		txtAdd1.setText(select.getAddress1());
     		txtAdd2.setText(select.getAddress2());
@@ -535,44 +608,119 @@ public class ClientsPage {
     	
     	
     	btnEnter.setOnAction(e->{
-    		//variables for SQL stored procedure
-    		int clientID = cbClientID.getValue().intValue();
-    	   
-    		String name = txtName.getText(); 
-    		int type = Integer.parseInt(txtType.getText());     		
-    		String phone = txtPhone.getText(); 
+    		//strings for validation
+    		String head="Name";
+    		String cont="Not a string";
     		
+    		//variables for SQL stored procedure
+    		String name;
+			if(valid.isString(txtName.getText().toString())) {
+			name =txtName.getText();	
+			} else {
+				valid.error.setError(head, cont);
+				name ="";
+			}
+    		
+    		head="Client type";
+    		cont="Not a int";
+    		int type = valid.intChecker(spType.getValue().toString(), head, cont); 
+    		head="Client Phone Number";
+    		cont="Not Correct";
+    		String phone = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
+    		//add client IF 
+    		head="Client Address 1";
+    		cont="Empty";
     		String add1 = txtAdd1.getText(); 
+    		//check string length
+    		int add1L=valid.stringLength(add1);
+    		if (add1L==0) {
+    			valid.error.setError(head, cont);
+    		}
+    		head="Client Address 2";
     		String add2 = txtAdd2.getText(); 
-    		String city = txtCity.getText(); 
+    		//check string length
+    		int add2L=valid.stringLength(add2);
+    		if (add2L==0) {
+    			valid.error.setError(head, cont);
+    		}
+    		
+    		head="Client City";
+    		cont="Not a String";
+    		String city;
+			if(valid.isString(txtCity.getText().toString())) {
+				city =txtCity.getText();	
+			} else {
+				valid.error.setError(head, cont);
+				city ="";
+			}
+    		
+    		
     		String state = cbState.getValue(); 
-    		String zip = txtZip.getText();
-    		//update client Class
-    		updateClient.updateC(clientID, name, type, phone);			
-    		 
+    		head="Client Zip";
+    		cont="Not Correct";
+    		String zip = valid.zipCodeUS(txtZip.getText(), head, cont);
+    		int clientID = cbClientID.getValue().intValue();
+    		
+    		if (name=="") {
+    			//error
+    			txtName.clear();    			
+    		}else if(type==0) {
+    			valid.error.setError("Type", "Error");
+    			
+    		}else if(phone=="") {
+    			//error
+    			txtPhone.clear();
+    		}else if(add1L==0) {
+    			txtAdd1.clear();
+    			
+    		}else if(add2L==0) {
+    			txtAdd2.clear();
+    			
+    		}
+    		else if(city=="") {
+    			//error
+    			txtCity.clear();
+    			
+    		}
+    		else if(zip=="") {
+    			//error
+    			txtZip.clear();
+    		}
+    		else {//good send to DB
+    				//update client Class
+    		updateClient.updateC(clientID, name, type, phone);	
     		//get index of clientID  
     		//problem here
     		select.viewSelected(clientID);
     		int clientAddressID =select.getAddressID();	
-    		if(clientAddressID == 0) {
-    			DBAddClientAddress addAddress = new DBAddClientAddress(add1, add2, city, state, zip, clientID); 
-    		}
-    		else {
-    		System.out.println("address ID = " + clientAddressID); 
+    			if(clientAddressID == 0) {
+    				DBAddClientAddress addAddress = new DBAddClientAddress(add1, add2, city, state, zip, clientID); 
+    			}
+    			else {
+    				System.out.println("address ID = " + clientAddressID); 
     		    		
-    		DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
-    		//update client address Class
-    		updateClientAddress.updateClientA(clientAddressID, clientID, add1, add2, city, state, zip);
+    				DBUpdateClientAddress updateClientAddress = new DBUpdateClientAddress();
+    				//update client address Class
+    				updateClientAddress.updateClientA(clientAddressID, clientID, add1, add2, city, state, zip);
+    			}
+    			 
+    	    	
+        		//clear text fields    		
+        		cbClientID.valueProperty().set(null);
+        		txtName.clear(); 
+        		txtPhone.clear(); 
+        		txtAdd1.clear(); 
+        		txtAdd2.clear();
+        		txtCity.clear();
+        		cbState.valueProperty().set(null);
+        		txtZip.clear(); 
     		}
-    		//clear text fields    		
-    		cbClientID.valueProperty().set(null);
-    		txtName.clear(); 
-    		txtPhone.clear(); 
-    		txtAdd1.clear(); 
-    		txtAdd2.clear();
-    		txtCity.clear();
-    		cbState.valueProperty().set(null);
-    		txtZip.clear(); 
+    		
+    	
+    	   
+    	
+    			
+    	
     	});
     	    	
 		return box; 

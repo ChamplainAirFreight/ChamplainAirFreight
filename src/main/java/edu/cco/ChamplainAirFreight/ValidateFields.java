@@ -29,7 +29,7 @@ class ErrorMessage<String> {//Generic mehtod that takes in
 
 	 }//end error
 public class ValidateFields {
-
+  ErrorMessage<String> error=new ErrorMessage();
 	
 	/** Blank
 	    * Default Constructor 
@@ -37,26 +37,14 @@ public class ValidateFields {
 	   public ValidateFields() {
 		   
 	   }
-       ErrorMessage<String> error=new ErrorMessage();
+     
 	   
 	   //String checker
-	   public String isString(String str, String head, String cont) {
-		    String[] splitString = str.split(" ");
-		    boolean string1 = splitString.length == 2;
-		    boolean string2= true;
-		    for (String s : splitString) {
-		        if (s.length() < 2) {
-		            string2 = false;
-		        }
-		    }//end split
-
-		    if (string1 && string2) {//if 1 and 2
-		        return str;
-		    }else {
-		    	error.setError(head, cont);
-				   System.out.print("String Error");
-		    	  return "";
-		    }
+	   public Boolean isString(String str) {
+		   return ((!str.equals("")) 
+		            && (str != null) 
+		            && (str.matches("^[a-zA-Z]*$"))); 
+		    
 		  
 		}
 	   //int checker
