@@ -61,7 +61,7 @@ public class CAF extends Application {
 	    AircraftPage aircraftPage = new AircraftPage(bPane); //
 	   // ContactPage contactPage = new ContactPage(bPane); //contact us page 
 	    ContactPage contactPage = new ContactPage(bPane);//contact us page 
-	    Model model = new Model(bPane); //Model page 
+	  //  Model model = new Model(bPane); //Model page 
 	    
 	    //Database classes
 	    DBConnection connection = new DBConnection(); 

@@ -64,6 +64,10 @@ public class ContactPage {
 	static TextField txfname;
 	static TextField txlname;
 	static TextField txsubject;
+	
+	static String fName;
+	static String lName;
+//	static String passText;
 
     //classes
     Styles s = new Styles();
@@ -129,6 +133,7 @@ public class ContactPage {
         box.setBottom(buttonBox);
         
         centerBox.getChildren().addAll(getContactLBs() );
+        
 
         /**
          * This send button will activate when user click send. Then the user's email will be send to
@@ -137,54 +142,81 @@ public class ContactPage {
         btnSend.setOnAction(e -> {
         	
     		System.out.println("Preparing to send your email");
+    		
+    		//Authentication to be able to access the email account top send the email 
     		final String calEmail = "champlainairfreight@gmail.com";
     		final String password = "Admin@100";
     		
+    		//Properties of the API conponents
     		Properties emailProperty = new Properties();
     		emailProperty.put("mail.smtp.auth", "true");
     		emailProperty.put("mail.smtp.starttls.enable", "true");
     		emailProperty.put("mail.smtp.host", "smtp.gmail.com");
     		emailProperty.put("mail.smtp.port", "587");
     		
+    		//Veriables to pass into the the body message
+    		String fName = txfname.getText().toString();
+    		String lName = txfname.getText().toString();
+    		String subjk = String.valueOf(txsubject.getText());
+    		
+    		//Message format
+    		String passText = texReaOne.getText();
+    		texReaOne.setText("This is a request for Support \n\n"+ "Requester First Name: " + txfname.getText() + 
+    				"\nRequester Last Name: " + txlname.getText() + "\nMessage Details \n\n" + passText );    
+                   
+    		//Session to allow the email to be sent
     		Session session = Session.getInstance(emailProperty, new Authenticator() {
     		@Override
     			protected PasswordAuthentication getPasswordAuthentication() {
     				return new PasswordAuthentication(calEmail, password);
     			}
     		});
-    		
-    		Message mymessage = new MimeMessage(session);
-    		String fName = String.valueOf(txfname.getText());
-    		String lName = String.valueOf(txlname.getText());
-    		String subjk = String.valueOf(txsubject.getText());
-    		
 
+    		//Instantiated a message
+    		Message mymessage = new MimeMessage(session);
+    		
     		try {
+
     			mymessage.setFrom(new InternetAddress(calEmail));
     			mymessage.addRecipient(Message.RecipientType.TO, new InternetAddress(calEmail));
     			mymessage.setSubject(subjk);
-    			
+
+    			//Instantiated a Multipart
     			Multipart parts = new MimeMultipart();	
-    			//Body part
-    			MimeBodyPart bodyText = new MimeBodyPart();
     			
-    			bodyText.setText("This is a NEW TEST to see if the email is delevered");
+    			//Instantiated a MimeBodyPart
+    			MimeBodyPart bodyText = new MimeBodyPart();	
+    		
+    			
+    			bodyText.setText(fName);
+    			bodyText.setText(lName);
+    			
+        		String passText2 = texReaOne.getText();	
+		
+    			bodyText.setText(passText);
+    			bodyText.setText(passText2);
+  			
     			parts.addBodyPart(bodyText);
     			mymessage.setContent(parts);
-    			
+
+    			//Transport to allow the email to be sent
     			Transport.send(mymessage);
     		} catch(Exception ex) {
     			ex.printStackTrace();
     		}
 
     		System.out.println("Your email was sent successfully");
-    		
-			 txfname.clear();
-			 txlname.clear();
-			 txsubject.clear();
-			 texReaOne.clear();  
 
+   		 txfname.clear();
+   		 txlname.clear();
+   		 txsubject.clear();
+   		 texReaOne.clear();
         });
+        
+		
+  
+		
+	
        
         return box;
     }
@@ -259,6 +291,9 @@ public class ContactPage {
     	 txfname = new TextField();
     	 txlname = new TextField();
     	 txsubject = new TextField();
+    	 txfname.setPrefColumnCount(4);
+    	 txlname.setPrefColumnCount(4);
+    	 txsubject.setPrefColumnCount(4);
     	vboxi.getChildren().addAll(txfname,txlname, txsubject, getTextAreaOne());
     	return vboxi;
     } 
@@ -281,17 +316,29 @@ public class ContactPage {
 		hboxt.getChildren().addAll(texReaOne);
 		return hboxt;
 	}
-	private HBox getMessage() {
-		HBox hboxt = new HBox();
-	//	texReaOne = new TextArea();
-		hboxt.setAlignment(Pos.CENTER);
-		texReaOne.setStyle("-fx-border-color: black");
-		texReaOne.setFont(new Font("Time New Roman", 10));
-		texReaOne.setEditable(true);
-		texReaOne.setWrapText(true);
-		texReaOne.setPrefSize(900, 500);
-		hboxt.getChildren().addAll(texReaOne);
-		return hboxt;
-	}
+
+    private VBox getConfirmation() {
+    	VBox vboxlb = new VBox();
+    	Label contTex = new Label("The Champlain Air-Freight can be reached 27/7");
+    	Label cInfo1 = new Label("For any dificulty or if you are having the following issue Please call "
+    			+ "out technical team phone number");
+    	Label cInfo2 = new Label("1 - Program not launching");
+    	Label cInfo3 = new Label("2 - The program keeps restarting");
+    	Label cInfo4 = new Label("3 - The program is freezing with a popup error");
+    	Label cInfo5 = new Label("4 - Need to install the program on a new computer");
+    	Label cInfo6 = new Label("5 - The you are receiving an error message when trying to enter, search or save data");
+    	contTex.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 40));
+    	cInfo1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	cInfo2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	cInfo3.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	cInfo4.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	cInfo5.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	cInfo6.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
+    	
+    	vboxlb.setPrefSize(900, 500);
+    	vboxlb.setAlignment(Pos.CENTER_LEFT);
+    	vboxlb.getChildren().addAll(contTex, cInfo2, cInfo3, cInfo4, cInfo5, cInfo6);
+    	return vboxlb;
+    }
 
 } //End Subclass ContactPage
