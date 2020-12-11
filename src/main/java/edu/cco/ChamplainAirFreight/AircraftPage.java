@@ -494,8 +494,19 @@ public class AircraftPage {
 		    	int aID=valid.intChecker(txtID.getText(),head,cont);
 		    	head ="Model ID";
 		    	int modelID=valid.intChecker(txtModelID.getText(),head,cont);
-		  
-		    	update.updateAircraft(aID, modelID);
+		    	//if zero for aID and or modelID call error message
+		        if(aID==0 && modelID==0) {
+		        	valid.error.setError("AirCraft ID and Model ID", "need to be reentered");
+		        	
+		        }else if(aID==0) {
+		        	valid.error.setError("AirCraft ID ", "needs to be reentered");
+		        }else if(modelID==0) {
+		        	valid.error.setError("Model ID", "needs to be reentered");
+		        }else {
+		        	//good send to DB 
+		        	update.updateAircraft(aID, modelID);
+		        }
+		    	
 		    });
 		    //clear
 		    txtID.clear();
