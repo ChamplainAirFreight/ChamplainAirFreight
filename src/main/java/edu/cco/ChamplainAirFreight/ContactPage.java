@@ -216,8 +216,7 @@ public class ContactPage {
 		
   
 		
-	
-       
+	    
         return box;
     }
 
