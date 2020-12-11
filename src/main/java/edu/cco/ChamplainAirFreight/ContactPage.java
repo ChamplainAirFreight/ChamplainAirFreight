@@ -334,7 +334,6 @@ public class ContactPage {
     	cInfo4.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
     	cInfo5.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
     	cInfo6.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	
     	vboxlb.setPrefSize(900, 500);
     	vboxlb.setAlignment(Pos.CENTER_LEFT);
     	vboxlb.getChildren().addAll(contTex, cInfo2, cInfo3, cInfo4, cInfo5, cInfo6);
