@@ -37,7 +37,7 @@ public class DBViewSelectClient extends DBConnection {
 			statement = connection.createStatement(); 
 			
 		}catch(SQLException ex) {
-			System.out.println("Database connection failed DBViewAllAircraft"); 
+			System.out.println("Database connection failed DBViewSelectedClient"); 
 		}
 	}
 	
@@ -58,15 +58,14 @@ public class DBViewSelectClient extends DBConnection {
 		 * output from View_Selected_Client
 		 * 1 = ClientID
 		 * 2 = ClientName
-		 * 3 = Client Type ID
+		 * 3 = Client Type
 		 * 4 = phone number
-		 * 5 = client address id
-		 * 6 = client ID
-		 * 7 = address line 1
-		 * 8 = address line 2
-		 * 9 = city
-		 * 10 = state
-		 * 11 = zip
+		 * 5 = Client Address ID
+		 * 6 = address line 1
+		 * 7 = address line 2
+		 * 8 = city
+		 * 9 = state
+		 * 10 = zip
 		 */
 		while(rs.next()) {
 			clientID = rs.getInt(1); 
@@ -74,11 +73,11 @@ public class DBViewSelectClient extends DBConnection {
 			clientType = rs.getString(3); 
 			phone = rs.getString(4); 
 			clientAddressID = rs.getInt(5);
-			address1 = rs.getString(7); 
-			address2 = rs.getString(8); 
-			city = rs.getString(9);
-			state = rs.getString(10); 
-			zip = rs.getString(11); 
+			address1 = rs.getString(6); 
+			address2 = rs.getString(7); 
+			city = rs.getString(8);
+			state = rs.getString(9); 
+			zip = rs.getString(10); 
 			 
 		}
 		rs.close(); 
@@ -122,6 +121,7 @@ public class DBViewSelectClient extends DBConnection {
 	public String getPhone() {
 		return phone; 
 	}
+	
 	public int getAddressID() {
 		return clientAddressID; 
 	}
