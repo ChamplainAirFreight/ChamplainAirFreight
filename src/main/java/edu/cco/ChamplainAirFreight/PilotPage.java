@@ -47,6 +47,9 @@ public class PilotPage {
 
 	//TextArea for the view - By Pierre
 	static TextArea texReaOne = new TextArea();
+	
+	   //used for validation
+    ValidateFields valid=new ValidateFields();
     
 	// Client address labels - By Pierre
 	static Label lbfname;
@@ -494,30 +497,76 @@ public class PilotPage {
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	  btnEnter.setOnAction(e->{
-		  int pilotID = Integer.parseInt(txtID.getText());
-		  String firstName = txtFirstName.getText(); 
-		  String lastName = txtLastName.getText();
+			//strings for validation
+  		String head="Pilot ID";
+  		String cont="Not a int";
+		int pilotID = valid.intChecker(txtID.getText(), head, cont); 
+				 
+		head="First Name";
+  		cont="Not a string";
+		String firstName;
+			if(valid.isString(txtFirstName.getText().toString())) {
+			firstName =txtFirstName.getText();	
+			} else {
+				valid.error.setError(head, cont);
+				firstName ="";
+			}
+			
+		head="Last Name";
+	  	cont="Not a string";
+		String lastName;
+				if(valid.isString(txtLastName.getText().toString())) {
+				lastName =txtLastName.getText();	
+				} else {
+					valid.error.setError(head, cont);
+					lastName ="";
+				}
+				
 		  String eNumber = txtEmployeeNum.getText();
 		  
 		  Date dob = Date.valueOf(txtDob.getValue());		
 		  Date hireDate = Date.valueOf(txtDateOfHire.getValue());
 		  Date leftDate=Date.valueOf(txtDateLeft.getValue()); 
+		  
+	if(pilotID==0) {
+		txtID.clear();
+	}else if(firstName=="") {
+		txtFirstName.clear();
+	}else if(lastName=="") {
+		txtLastName.clear();
+	}else if (valid.stringLength(eNumber)==0) {
+		valid.error.setError("Employee Number", " Can't be Empty");
+	}
+	else if(valid.afterDate(dob, hireDate)) {
+		valid.error.setError("DOB", "Can't be after Hire Date");
+	}
+	else {
 		 try {
-		  leftDate = Date.valueOf(txtDateLeft.getValue()); 
-		  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
-		  System.out.println("date left - " + leftDate);
-		  } catch (NullPointerException ex) {
-			  update.updatePilot(pilotID,  firstName,  lastName,  dob,  eNumber,  hireDate, null);
-		  }
+			  leftDate = Date.valueOf(txtDateLeft.getValue()); 
+			  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
+			  System.out.println("date left - " + leftDate);
+			  //clear textFields
+			   txtID.clear();
+			   txtFirstName.clear();
+			   txtLastName.clear();
+			   txtDob.valueProperty().set(null);
+			   txtEmployeeNum.clear();
+			   txtDateOfHire.valueProperty().set(null);
+			   txtDateLeft.valueProperty().set(null);	
+			  } catch (NullPointerException ex) {
+				  update.updatePilot(pilotID,  firstName,  lastName,  dob,  eNumber,  hireDate, null);
+				  //clear textFields
+				   txtID.clear();
+				   txtFirstName.clear();
+				   txtLastName.clear();
+				   txtDob.valueProperty().set(null);
+				   txtEmployeeNum.clear();
+				   txtDateOfHire.valueProperty().set(null);
+				   txtDateLeft.valueProperty().set(null);	
+			  }
+	}
 		  		  
-		   //clear textFields
-		   txtID.clear();
-		   txtFirstName.clear();
-		   txtLastName.clear();
-		   txtDob.valueProperty().set(null);
-		   txtEmployeeNum.clear();
-		   txtDateOfHire.valueProperty().set(null);
-		   txtDateLeft.valueProperty().set(null);		  
+		 	  
 	  });
 	    
 	    return centerBox; 
@@ -574,19 +623,49 @@ public class PilotPage {
 		box.getChildren().addAll(title,instructions,grid); 
 		btnEnter.setOnAction(e->{
 			//variables for SQL stored procedure
-			String fName = txtFirstName.getText(); 
-			String lName = txtLastName.getText(); 
+			String head="First Name";
+	  		String cont="Not a String";
+	  		String fName;
+			if(valid.isString(txtFirstName.getText().toString())) {
+				fName =txtFirstName.getText();	
+			} else {
+				valid.error.setError(head, cont);
+				fName ="";
+			}
+			
+		head="Last Name";
+	  	cont="Not a string";
+		String lName;
+				if(valid.isString(txtLastName.getText().toString())) {
+				lName =txtLastName.getText();	
+				} else {
+					valid.error.setError(head, cont);
+					lName ="";
+				}
+		
 			Date dob = Date.valueOf(dpDOB.getValue());
 			String empNum = txtEmpNum.getText(); 
 			Date dateHire = Date.valueOf(java.time.LocalDate.now()); //today's date auto added
-						
-			//add pilot
-			DBAddPilot addPilot = new DBAddPilot(fName, lName, dob, empNum, dateHire); 		
-			//clear entry fields
-			txtFirstName.clear(); 
-			txtLastName.clear(); 
-			dpDOB.valueProperty().set(null);
-			txtEmpNum.clear(); 
+			if(fName=="") {
+				txtFirstName.clear();
+			}else if(lName=="") {
+				txtLastName.clear();
+			}else if (valid.stringLength(empNum)==0) {
+				valid.error.setError("Employee Number", " Can't be Empty");
+			}
+			else if(valid.afterDate(dob, dateHire)) {
+				valid.error.setError("DOB", "Can't be after Hire Date");
+			}else {
+				//add pilot
+				DBAddPilot addPilot = new DBAddPilot(fName, lName, dob, empNum, dateHire); 		
+				//clear entry fields
+				txtFirstName.clear(); 
+				txtLastName.clear(); 
+				dpDOB.valueProperty().set(null);
+				txtEmpNum.clear(); 
+				
+			}		
+		
 		});
 		    	
 		return box; 

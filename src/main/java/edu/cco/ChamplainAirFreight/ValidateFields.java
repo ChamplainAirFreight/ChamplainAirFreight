@@ -119,7 +119,7 @@ public class ValidateFields {
 		return length;
 	   }
 	   //compare Date date1 is after date2
-	   static boolean afterDate(Date date1, Date date2)  {
+	   public boolean afterDate(Date date1, Date date2)  {
 		   if (date1.compareTo(date2)>0) {
 			   return true;
 		   }else {
@@ -130,7 +130,7 @@ public class ValidateFields {
 		   
 	   }
 	 //compare Date date 1 is before date 2
-	   static boolean beforeDate(Date date1, Date date2)  {
+	   public boolean beforeDate(Date date1, Date date2)  {
 		   if (date1.compareTo(date2)<0) {
 			   return true;
 		   }else {
@@ -141,7 +141,7 @@ public class ValidateFields {
 		   
 	   }
 	   //compare Date date1 is equal to date2
-	   static boolean datesEqual(Date date1, Date date2)  {
+	  public boolean datesEqual(Date date1, Date date2)  {
 		   if (date1.compareTo(date2)==0) {
 			   return true;
 		   }else {
