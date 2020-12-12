@@ -85,6 +85,7 @@ public void insertSQL(int aID,int pID,int startAirport, int endAirport, String s
 		callable.executeQuery();
 		
 	} catch (SQLException ex) {
+		ex.printStackTrace(); 
         System.out.println("Insert Flight Problem !");
     }
 	

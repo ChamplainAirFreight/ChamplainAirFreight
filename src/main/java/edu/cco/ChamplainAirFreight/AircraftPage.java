@@ -157,13 +157,7 @@ public class AircraftPage {
         btnDelete.setOnAction(e -> {
         	box.setCenter(getDelete());
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
-        btnExit.setOnAction(e -> {
+       btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewFlights page
             box.setCenter(getViewSelected());
@@ -331,6 +325,10 @@ public class AircraftPage {
 		  //grid of information
 		    GridPane grid = new GridPane(); 
 		    grid.setAlignment(Pos.CENTER); 
+		    grid.setPadding(new Insets(2,20,2,20)); 
+			grid.setHgap(5);
+			grid.setVgap(5);
+			
 		    Label lbID = new Label("Aircraft ID: "); 
 		    Label lbStatusID = new Label("Status ID: "); 
 		    Label lbMake = new Label("Make: "); 
@@ -382,6 +380,17 @@ public class AircraftPage {
 		    	txtLoadVol.setText(view.getLoadVolume().toString());
 		    });
 		    
+		    btnCancel.setOnAction(e->{
+		    	airSelect.valueProperty().set(null);
+		    	txtID.setText("");
+		    	txtStatusID.setText(""); 
+		    	txtMake.setText("");
+		    	txtModel.setText("");
+		    	txtRange.setText("");
+		    	txtRangeClass.setText("");
+		    	txtPayload.setText("");
+		    	txtLoadVol.setText("");
+		    }); 
 		    centerBox.getChildren().addAll(title,instructions, selection, grid); 
 		    
 		return centerBox; 
@@ -399,24 +408,25 @@ public class AircraftPage {
 		 
 		// add title and subtitle instructions 
 		    Text title = new Text("Add New Aircraft"); 
-		    Text instructions = new Text("Enter The model for a new Aircraft, then click ADD");
+		    Text instructions = new Text("Enter The model for a new Aircraft, then click Enter");
 		    		    
 		// add entry fields:
 		    GridPane gpane = new GridPane(); 
 		    gpane.setAlignment(Pos.CENTER); 
+		    gpane.setPadding(new Insets(2,20,2,20)); 
+			gpane.setHgap(5);
+			gpane.setVgap(5);
 		    //create an arraylist with the make and model together
 		    ArrayList<String> modelMake = new ArrayList<>(); 
 		    for(int i=0; i < add.getModelID().size(); i++) {
 		    	modelMake.add(add.getMake().get(i) + ", " + add.getModel().get(i)); 
 		    }
 		    ComboBox cbModels = new ComboBox(FXCollections.observableArrayList(modelMake)); //call a list of current models to choose from 
-		    Button btAdd = new Button("ADD"); 
 		    gpane.add(cbModels, 0,  0);
-		    gpane.add(btAdd, 1, 0);
-		    
+		    		    
 		    centerBox.getChildren().addAll(title, instructions, gpane);  
 		    
-		    btAdd.setOnAction(e->{
+		    btnEnter.setOnAction(e->{
 		    	//find model id based on chosen index in cbModels
 		    	int index = modelMake.indexOf(cbModels.getValue()); 
 		    	int selection = add.getModelID().get(index); 
@@ -425,6 +435,10 @@ public class AircraftPage {
 		    	
 		    	//clear selection
 		    	cbModels.valueProperty().set(null);
+		    });
+		    
+		    btnCancel.setOnAction(e->{
+		    	cbModels.valueProperty().set(null); //set combobox back to null
 		    });
 		
 		
@@ -453,6 +467,9 @@ public class AircraftPage {
 		  //grid of information
 		    GridPane grid = new GridPane(); 
 		    grid.setAlignment(Pos.CENTER); 
+		    grid.setPadding(new Insets(2,20,2,20)); 
+			grid.setHgap(5);
+			grid.setVgap(5);
 		    Label lbID = new Label("Aircraft ID: "); 
 		  //  Label lbStatusID = new Label("Status ID: "); 
 		    
@@ -511,6 +528,13 @@ public class AircraftPage {
 		        }
 		    	
 		    });
+		    
+		    //clear fields to cancel 
+		    btnCancel.setOnAction(e->{
+		    	txtID.clear(); 
+		    	txtModelID.clear(); 
+		    	airSelect.valueProperty().set(null);
+		    });
 		    //clear
 		    txtID.clear();
 		   // txtStatusID.clear();
@@ -538,6 +562,9 @@ public class AircraftPage {
 		//add selection fields
 		    GridPane gpane = new GridPane(); 
 		    gpane.setAlignment(Pos.CENTER);
+		    gpane.setPadding(new Insets(2,20,2,20)); 
+			gpane.setHgap(5);
+			gpane.setVgap(5);
 		    ComboBox cbAirID = new ComboBox(FXCollections.observableArrayList(view.getAircraftID())); 
 		    Button btDelete = new Button("DELETE"); 
 		    gpane.add(cbAirID,  0,  0);
@@ -549,6 +576,10 @@ public class AircraftPage {
 			   DBDeleteAircraft delete = new DBDeleteAircraft(); 
 			   delete.deleteAircraft(Integer.parseInt(cbAirID.getValue().toString()));
 		   //clear combobox
+			   cbAirID.valueProperty().set(null);
+		   });
+		   
+		   btnCancel.setOnAction(e->{
 			   cbAirID.valueProperty().set(null);
 		   });
 	
