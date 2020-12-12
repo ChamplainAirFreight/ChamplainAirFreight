@@ -437,6 +437,7 @@ DateTimePicker dtEnd = new DateTimePicker();
     	//for start end time
     	head="Time";
     	cont="Not Blank";
+    	
     	if (flightID==0) {
     		txtID.clear();
     	}else if(airCraftID==0) {

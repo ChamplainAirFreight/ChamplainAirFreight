@@ -39,8 +39,8 @@ public String eTime;
 * 3. PilotID int
 * 4. StartAirport int
 * 5. EndAirport int
-* 6. FlightStartTime Date
-* 7. FlightEndTime Date
+* 6. FlightStartTime Date USED STRING correctly formatted
+* 7. FlightEndTime Date USED STRING correctly formatted
 * 
 * Default Constructor
 * Matt Ridgway 
