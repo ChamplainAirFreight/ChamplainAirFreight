@@ -663,7 +663,6 @@ private VBox addPane() {
 		int endIndex = finder.getAirportNames().indexOf(endLoc); 
 		int endLocID = finder.getAirportIDs().get(endIndex);
 		
-		//CURRENTLY TIME GETS LOST BEFORE ENTERING INTO DB!!! 
 		LocalDateTime start = dtStart.getDateTimeValue();
 		String startDate = start.toString();  
 		startDate = startDate.replace("T", " "); 
@@ -681,8 +680,7 @@ private VBox addPane() {
 		cbStartLoc.valueProperty().set(null);
 		cbEndLoc.valueProperty().set(null); 
 		dtStart.valueProperty().set(null);
-		dtEnd.valueProperty().set(null);
-		
+		dtEnd.valueProperty().set(null);		
 		    		
 	});
 	    	
