@@ -149,16 +149,13 @@ public class ClientsPage {
 
         //add actionables to change the setCenter based on button responses:
         btnView.setOnAction(e -> {
-        	 box.setCenter(getViewLBs());//(getViewLBs()); 
-        //	getClientInfolb(), getClientInfotx()
+        	 box.setCenter(getViewLBs());     
         });
-        btnAdd.setOnAction(e -> {
-            //box.setCenter(getClientLBs()); 
+        btnAdd.setOnAction(e -> { 
         	box.setCenter(addPane());
            
          });
-        btnEdit.setOnAction(e -> {
-        	//box.setCenter(getClientLBs());   	
+        btnEdit.setOnAction(e -> { 	
         	box.setCenter(addPaneUpdate());
         
         });
@@ -261,6 +258,7 @@ public class ClientsPage {
     VBox centerBox = new VBox();
     centerBox.setAlignment(Pos.TOP_CENTER);
     centerBox.setMinHeight(300);
+    centerBox.setSpacing(5);
     centerBox.setStyle("-fx-background-color: white");
     
     // add title and subtitle instructions 
@@ -270,6 +268,7 @@ public class ClientsPage {
     
     // add a combobox and fill with all client names
     HBox selection = new HBox(); 
+    selection.setSpacing(5); 
     selection.setAlignment(Pos.CENTER);
     ComboBox clientSelect = new ComboBox(FXCollections.observableArrayList(all.getName())); 
     clientSelect.setVisibleRowCount(5); 
@@ -279,6 +278,8 @@ public class ClientsPage {
     //grid of information: 
     GridPane grid = new GridPane(); 
     grid.setAlignment(Pos.CENTER);
+    grid.setHgap(11);
+	grid.setVgap(5);
     Label lbName = new Label("Client Name: "); 
     grid.add(lbName, 0, 0);
     Label lbType = new Label ("Client Type: "); 
@@ -330,6 +331,17 @@ public class ClientsPage {
 	   }
 	   
     });
+   
+   btnCancel.setOnAction(e->{
+	   clientSelect.valueProperty().set(null); 
+	   txtSelectName.setText(""); 
+	   txtSelectType.setText("");
+	   txtSelectPhone.setText("");
+	   txtSelectAddress.setText("");
+	   txtSelectCity.setText("");
+	   txtSelectState.setText("");
+	   txtSelectZip.setText("");
+   });
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     return centerBox; 
@@ -494,11 +506,16 @@ public class ClientsPage {
     		
     		
     		
-    		
+    	});
     	
-    	
-    		
-    		
+    	btnCancel.setOnAction(e->{
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
     	});
     	    	
 		return box; 
@@ -715,12 +732,19 @@ public class ClientsPage {
         		cbState.valueProperty().set(null);
         		txtZip.clear(); 
     		}
-    		
+    	    	   
     	
-    	   
+    	});
     	
-    			
-    	
+    	btnCancel.setOnAction(e->{
+    		cbClientID.valueProperty().set(null);
+    		txtName.clear(); 
+    		txtPhone.clear(); 
+    		txtAdd1.clear(); 
+    		txtAdd2.clear();
+    		txtCity.clear();
+    		cbState.valueProperty().set(null);
+    		txtZip.clear(); 
     	});
     	    	
 		return box; 
@@ -747,6 +771,8 @@ public class ClientsPage {
 		ComboBox cbClients = new ComboBox(FXCollections.observableArrayList(view.getName())); 
 		Button btDelete = new Button("DELETE"); 
 		GridPane gpane = new GridPane(); 
+		gpane.setHgap(11);
+    	gpane.setVgap(5);
 		gpane.setAlignment(Pos.CENTER);
 		gpane.add(cbClients, 0,0);
 		gpane.add(btDelete, 1, 0);
@@ -766,6 +792,9 @@ public class ClientsPage {
 			cbClients.valueProperty().set(null);
 		});
 		
+		btnCancel.setOnAction(e->{
+			cbClients.valueProperty().set(null);
+		});
 		return box; 
 		
 	}
