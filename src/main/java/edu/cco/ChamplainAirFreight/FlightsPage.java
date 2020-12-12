@@ -652,8 +652,11 @@ private VBox addPane() {
 	box.getChildren().addAll(title,instructions,grid); 
 	btnEnter.setOnAction(e->{
 		//variables for SQL stored procedure
-		int airID = cbAirID.getValue(); 
-		int pilotID = cbPilotID.getValue(); 
+		//with validation		
+		int airID =0;
+		airID = cbAirID.getValue(); 
+		int pilotID =0;
+		pilotID = cbPilotID.getValue(); 
 		
 		//grab the location id from the lookup table
 		String startLoc = cbStartLoc.getValue(); 
@@ -673,15 +676,29 @@ private VBox addPane() {
 		
 		System.out.println("start date: " + startDate); 
 		System.out.println("End date: " + endDate); 
-		//add flight
-		DBAddFlight add = new DBAddFlight(airID, pilotID, startLocID, endLocID, startDate, endDate); 		
-		//clear entry fields
-		cbAirID.valueProperty().set(null);
-		cbPilotID.valueProperty().set(null);
-		cbStartLoc.valueProperty().set(null);
-		cbEndLoc.valueProperty().set(null); 
-		dtStart.valueProperty().set(null);
-		dtEnd.valueProperty().set(null);		
+		
+		String head="AirCraft ID";
+		String cont="Cant be unselected";	
+		if (airID==0) {
+			valid.error.setError(head, cont);
+		}else if(pilotID==0) {
+			head="Pilot ID";
+			valid.error.setError(head, cont);
+			
+		}
+		else {
+			
+			//add flight
+			DBAddFlight add = new DBAddFlight(airID, pilotID, startLocID, endLocID, startDate, endDate); 		
+			//clear entry fields
+			cbAirID.valueProperty().set(null);
+			cbPilotID.valueProperty().set(null);
+			cbStartLoc.valueProperty().set(null);
+			cbEndLoc.valueProperty().set(null); 
+			dtStart.valueProperty().set(null);
+			dtEnd.valueProperty().set(null);
+		}
+			
 		    		
 	});
 	    	
