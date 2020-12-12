@@ -28,8 +28,8 @@ public int aID;
 public int pID;
 public int sAirport;
 public int eAirport;
-public Date sTime;
-public Date eTime;
+public String sTime;
+public String eTime;
 
 
 /**
@@ -64,7 +64,7 @@ public DBUpdateFlight() {
 * @param sTime
 * @param eTime
 */
-public void updateFlight(int fID, int aID, int pID, int sAirport, int eAirport,Date sTime,Date eTime) {
+public void updateFlight(int fID, int aID, int pID, int sAirport, int eAirport,String sTime,String eTime) {
 try {
 	String storedP = "{call CAFDB.dbo.Update_Flight(?,?,?,?,?,?)}"; 
   
@@ -74,9 +74,10 @@ try {
     callable.setInt(3, pID);
     callable.setInt(4,sAirport);
     callable.setInt(5,eAirport);
-    callable.setDate(6, sTime);
-    callable.setDate(7, eTime);
+    callable.setString(6, sTime);
+    callable.setString(7, eTime);
     ResultSet rs = callable.executeQuery(); 
+    System.out.println(rs);
 
 } catch (SQLException ex) {
     System.out.println("Update Flight Problem!");
@@ -104,11 +105,11 @@ public int geteAirport() {
 	return eAirport;
 }
 
-public Date getsTime() {
+public String getsTime() {
 	return sTime;
 }
 
-public Date geteTime() {
+public String geteTime() {
 	return eTime;
 }
 

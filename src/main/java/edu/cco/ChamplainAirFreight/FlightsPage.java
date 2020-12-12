@@ -328,7 +328,9 @@ public class FlightsPage {
 public VBox editFlightPane() {
 DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
 DBUpdateFlight update =new DBUpdateFlight();
-	
+DateTimePicker dtStart = new DateTimePicker();  
+DateTimePicker dtEnd = new DateTimePicker(); 
+
     VBox centerBox = new VBox();
     centerBox.setAlignment(Pos.TOP_CENTER);
     centerBox.setMinHeight(300);
@@ -416,14 +418,25 @@ DBUpdateFlight update =new DBUpdateFlight();
     	
     	head ="Aircraft ID";
     	int airCraftID=valid.intChecker(txtAirID.getText(),head,cont);
-    	Date startTime = null;
-    	Date endTime = null;
+    	
+    	LocalDateTime start = dtStart.getDateTimeValue();
+		String startDate = start.toString();  
+		startDate = startDate.replace("T", " "); 
+		LocalDateTime end = dtEnd.getDateTimeValue(); 
+		String endDate = end.toString(); 
+		endDate = endDate.replace("T", " "); 
+		
+		System.out.println("start date: " + startDate); 
+		System.out.println("End date: " + endDate); 
     	head="Pilot ID";
     	int pilotID=valid.intChecker(txtPilotID.getText(),head,cont);
     	head="Starting Airport";
     	int startAirport =valid.intChecker(txtStartAirport.getText(),head,cont);
     	head="Ending Airport";
     	int endAirport =valid.intChecker(txtEndAirport.getText(),head,cont);
+    	//for start end time
+    	head="Time";
+    	cont="Not Blank";
     	if (flightID==0) {
     		txtID.clear();
     	}else if(airCraftID==0) {
@@ -434,9 +447,16 @@ DBUpdateFlight update =new DBUpdateFlight();
     		txtStartAirport.clear();
     	}else if (endAirport==0) {	
            	txtEndAirport.clear();		
-    	// NEED TO ADD ELSE IF CHECK FOR DATEs
-    	}else {
-    		//update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startTime, endTime);
+    	
+
+    	}else if (startDate=="") {
+    		
+    		valid.error.setError(head, cont);
+    	}else if(endDate=="") {
+    		valid.error.setError(head, cont);
+    	}
+    	else {
+    		update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startDate, endDate);
     		 //clear textFields
     	    txtID.clear();
     	    txtAirID.clear();
