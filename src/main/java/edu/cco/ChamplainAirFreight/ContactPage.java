@@ -2,6 +2,7 @@ package edu.cco.ChamplainAirFreight;
 
 import java.util.Arrays;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,7 +11,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -46,6 +46,9 @@ public class ContactPage {
 
     //variables
     BorderPane bPane = new BorderPane();
+       
+    //used for validation
+    ValidateFields valid = new ValidateFields();
     
 	//TextArea for the view - By Pierre
 	static TextArea texReaOne = new TextArea();
@@ -80,9 +83,13 @@ public class ContactPage {
     ContactPage(BorderPane bp) {
         bPane = bp;
     }
+    
+//    private HomePage HomePage(BorderPane bPane2) {
+//		// TODO Auto-generated method stu	
+//		return null;
+//	}
 
-
-    public VBox getPane() {
+	public VBox getPane() {
         VBox vbox = new VBox();
         vbox.getChildren().add(contacts());
         return vbox;
@@ -125,23 +132,22 @@ public class ContactPage {
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setMinHeight(50);
-       buttonBox.getChildren().addAll(getContactButtons());
+        buttonBox.getChildren().addAll(getContactButtons());
         
         //add title and center to pane:
         box.setTop(titleBox);
         box.setCenter(centerBox);
         box.setBottom(buttonBox);
         
-        centerBox.getChildren().addAll(getContactLBs() );
-        
+        centerBox.getChildren().addAll(getContactLBs());
 
         /**
          * This send button will activate when user click send. Then the user's email will be send to
          * a designated email address
          */
         btnSend.setOnAction(e -> {
-        	
-    		System.out.println("Preparing to send your email");
+
+        	System.out.println("Preparing to send your email");
     		
     		//Authentication to be able to access the email account top send the email 
     		final String calEmail = "champlainairfreight@gmail.com";
@@ -186,7 +192,6 @@ public class ContactPage {
     			
     			//Instantiated a MimeBodyPart
     			MimeBodyPart bodyText = new MimeBodyPart();	
-    		
     			
     			bodyText.setText(fName);
     			bodyText.setText(lName);
@@ -201,22 +206,24 @@ public class ContactPage {
 
     			//Transport to allow the email to be sent
     			Transport.send(mymessage);
+    			
+        		System.out.println("Your email was sent successfully");
+           		
     		} catch(Exception ex) {
     			ex.printStackTrace();
+    			
     		}
 
-    		System.out.println("Your email was sent successfully");
-
-   		 txfname.clear();
-   		 txlname.clear();
-   		 txsubject.clear();
-   		 texReaOne.clear();
+    		 txfname.requestFocus();
+     		 txfname.clear();
+      		 txlname.clear();
+      		 txsubject.clear();
+      		 texReaOne.clear();
+      		 
+            box.setCenter(getConfirmation());
+            centerBox.getChildren().addAll(contacts());
         });
-        
-		
-  
-		
-	    
+       	    
         return box;
     }
 
@@ -318,23 +325,24 @@ public class ContactPage {
 
     private VBox getConfirmation() {
     	VBox vboxlb = new VBox();
-    	Label contTex = new Label("The Champlain Air-Freight can be reached 27/7");
-    	Label cInfo1 = new Label("For any dificulty or if you are having the following issue Please call "
-    			+ "out technical team phone number");
-    	Label cInfo2 = new Label("1 - Program not launching");
-    	Label cInfo3 = new Label("2 - The program keeps restarting");
-    	Label cInfo4 = new Label("3 - The program is freezing with a popup error");
-    	Label cInfo5 = new Label("4 - Need to install the program on a new computer");
-    	Label cInfo6 = new Label("5 - The you are receiving an error message when trying to enter, search or save data");
-    	contTex.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 40));
-    	cInfo1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	cInfo2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	cInfo3.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	cInfo4.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	cInfo5.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	cInfo6.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 20));
-    	vboxlb.setPrefSize(900, 500);
     	vboxlb.setAlignment(Pos.CENTER_LEFT);
+    	vboxlb.setSpacing(20);
+    	vboxlb.setPadding(new Insets(0,0,0,30));
+    	Label contTex = new Label("This is a confirmation that we have received your email request.");
+    	Label cInfo1 = new Label("We are currently reviewing your request and we will reach out to you as soon as possible.");
+    	Label cInfo2 = new Label("If you are having the following issues please close and re-launch the program");
+    	Label cInfo3 = new Label("1 - Program freezes after your computer lost internet connection");
+    	Label cInfo4 = new Label("2 - The program is freezing with a connection error");
+    	Label cInfo5 = new Label("3 - Need to enter a record but are unable open or access the page");
+    	Label cInfo6 = new Label("4 - The you are receiving an error message when trying to enter, search or save data");
+    	contTex.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 30));
+    	cInfo1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	cInfo2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	cInfo3.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	cInfo4.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	cInfo5.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	cInfo6.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15));
+    	vboxlb.setPrefSize(900, 500);
     	vboxlb.getChildren().addAll(contTex, cInfo2, cInfo3, cInfo4, cInfo5, cInfo6);
     	return vboxlb;
     }
