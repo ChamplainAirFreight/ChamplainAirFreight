@@ -30,6 +30,7 @@ public int sAirport;
 public int eAirport;
 public String sTime;
 public String eTime;
+//public String returnString;
 
 
 /**
@@ -77,7 +78,7 @@ try {
     callable.setString(6, sTime);
     callable.setString(7, eTime);
     ResultSet rs = callable.executeQuery(); 
-    System.out.println(rs);
+    //returnString=rs.toString();
 
 } catch (SQLException ex) {
     System.out.println("Update Flight Problem!");
@@ -113,4 +114,7 @@ public String geteTime() {
 	return eTime;
 }
 
+//public String returnString() {
+//	return returnString;
+//}
 }
