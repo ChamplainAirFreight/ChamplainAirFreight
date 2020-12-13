@@ -206,6 +206,8 @@ public class ClientsPage {
 		return hboxv;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// VIEW ALL
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * This TextArea will display the output or result for the View All shipment information 
 	 * it will allow users to view a summary of the shipments. Users will not be able to 
@@ -249,6 +251,9 @@ public class ClientsPage {
 		return box;
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// VIEW SELECTED
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * getViewSelected - the initial pane for the ViewClients page. Will hold a feature 
 	 * to view an individual client with the DBViewSelectClient class 
@@ -349,6 +354,9 @@ public class ClientsPage {
     return centerBox; 
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ADD
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * addPane - pane for adding a client in the database. 
 	 */
@@ -527,6 +535,10 @@ public class ClientsPage {
     	    	
 		return box; 
 	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// UPDATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
  * @Author Name: Matt Ridgway
  * @Assignment Name: caf
@@ -541,11 +553,10 @@ public class ClientsPage {
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
 		//update client classes
-		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist
-		DBViewSelectClient select = new DBViewSelectClient(); 
+		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist		 
 		DBUpdateClient updateClient = new DBUpdateClient();
 		DBViewAllClientType viewType = new DBViewAllClientType();
-	
+		DBViewSelectClient select = new DBViewSelectClient();
 		
 		//call the get client id from viewAll 
 		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(viewAll.getID()));
@@ -618,17 +629,28 @@ public class ClientsPage {
     	
     	//set the other textfields to whatever clientID is entered
     	btSelectClient.setOnAction(e->{
-    		select.viewSelected(cbClientID.getValue());
-    		    		
-    		txtName.setText(select.getClientName());
+    		DBViewSelectClient vsc = new DBViewSelectClient(); 
+    		//clear previous values
+    		txtName.setText(""); 
+    		txtPhone.setText(""); 
+    		txtAdd1.setText(""); 
+    		txtAdd2.setText("");
+    		txtCity.setText("");
+    		cbState.valueProperty().set(null);
+    		txtZip.setText(""); 
     		
-    		cbType.equals(select.getClientType());
-    		txtPhone.setText(select.getPhone());
-    		txtAdd1.setText(select.getAddress1());
-    		txtAdd2.setText(select.getAddress2());
-    		txtCity.setText(select.getCity());
-    		cbState.setValue(select.getState());
-    		txtZip.setText(select.getZip()); 
+    		//get new selection
+    		vsc.viewSelected(cbClientID.getValue());
+    		
+    		//fill with new values
+    		txtName.setText(vsc.getClientName());
+    		cbType.equals(vsc.getClientType());
+    		txtPhone.setText(vsc.getPhone());
+    		txtAdd1.setText(vsc.getAddress1());
+    		txtAdd2.setText(vsc.getAddress2());
+    		txtCity.setText(vsc.getCity());
+    		cbState.setValue(vsc.getState());
+    		txtZip.setText(vsc.getZip()); 
     	});
     	
     	
@@ -758,6 +780,9 @@ public class ClientsPage {
 		return box; 
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DELETE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * deletePane - method for deleting a client using the DBDeleteClient class
 	 * @return
