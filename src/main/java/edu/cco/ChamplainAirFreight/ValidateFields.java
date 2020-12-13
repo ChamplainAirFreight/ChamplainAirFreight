@@ -112,6 +112,46 @@ public class ValidateFields {
 		      }
 		     
 		   }
+	   /**
+	    * This sis to validate sender first name
+	    */
+	   public void noSenderFirstName() {
+		   Alert alert = new Alert(Alert.AlertType.WARNING);
+		   alert.setTitle("Warning");
+		   alert.setHeaderText("Missing Sender First Name");
+		   alert.setContentText("Please enter the first name");
+		   alert.showAndWait();
+	   }
+	   /**
+	    * This sis to validate sender last name
+	    */
+	   public void noSenderLastName() {
+		   Alert alert = new Alert(Alert.AlertType.WARNING);
+		   alert.setTitle("Warning");
+		   alert.setHeaderText("Missing Sender Last Name");
+		   alert.setContentText("Please enter the last name");
+		   alert.showAndWait();
+	   }
+	   /**
+	    * This sis to validate subject
+	    */
+	   public void noSubject() {
+		   Alert alert = new Alert(Alert.AlertType.WARNING);
+		   alert.setTitle("Warning");
+		   alert.setHeaderText("Missing Subject");
+		   alert.setContentText("Please enter a subject");
+		   alert.showAndWait();
+	   }
+	   /**
+	    * This sis to validate sender last name
+	    */
+	   public void noMessage() {
+		   Alert alert = new Alert(Alert.AlertType.WARNING);
+		   alert.setTitle("Warning");
+		   alert.setHeaderText("No Message Entered");
+		   alert.setContentText("Please enter a message");
+		   alert.showAndWait();
+	   }
 	   //string length
 	   public int stringLength(String s) {
 		   
