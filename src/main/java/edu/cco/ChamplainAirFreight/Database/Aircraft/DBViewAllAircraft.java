@@ -24,7 +24,7 @@ public class DBViewAllAircraft extends DBConnection {
 	public CallableStatement callable = null; 
 	private ArrayList<Integer> acID = new ArrayList<>();
 	private ArrayList<Integer> acModelID = new ArrayList<>(); 
-	private ArrayList<Integer> acStatusID = new ArrayList<>(); 
+	private ArrayList<String> acStatus = new ArrayList<>(); 
 	private ArrayList<String> acMake = new ArrayList<>();
 	private ArrayList<String> acModel = new ArrayList<>(); 
 	private ArrayList<String> acRange = new ArrayList<>(); 
@@ -64,25 +64,24 @@ public class DBViewAllAircraft extends DBConnection {
 			 * Output from View_All_Aircraft:
 			 * 1 = AircraftID - int
 			 * 2 = ACModelID - int
-			 * 3 = AircraftStatusID - int
-			 * 4 = ACModelID - int --- this shows up twice so only add once
-			 * 5 = ACMake - Varchar (string)
-			 * 6 = ACModel - varchar (string)
-			 * 7 = ACRange - varchar (string)
-			 * 8 = ACRangeClassification - varchar (string)
-			 * 9 = ACPayload - float (int or double?)
-			 * 10 = ACLoadVolume - float (int or double?)
+			 * 3 = AircraftStatus - (string)
+			 * 4 = ACMake - Varchar (string)
+			 * 5 = ACModel - varchar (string)
+			 * 6 = ACRange - varchar (string)
+			 * 7 = ACRangeClassification - varchar (string)
+			 * 8 = ACPayload - float (int or double?)
+			 * 9 = ACLoadVolume - float (int or double?)
 			 */
 			while(rs.next()) {
 				acID.add(rs.getInt(1)); 
 				acModelID.add(rs.getInt(2)); 
-				acStatusID.add(rs.getInt(3)); 
-				acMake.add(rs.getString(5)); 
-				acModel.add(rs.getString(6)); 
-				acRange.add(rs.getString(7)); 
-				acRangeClass.add(rs.getString(8)); 
-				acPayload.add(rs.getDouble(9)); 
-				acLoadVolume.add(rs.getDouble(10)); 				
+				acStatus.add(rs.getString(3)); 
+				acMake.add(rs.getString(4)); 
+				acModel.add(rs.getString(5)); 
+				acRange.add(rs.getString(6)); 
+				acRangeClass.add(rs.getString(7)); 
+				acPayload.add(rs.getDouble(8)); 
+				acLoadVolume.add(rs.getDouble(9)); 				
 			}
 			
 		}catch (SQLException ex) {
@@ -104,8 +103,8 @@ public class DBViewAllAircraft extends DBConnection {
 		return acModelID; 
 	}
 	
-	public ArrayList<Integer> getAircraftStatusID(){
-		return acStatusID; 
+	public ArrayList<String> getAircraftStatusID(){
+		return acStatus; 
 	}
 	
 	public ArrayList<String> getAircraftMake(){
@@ -140,7 +139,7 @@ public class DBViewAllAircraft extends DBConnection {
 	public void clearAllAircraft() {
 		acID.clear(); 
 		acModelID.clear(); 
-		acStatusID.clear(); 
+		acStatus.clear(); 
 		acMake.clear(); 
 		acModel.clear(); 
 		acRange.clear(); 

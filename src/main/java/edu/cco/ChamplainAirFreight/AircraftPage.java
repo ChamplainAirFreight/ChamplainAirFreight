@@ -241,12 +241,12 @@ public class AircraftPage {
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
 		Label lbcraftID = new Label("Aircraft ID"); 
-		Label lbStatusID = new Label("Status"); 
+		Label lbStatus = new Label("Status"); 
 		 lbcraftMake = new Label("AirCraft Make");
 		 lbcraftModel = new Label("AirCraft Model");
 		 lbcraftRang = new Label("AirCraft Range");
 		 lbcraftRC = new Label("Range Clasification");
-		hboxv.getChildren().addAll(lbcraftID, lbStatusID, lbcraftMake, lbcraftModel, lbcraftRang, lbcraftRC);
+		hboxv.getChildren().addAll(lbcraftID, lbStatus, lbcraftMake, lbcraftModel, lbcraftRang, lbcraftRC);
 		return hboxv;
 	}
 
@@ -274,7 +274,7 @@ public class AircraftPage {
 				 int i =0; 
 				 while(i < viewAllAir.getAircraftID().size()) {
 					 Label gridAirID = new Label (String.valueOf(viewAllAir.getAircraftID().get(i))); 
-					 Label gridStatusID = new Label (String.valueOf(viewAllAir.getAircraftStatusID().get(i))); 
+					 Label gridStatus = new Label (String.valueOf(viewAllAir.getAircraftStatusID().get(i))); 
 					 Label gridMake = new Label(String.valueOf(viewAllAir.getAircraftMake().get(i))); 
 					 Label gridModel = new Label(String.valueOf(viewAllAir.getAircraftModel().get(i))); 
 					 Label gridRange = new Label(String.valueOf(viewAllAir.getAircraftRange().get(i))); 
@@ -282,7 +282,7 @@ public class AircraftPage {
 					 
 					 
 					 gpane.add(gridAirID,  0,  row);
-					 gpane.add(gridStatusID, 1, row); 
+					 gpane.add(gridStatus, 1, row); 
 					 gpane.add(gridMake,  2,  row);
 					 gpane.add(gridModel,  3,  row);
 					 gpane.add(gridRange,  4,  row);
@@ -330,7 +330,7 @@ public class AircraftPage {
 			grid.setVgap(5);
 			
 		    Label lbID = new Label("Aircraft ID: "); 
-		    Label lbStatusID = new Label("Status ID: "); 
+		    Label lbStatus = new Label("Status: "); 
 		    Label lbMake = new Label("Make: "); 
 		    Label lbModel = new Label("Model: "); 
 		    Label lbRange = new Label("Range: "); 
@@ -339,7 +339,7 @@ public class AircraftPage {
 		    Label lbLoadVol = new Label("Load Volume: "); 
 		    
 		    Text txtID = new Text(); 
-		    Text txtStatusID = new Text(); 
+		    Text txtStatus = new Text(); 
 		    Text txtMake = new Text(); 
 		    Text txtModel = new Text(); 
 		    Text txtRange = new Text(); 
@@ -348,7 +348,7 @@ public class AircraftPage {
 		    Text txtLoadVol = new Text(); 
 		    
 		    grid.add(lbID, 0, 0);
-		    grid.add(lbStatusID, 0, 1);
+		    grid.add(lbStatus, 0, 1);
 		    grid.add(lbMake, 0, 2);
 		    grid.add(lbModel, 0, 3);
 		    grid.add(lbRange,0,4); 
@@ -356,7 +356,7 @@ public class AircraftPage {
 		    grid.add(lbPayload, 0, 6);
 		    grid.add(lbLoadVol, 0, 7);
 		    grid.add(txtID, 1, 0);
-		    grid.add(txtStatusID, 1, 1);
+		    grid.add(txtStatus, 1, 1);
 		    grid.add(txtMake, 1, 2);
 		    grid.add(txtModel, 1, 3);
 		    grid.add(txtRange,1,4); 
@@ -371,7 +371,7 @@ public class AircraftPage {
 		    	view.viewSelected(entry);
 		    	
 		    	txtID.setText(Integer.toString(view.getAircraftID()));
-		    	txtStatusID.setText(Integer.toString(view.getStatusID()));
+		    	txtStatus.setText(view.getStatus());
 		    	txtMake.setText(view.getMake());
 		    	txtModel.setText(view.getModel());
 		    	txtRange.setText(view.getRange());
@@ -383,7 +383,7 @@ public class AircraftPage {
 		    btnCancel.setOnAction(e->{
 		    	airSelect.valueProperty().set(null);
 		    	txtID.setText("");
-		    	txtStatusID.setText(""); 
+		    	txtStatus.setText(""); 
 		    	txtMake.setText("");
 		    	txtModel.setText("");
 		    	txtRange.setText("");

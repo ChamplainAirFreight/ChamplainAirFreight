@@ -20,7 +20,7 @@ public class DBViewSelectAircraft extends DBConnection {
 	public CallableStatement callable = null; 
 	private int acID;
 	private int acModelID;
-	private int acStatusID; 
+	private String acStatus; 
 	private String acMake;
 	private String acModel;
 	private String acRange;
@@ -57,25 +57,24 @@ public class DBViewSelectAircraft extends DBConnection {
 		 * Output from View_Selected_Aircraft:
 		 * 1 = AircraftID - int
 		 * 2 = ACModelID - int
-		 * 3 = AircraftStatusID - int
-		 * 4 = ACModelID - int --- this shows up twice so only add once
-		 * 5 = ACMake - Varchar (string)
-		 * 6 = ACModel - varchar (string)
-		 * 7 = ACRange - varchar (string)
-		 * 8 = ACRangeClassification - varchar (string)
-		 * 9 = ACPayload - float (int or double?)
-		 * 10 = ACLoadVolume - float (int or double?)
+		 * 3 = AircraftStatus - String
+		 * 4 = ACMake - Varchar (string)
+		 * 5 = ACModel - varchar (string)
+		 * 6 = ACRange - varchar (string)
+		 * 7 = ACRangeClassification - varchar (string)
+		 * 8 = ACPayload - float (int or double?)
+		 * 9 = ACLoadVolume - float (int or double?)
 		 */
 		while(rs.next()) {
 			acID = rs.getInt(1); 
 			acModelID = rs.getInt(2); 
-			acStatusID = rs.getInt(3); 
-			acMake = rs.getString(5); 
-			acModel = rs.getString(6); 
-			acRange = rs.getString(7); 
-			acRangeClass = rs.getString(8); 
-			acPayload = rs.getDouble(9); 
-			acLoadVolume = rs.getDouble(10); 				
+			acStatus = rs.getString(3); 
+			acMake = rs.getString(4); 
+			acModel = rs.getString(5); 
+			acRange = rs.getString(6); 
+			acRangeClass = rs.getString(7); 
+			acPayload = rs.getDouble(8); 
+			acLoadVolume = rs.getDouble(9); 				
 		}
 		
 	}catch (SQLException ex) {
@@ -97,8 +96,8 @@ public class DBViewSelectAircraft extends DBConnection {
 	public int getModelID() {
 		return acModelID; 
 	}
-	public int getStatusID() {
-		return acStatusID; 
+	public String getStatus() {
+		return acStatus; 
 	}
 	public String getMake() {
 		return acMake; 
