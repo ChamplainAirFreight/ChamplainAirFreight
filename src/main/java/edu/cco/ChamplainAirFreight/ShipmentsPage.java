@@ -487,15 +487,17 @@ public class ShipmentsPage {
 	    centerBox.getChildren().addAll(title, instructions, grid); 
 	    return centerBox; 
 	}
+	
+	
 	/**
 	 * editShipmentPane - GUI pane for editing a shipment. calls the DBUpdateShipment class. 
 	 * @return
 	 */
 	private VBox editShipmentPane() {
 		
-DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
-DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
-DBUpdateShipment update =new DBUpdateShipment();	//update
+		DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
+		DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
+		DBUpdateShipment update =new DBUpdateShipment();	//update
 
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
@@ -557,19 +559,19 @@ DBUpdateShipment update =new DBUpdateShipment();	//update
 	   // fill text with selected flight information
 	    shipSearch.setOnAction(e->{
 		   try {
-		
+			   DBViewSelectShipment vss = new DBViewSelectShipment(); //to view a select flight
 			String index = shipSelect.getValue().toString(); 
 	    	int id = Integer.parseInt(index);  
-	    	view.viewSelected(id);
+	    	vss.viewSelected(id);
 
-	    	txtID.setText(Integer.toString(view.getShipID()));
-	    	txtClientID.setText(Integer.toString(view.getClientID()));
-	    	txtVolume.setText(Double.toString(view.getShipVolume()));
-	    	txtWeight.setText(Double.toString(view.getShipWeight()));
-	    	txtStatus.setText(Integer.toString(view.getStatusID()));
-	    	txtStart.setText(String.valueOf(view.getStartDate()));
-	    	txtEnd.setText(String.valueOf(view.getEndDate()));
-	    	txtNotes.setText(view.getNotes());    	   	
+	    	txtID.setText(Integer.toString(vss.getShipID()));
+	    	txtClientID.setText(Integer.toString(vss.getClientID()));
+	    	txtVolume.setText(Double.toString(vss.getShipVolume()));
+	    	txtWeight.setText(Double.toString(vss.getShipWeight()));
+	    	txtStatus.setText(Integer.toString(vss.getStatusID()));
+	    	txtStart.setText(String.valueOf(vss.getStartDate()));
+	    	txtEnd.setText(String.valueOf(vss.getEndDate()));
+	    	txtNotes.setText(vss.getNotes());    	   	
 	    	
 		   } catch(Exception ex) {
 			   shipSelect.requestFocus(); 
