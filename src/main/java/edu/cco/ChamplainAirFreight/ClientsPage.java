@@ -12,6 +12,7 @@ import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClientType;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectedClientTypeByName;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -358,7 +359,7 @@ public class ClientsPage {
 		box.setPadding(new Insets(23,30,0,20));
 		//add client classes
 		DBAddClient add = new DBAddClient();
-		DBViewAllClientType dbtype = new DBViewAllClientType(); 
+		DBViewAllClientType dbtype = new DBViewAllClientType();
 		//title and instructions 
 		Text title = new Text("Add a new Client"); 
 		Text instructions = new Text("Enter valid information for a client, and then press Enter"); 
@@ -543,6 +544,7 @@ public class ClientsPage {
 		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist
 		DBViewSelectClient select = new DBViewSelectClient(); 
 		DBUpdateClient updateClient = new DBUpdateClient();
+		DBViewAllClientType viewType = new DBViewAllClientType();
 	
 		
 		//call the get client id from viewAll 
@@ -556,7 +558,7 @@ public class ClientsPage {
 		//labels
 		Label lblClientID =new Label("Client ID: ");
 		Label lblName = new Label ("Client Name: "); 
-		Label lblType = new Label ("Client Type ID: "); 
+		Label lblType = new Label ("Client Type: "); 
 		Label lblPhone = new Label ("Client Phone Number: "); 
 	
 		Label lblAdd1 = new Label("Address 1: "); 
@@ -573,7 +575,7 @@ public class ClientsPage {
 		//entry fields
 		
 		TextField txtName = new TextField(); 	
-		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		ComboBox<String> cbType = new ComboBox(FXCollections.observableArrayList(viewType.getClientType())); //combobox with type names 
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
 		TextField txtAdd2 = new TextField(); 
@@ -604,7 +606,7 @@ public class ClientsPage {
     	grid.add(cbClientID, 1,0); //add combobox and select button
     	grid.add(btSelectClient, 2,0);
     	grid.add(txtName, 1, 1);
-    	grid.add(spType, 1, 2);
+    	grid.add(cbType, 1, 2);
     	grid.add(txtPhone, 1, 3);
     	grid.add(txtAdd1, 1, 4);
     	grid.add(txtAdd2, 1, 5);
@@ -620,7 +622,7 @@ public class ClientsPage {
     		    		
     		txtName.setText(select.getClientName());
     		
-    		spType.equals(select.getClientType());
+    		cbType.equals(select.getClientType());
     		txtPhone.setText(select.getPhone());
     		txtAdd1.setText(select.getAddress1());
     		txtAdd2.setText(select.getAddress2());
@@ -646,7 +648,7 @@ public class ClientsPage {
     		
     		head="Client type";
     		cont="Not a int";
-    		int type = valid.intChecker(spType.getValue().toString(), head, cont); 
+    		int type = valid.intChecker(cbType.getValue().toString(), head, cont); 
     		head="Client Phone Number";
     		cont="Not Correct";
     		String phone = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
