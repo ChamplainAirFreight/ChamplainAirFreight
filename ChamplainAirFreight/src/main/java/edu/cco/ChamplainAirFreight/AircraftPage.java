@@ -473,19 +473,19 @@ public class AircraftPage {
 		    Label lbID = new Label("Aircraft ID: "); 
 		  //  Label lbStatusID = new Label("Status ID: "); 
 		    
-		    Label lbModelID = new Label("Model ID: "); 
+		    Label lbModel = new Label("Model: "); 
 		   
 		    
 		    TextField txtID = new TextField(); 
 		 //   TextField txtStatusID = new TextField(); 		 
-		    TextField txtModelID = new TextField(); 
+		    ComboBox<String> cbModel = new ComboBox(FXCollections.observableArrayList(all.getAircraftModel())); 
 		  
 		    
 		    grid.add(lbID, 0, 0);
-		    grid.add(lbModelID, 0, 1);
+		    grid.add(lbModel, 0, 1);
 		   // grid.add(lbStatusID, 0, 2);
 		    grid.add(txtID, 1, 0);
-		    grid.add(txtModelID, 1, 1);
+		    grid.add(cbModel, 1, 1);
 		  //  grid.add(txtStatusID, 1, 2);
 		
 		    
@@ -497,7 +497,7 @@ public class AircraftPage {
 		    	
 		    	txtID.setText(Integer.toString(view.getAircraftID()));
 		    	//txtStatusID.setText(Integer.toString(view.getStatusID()));
-		    	txtModelID.setText(Integer.toString(view.getModelID()));
+		    	cbModel.equals(view.getModel());
 		    	
 		    });
 		    
@@ -510,18 +510,19 @@ public class AircraftPage {
 		    	String cont="Not and Int";
 		    	int aID=valid.intChecker(txtID.getText(),head,cont);
 		    	head ="Model ID";
-		    	int modelID=valid.intChecker(txtModelID.getText(),head,cont);
+		    	
+		    	int modelID=valid.intChecker(cbModel.getValue(),head,cont);
 		    	//if zero for aID and or modelID call error message
 		        if(aID==0 && modelID==0) {
 		        	valid.error.setError("AirCraft ID and Model ID", "need to be reentered");
 		        	 txtID.clear();
-		        	  txtModelID.clear();
+		        	 cbModel.valueProperty().set(null);
 		        }else if(aID==0) {
 		        	valid.error.setError("AirCraft ID ", "needs to be reentered");
 		        	 txtID.clear();
 		        }else if(modelID==0) {
 		        	valid.error.setError("Model ID", "needs to be reentered");
-		        	  txtModelID.clear();
+		        	cbModel.valueProperty().set(null);
 		        }else {
 		        	//good send to DB 
 		        	update.updateAircraft(aID, modelID);
@@ -532,13 +533,13 @@ public class AircraftPage {
 		    //clear fields to cancel 
 		    btnCancel.setOnAction(e->{
 		    	txtID.clear(); 
-		    	txtModelID.clear(); 
+		    	cbModel.valueProperty().set(null);
 		    	airSelect.valueProperty().set(null);
 		    });
 		    //clear
 		    txtID.clear();
 		   // txtStatusID.clear();
-		    txtModelID.clear();
+		    cbModel.valueProperty().set(null);
 		    
 		return centerBox; 
 		
