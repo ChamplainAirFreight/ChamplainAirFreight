@@ -44,7 +44,6 @@ public class LoginPage {
 
 	//login buttons
 	Button btnLogin = new Button("Login");
-	Button btnForgotPassword = new Button("Forgot Password");
 	Button btnExit = new Button("Exit");
 
 	//passed borderpane from CAF
@@ -103,7 +102,7 @@ public class LoginPage {
         buttonBox.setSpacing(20);
 
       //style buttons
-        Arrays.asList(btnLogin, btnForgotPassword, btnExit).forEach((b) -> {
+        Arrays.asList(btnLogin, btnExit).forEach((b) -> {
             b.setStyle(s.entryButtons);
             b.setMinHeight(30);
             b.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 14));
@@ -114,7 +113,7 @@ public class LoginPage {
         btnExit.setMinHeight(0);
 
         //add buttons to button HBox
-        buttonBox.getChildren().addAll(btnLogin, btnForgotPassword, btnExit);
+        buttonBox.getChildren().addAll(btnLogin, btnExit);
 
         //add title, center, and buttons to clients pane:
         loginBPane.setTop(titleBox);
@@ -133,11 +132,6 @@ public class LoginPage {
         	//System.out.println("user validated " + logSuccess);  
         //	}
         //});
-
-        btnForgotPassword.setOnAction(e -> {
-
-
-         });
 
         btnExit.setOnAction(e -> {
         	Platform.exit(); 

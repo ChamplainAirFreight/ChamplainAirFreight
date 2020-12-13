@@ -47,8 +47,8 @@ public class DBViewAllClientType extends DBConnection {
 			 */
 			
 			while(rs.next()) {
-				clientTypeId.add(rs.getInt(0)); 
-				clientType.add(rs.getString(1)); 			 
+				clientTypeId.add(rs.getInt(1)); 
+				clientType.add(rs.getString(2)); 			 
 			}
 			
 		}catch (SQLException ex) {
