@@ -167,7 +167,6 @@ public class FlightsPage {
         btnDelete.setOnAction(e -> {
         	box.setCenter(deleteFlightPane()); 
         });
-       
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewFlights page
@@ -459,6 +458,7 @@ DateTimePicker dtEnd = new DateTimePicker();
     	else {
     		update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startDate, endDate);
     		 //clear textFields
+    		flightSelect.valueProperty().set(null);
     	    txtID.clear();
     	    txtAirID.clear();
     	    txtStartTime.clear();
@@ -471,6 +471,17 @@ DateTimePicker dtEnd = new DateTimePicker();
     	
     	
     	
+    });
+    
+    btnCancel.setOnAction(e->{
+    	flightSelect.valueProperty().set(null);
+    	txtID.clear();
+    	txtAirID.clear();
+    	txtStartTime.clear();
+    	txtEndTime.clear(); 
+    	txtPilotID.clear();
+    	txtStartAirport.clear();
+    	txtEndAirport.clear(); 
     });
    
     return centerBox; 
@@ -578,6 +589,20 @@ private VBox getViewSelected() {
     });
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
+    btnCancel.setOnAction(e->{
+    	flightSelect.valueProperty().set(null);
+    	txtID.setText("");
+    	txtAirID.setText(""); 
+    	txtStartTime.setText("");
+    	txtEndTime.setText(""); 
+    	txtPilotName.setText("");
+    	txtStartAirportName.setText("");
+    	txtStartAirportLoc.setText("");
+    	txtEndAirportName.setText("");
+    	txtEndAirportLoc.setText("");
+    	txtDistanceHub.setText("");
+    	
+    });
     return centerBox; 
 }
 
@@ -701,6 +726,15 @@ private VBox addPane() {
 			
 		    		
 	});
+	
+	btnCancel.setOnAction(e->{
+		cbAirID.valueProperty().set(null);
+		cbPilotID.valueProperty().set(null);
+		cbStartLoc.valueProperty().set(null);
+		cbEndLoc.valueProperty().set(null); 
+		dtStart.valueProperty().set(null);
+		dtEnd.valueProperty().set(null);
+	});
 	    	
 	return box; 
 }
@@ -740,6 +774,10 @@ public VBox deleteFlightPane() {
 	btnEnter.setOnAction(e->{
 		int flightID = Integer.parseInt(cbFlightID.getValue().toString()); //get flight ID
 		delete.deleteFlight(flightID); //delete flight
+		cbFlightID.valueProperty().set(null); //clear combobox
+	});
+	
+	btnCancel.setOnAction(e->{
 		cbFlightID.valueProperty().set(null); //clear combobox
 	});
 	
