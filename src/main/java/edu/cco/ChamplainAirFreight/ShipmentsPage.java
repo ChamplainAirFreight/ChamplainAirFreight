@@ -155,12 +155,6 @@ public class ShipmentsPage {
         btnDelete.setOnAction(e -> {
         	box.setCenter(deleteShipmentPane());
         });
-        btnEnter.setOnAction(e -> {
-
-        });
-        btnCancel.setOnAction(e -> {
-
-        });
         btnExit.setOnAction(e -> {
             //clear whatever actions doing
             //return to just the viewShipments page
@@ -386,6 +380,17 @@ public class ShipmentsPage {
 		   }
 		   
 	    });
+	    
+	    btnCancel.setOnAction(e->{
+	    	shipSelect.valueProperty().set(null);
+	    	txtID.setText("");
+	    	txtVolume.setText("");
+	    	txtWeight.setText("");
+	    	txtStatus.setText("");
+	    	txtStart.setText("");
+	    	txtEnd.setText("");
+	    	txtNotes.setText(""); 
+	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	    
 	    return centerBox; 
@@ -470,6 +475,15 @@ public class ShipmentsPage {
 	    	txtNotes.clear(); 
 	    });
 	    
+	    btnCancel.setOnAction(e->{
+	    	cbID.valueProperty().set(null);
+	    	txtVolume.clear(); 
+	    	txtWeight.clear(); 
+	    	cbStatus.valueProperty().set(null);
+	    	dpStart.valueProperty().set(null);
+	    	dpEnd.valueProperty().set(null);
+	    	txtNotes.clear(); 
+	    });
 	    centerBox.getChildren().addAll(title, instructions, grid); 
 	    return centerBox; 
 	}
@@ -578,20 +592,31 @@ DBUpdateShipment update =new DBUpdateShipment();	//update
 			update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);
 
 	    	
-	    	
-	    	
+			 //clear textfields
+
+	    	txtID.clear();
+	    	txtVolume.clear();
+	    	txtWeight.clear();
+	    	txtStatus.clear();
+	    	txtStart.clear();
+	    	txtEnd.clear();
+	    	txtNotes.clear();    	
 	    	
 	    	
 	    });
-	    //clear textfields
-
-    	txtID.clear();
-    	txtVolume.clear();
-    	txtWeight.clear();
-    	txtStatus.clear();
-    	txtStart.clear();
-    	txtEnd.clear();
-    	txtNotes.clear();   
+	    
+	    btnCancel.setOnAction(e->{
+	    	shipSelect.valueProperty().set(null);
+	    	txtID.setText(""); 
+	    	txtClientID.setText(""); 
+	    	txtVolume.setText(""); 
+	    	txtWeight.setText(""); 
+	    	txtStatus.setText(""); 
+	    	txtStart.setText(""); 
+	    	txtEnd.setText(""); 
+	    	txtNotes.setText("");  
+	    });
+	     
 	    return centerBox; 
 	}
 	/**
@@ -624,6 +649,10 @@ DBUpdateShipment update =new DBUpdateShipment();	//update
 	    	delete.deleteShipment(shipID);
 	    	cbID.valueProperty().set(null);
 	    }); 
+	    
+	    btnCancel.setOnAction(e->{
+	    	cbID.valueProperty().set(null);
+	    });
 	    
 	    return centerBox; 
 	}
