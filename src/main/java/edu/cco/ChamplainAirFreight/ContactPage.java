@@ -235,7 +235,9 @@ public class ContactPage {
     			valid.noSubject();
     			valid.noMessage();
     		}
+    		// set focus
     		 txfname.requestFocus();
+    		 // clearing the text fields
      		 txfname.clear();
       		 txlname.clear();
       		 txsubject.clear();
