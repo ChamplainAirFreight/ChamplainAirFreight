@@ -70,7 +70,9 @@ public class ContactPage {
 	
 	static String fName;
 	static String lName;
-//	static String passText;
+	static String subjk;
+	static String passText;
+	static String passText2;
 
     //classes
     Styles s = new Styles();
@@ -159,17 +161,7 @@ public class ContactPage {
     		emailProperty.put("mail.smtp.starttls.enable", "true");
     		emailProperty.put("mail.smtp.host", "smtp.gmail.com");
     		emailProperty.put("mail.smtp.port", "587");
-    		
-    		//Veriables to pass into the the body message
-    		String fName = txfname.getText().toString();
-    		String lName = txfname.getText().toString();
-    		String subjk = String.valueOf(txsubject.getText());
-    		
-    		//Message format
-    		String passText = texReaOne.getText();
-    		texReaOne.setText("This is a request for Support \n\n"+ "Requester First Name: " + txfname.getText() + 
-    				"\nRequester Last Name: " + txlname.getText() + "\nMessage Details \n\n" + passText );    
-                   
+    		       
     		//Session to allow the email to be sent
     		Session session = Session.getInstance(emailProperty, new Authenticator() {
     		@Override
@@ -177,12 +169,24 @@ public class ContactPage {
     				return new PasswordAuthentication(calEmail, password);
     			}
     		});
-
-    		//Instantiated a message
-    		Message mymessage = new MimeMessage(session);
-    		
+	
+    		//Validating email variables
     		try {
+	        	//Veriables to pass into the the body message
+	       		fName = txfname.getText().toString();
+	       		lName = txfname.getText().toString();
+	       		subjk = String.valueOf(txsubject.getText());
+	       		
+	       		//Message format
+	       		passText = texReaOne.getText();
+	       		texReaOne.setText("This is a request for Support \n\n"+ "Requester First Name: " + txfname.getText() + 
+	       				"\nRequester Last Name: " + txlname.getText() + "\nMessage Details \n\n" + passText );    
+	       		
+       			//Passing the textfield value to the TextArea	
+        		passText2 = texReaOne.getText();	     
 
+        		//Instantiated a message
+        		Message mymessage = new MimeMessage(session);
     			mymessage.setFrom(new InternetAddress(calEmail));
     			mymessage.addRecipient(Message.RecipientType.TO, new InternetAddress(calEmail));
     			mymessage.setSubject(subjk);
@@ -195,33 +199,47 @@ public class ContactPage {
     			
     			bodyText.setText(fName);
     			bodyText.setText(lName);
-    			
-        		String passText2 = texReaOne.getText();	
-		
     			bodyText.setText(passText);
     			bodyText.setText(passText2);
-  			
+      			
     			parts.addBodyPart(bodyText);
     			mymessage.setContent(parts);
 
-    			//Transport to allow the email to be sent
-    			Transport.send(mymessage);
-    			
-        		System.out.println("Your email was sent successfully");
+    			//If statement to validate veriables
+           		if(txfname.getText().isEmpty()) {
+       				valid.noSenderFirstName();
+           		}else if(txlname.getText().isEmpty()) {
+     				valid.noSenderLastName();
+           		}else if(subjk.isEmpty()){
+           			valid.noSubject();
+           		}else if(passText.isEmpty()) {
+    				valid.noMessage();
+    			}else if(passText2.isEmpty()) {
+    				valid.noMessage();
+    			}else if(texReaOne.getText().isEmpty()) {
+   					valid.noMessage();
+           		}else {
+        			//Transport to allow the email to be sent
+        			Transport.send(mymessage);
+            		System.out.println("Your email was sent successfully");
+            		
+            		//Display a confirmation page
+       	            box.setCenter(getConfirmation());
+       	            centerBox.getChildren().addAll(contacts());
+       			}
            		
     		} catch(Exception ex) {
     			ex.printStackTrace();
-    			
+    			valid.noSenderFirstName();
+    			valid.noSenderLastName();
+    			valid.noSubject();
+    			valid.noMessage();
     		}
-
     		 txfname.requestFocus();
      		 txfname.clear();
       		 txlname.clear();
       		 txsubject.clear();
-      		 texReaOne.clear();
-      		 
-            box.setCenter(getConfirmation());
-            centerBox.getChildren().addAll(contacts());
+      		 texReaOne.clear(); 
         });
        	    
         return box;
@@ -348,3 +366,5 @@ public class ContactPage {
     }
 
 } //End Subclass ContactPage
+
+
