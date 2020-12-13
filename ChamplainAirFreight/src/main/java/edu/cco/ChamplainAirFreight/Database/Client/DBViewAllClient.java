@@ -62,15 +62,13 @@ public void viewAll() {
 		/**
 		 * 1 = ClientID
 		 * 2 = ClientName
-		 * 3 = Client Type ID
+		 * 3 = Client Type
 		 * 4 = phone number
-		 * 5 = address id
-		 * 6 = client ID
-		 * 7 = address line 1
-		 * 8 = address line 2
-		 * 9 = city
-		 * 10 = state
-		 * 11 = zip
+		 * 5 = address line 1
+		 * 6 = address line 2
+		 * 7 = city
+		 * 8 = state
+		 * 9 = zip
 		 */
 		
 		while(rs.next()) {
@@ -78,11 +76,11 @@ public void viewAll() {
 			name.add(rs.getString(2)); 
 			clientType.add(rs.getString(3)); 
 			phone.add(rs.getString(4)); 
-			address1.add(rs.getString(7)); 
-			address2.add(rs.getString(8)); 
-			city.add(rs.getString(9)); 
-			state.add(rs.getString(10)); 
-			zip.add(rs.getString(11));   
+			address1.add(rs.getString(5)); 
+			address2.add(rs.getString(6)); 
+			city.add(rs.getString(7)); 
+			state.add(rs.getString(8)); 
+			zip.add(rs.getString(9));   
 		}
 		
 	}catch (SQLException ex) {
