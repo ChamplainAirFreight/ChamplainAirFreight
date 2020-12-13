@@ -20,8 +20,8 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 public class DBViewAllClientType extends DBConnection {
 	
 	public CallableStatement callable = null; 
-	private ArrayList<Integer> clientTypeId;
-	private ArrayList<String> clientType;
+	private ArrayList<Integer> clientTypeId = new ArrayList<>();
+	private ArrayList<String> clientType = new ArrayList<>();
 	
 	public DBViewAllClientType() {
 		try {
