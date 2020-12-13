@@ -3,6 +3,7 @@ package edu.cco.ChamplainAirFreight.Database.Client;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import edu.cco.ChamplainAirFreight.Database.DBConnection;
 
@@ -39,7 +40,7 @@ public class DBViewSelectClientType extends DBConnection {
 	 */
 	public void viewSelected(int cID) {
 		try {
-		String method = "{call CAFDB.dbo.View_Selected_Client_ID(?)}"; 
+		String method = "{call CAFDB.dbo.View_Selected_Client_Type(?)}"; 
 		callable = connection.prepareCall(method); 
 		callable.setInt(1, cID); // call the client ID for searching
 		
@@ -47,7 +48,7 @@ public class DBViewSelectClientType extends DBConnection {
 		ResultSet rs = callable.executeQuery(); 
 		
 		/**
-		 * output from View_Selected_Client
+		 * output from View_Selected_Client_Type
 		 * 1 = Client Type ID
 		 * 2 = Client Type		 
 		 */
@@ -65,6 +66,15 @@ public class DBViewSelectClientType extends DBConnection {
 		}		
 		
 	}
+	
+	public int getID(){
+		return clientTypeId; 
+	}
+	
+	public String getClientType(){
+		return clientType; 
+	}	
+
 		
 
 }
