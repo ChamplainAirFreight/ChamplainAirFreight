@@ -10,7 +10,9 @@ import edu.cco.ChamplainAirFreight.Database.Client.DBDeleteClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClient;
 import edu.cco.ChamplainAirFreight.Database.Client.DBUpdateClientAddress;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClientType;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectClient;
+import edu.cco.ChamplainAirFreight.Database.Client.DBViewSelectedClientTypeByName;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -343,6 +345,9 @@ public class ClientsPage {
 		box.setPadding(new Insets(23,30,0,20));
 		//add client classes
 		DBAddClient add = new DBAddClient();
+		DBViewAllClientType viewClientType = new DBViewAllClientType();
+		viewClientType.viewAll();
+		DBViewSelectedClientTypeByName viewClientTypeByName = new DBViewSelectedClientTypeByName();		
 		//title and instructions 
 		Text title = new Text("Add a new Client"); 
 		Text instructions = new Text("Enter valid information for a client, and then press Enter"); 
@@ -363,7 +368,8 @@ public class ClientsPage {
 				
 		//entry fields
 		TextField txtName = new TextField(); 
-		Spinner<Integer> spType = new Spinner<Integer>(1,10,1); //min, max, start
+		ComboBox<String> cbType = new ComboBox<String>(
+				FXCollections.observableArrayList(viewClientType.getClientType())); 
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
 		TextField txtAdd2 = new TextField(); 
@@ -390,7 +396,7 @@ public class ClientsPage {
     	grid.add(lblZip, 0, 7);
     	
     	grid.add(txtName, 1, 0);
-    	grid.add(spType, 1, 1);
+    	grid.add(cbType, 1, 1);
     	grid.add(txtPhone, 1, 2);
     	grid.add(txtAdd1, 1, 3);
     	grid.add(txtAdd2, 1, 4);
@@ -402,7 +408,8 @@ public class ClientsPage {
     	btnEnter.setOnAction(e->{
     		//variables for SQL stored procedure
     		String name = txtName.getText(); 
-    		int type = spType.getValue(); 
+    		viewClientTypeByName.viewSelected(cbType.getValue());
+    		int type = viewClientTypeByName.getID(); 
     		String phone = txtPhone.getText(); 
     		//add client
     		add.insertSQL(name, type, phone);
