@@ -401,6 +401,16 @@ public class PilotPage {
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	    
+	    btnCancel.setOnAction(e->{
+	    	pilotSelect.valueProperty().set(null);
+	    	txtID.setText(""); 
+	    	txtFirstName.setText("");
+	    	txtLastName.setText("");
+	    	txtDob.setText("");
+	    	txtEmployeeNum.setText("");
+	    	txtDateOfHire.setText("");
+	    	txtDateLeft.setText("");
+	    });
 	    return centerBox; 
 	}
 	/**
@@ -568,6 +578,17 @@ public class PilotPage {
 		  		  
 		 	  
 	  });
+	  
+	  btnCancel.setOnAction(e->{
+		  pilotSelect.valueProperty().set(null);
+		  txtID.clear();
+		   txtFirstName.clear();
+		   txtLastName.clear();
+		   txtDob.valueProperty().set(null);
+		   txtEmployeeNum.clear();
+		   txtDateOfHire.valueProperty().set(null);
+		   txtDateLeft.valueProperty().set(null);	
+	  });
 	    
 	    return centerBox; 
 	}
@@ -667,6 +688,13 @@ public class PilotPage {
 			}		
 		
 		});
+		
+		btnCancel.setOnAction(e->{
+			txtFirstName.clear(); 
+			txtLastName.clear(); 
+			dpDOB.valueProperty().set(null);
+			txtEmpNum.clear(); 
+		});
 		    	
 		return box; 
 	}
@@ -717,6 +745,9 @@ public class PilotPage {
 	    	deletePilotPane(); //reopen deletePilotPane
 		});
 		
+		btnCancel.setOnAction(e->{
+			cbPilotName.valueProperty().set(null);
+		});
 		return box; 
 		
 	}
