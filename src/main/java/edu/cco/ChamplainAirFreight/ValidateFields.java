@@ -41,7 +41,7 @@ public class ValidateFields {
 	   
 	   //String checker
 	   public Boolean isString(String str) {
-		   return ((!str.equals("")) 
+		   return ((str.equals(" ")) 
 		            && (str != null) 
 		            && (str.matches("^[a-zA-Z]*$"))); 
 		    
