@@ -41,9 +41,16 @@ public class ValidateFields {
 	   
 	   //String checker
 	   public Boolean isString(String str) {
-		   return ((str.equals(" ")) 
-		            && (str != null) 
-		            && (str.matches("^[a-zA-Z]*$"))); 
+		   return ( 
+		           (str != null) 
+		            && (str.matches("^[a-zA-Z]*sS+"))); 
+		    
+		  
+		}
+	   //Address checker
+	   public Boolean isAddress(String str) {
+		   return (
+		           (str.matches("^[a-zA-Z0-9]*sS+"))); 
 		    
 		  
 		}
