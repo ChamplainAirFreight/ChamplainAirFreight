@@ -6,6 +6,7 @@ package edu.cco.ChamplainAirFreight;
  * @Date: Dec 8, 2020
  * @Validation class:
  * Includes date, int, string, email, zip, phone number and string length validation 
+ * Address string with numbers
  */
 //Begi
 
