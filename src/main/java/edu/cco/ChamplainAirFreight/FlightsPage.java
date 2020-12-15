@@ -414,10 +414,10 @@ DateTimePicker dtEnd = new DateTimePicker();
     	// variables head for header and cont for content
     	String head="Flight ID";
 		String cont="Not a int";		
-		//check flightID
+		// check flightID
     	int flightID=valid.intChecker(txtID.getText(),head,cont);
     	
-    	//check aircraftId
+    	// check aircraftId
     	head ="Aircraft ID";
     	int airCraftID=valid.intChecker(txtAirID.getText(),head,cont);
     	
@@ -431,10 +431,13 @@ DateTimePicker dtEnd = new DateTimePicker();
 		
 		//System.out.println("start date: " + startDate); 
 		//System.out.println("End date: " + endDate); 
+		// pilot ID check
     	head="Pilot ID";
     	int pilotID=valid.intChecker(txtPilotID.getText(),head,cont);
+    	
     	head="Starting Airport";
     	int startAirport =valid.intChecker(txtStartAirport.getText(),head,cont);
+    	
     	head="Ending Airport";
     	int endAirport =valid.intChecker(txtEndAirport.getText(),head,cont);
     	//for start end time
@@ -450,11 +453,8 @@ DateTimePicker dtEnd = new DateTimePicker();
     	}else if(startAirport==0) {
     		txtStartAirport.clear();
     	}else if (endAirport==0) {	
-           	txtEndAirport.clear();		
-    	
-
-    	}else if (startDate=="") {
-    		
+           	txtEndAirport.clear(); 	
+    	}else if (startDate=="") {    		
     		valid.error.setError(head, cont);
     	}else if(endDate=="") {
     		valid.error.setError(head, cont);
@@ -464,7 +464,7 @@ DateTimePicker dtEnd = new DateTimePicker();
     	} 
     	else{
     		update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startDate, endDate);
-    		 //clear textFields
+    		 //clear textFields after update has been sent
     		flightSelect.valueProperty().set(null);
     	    txtID.clear();
     	    txtAirID.clear();
