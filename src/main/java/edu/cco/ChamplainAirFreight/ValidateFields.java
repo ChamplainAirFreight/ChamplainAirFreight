@@ -41,7 +41,7 @@ public class ValidateFields {
      
 	   
 	   //String checker
-	   public Boolean isString(String str) {
+	   public Boolean isString(String str) {//added S+ for spaces
 		   return ( 
 		           (str != null) 
 		            && (str.matches("^[a-zA-Z]*sS+"))); 
@@ -49,7 +49,7 @@ public class ValidateFields {
 		  
 		}
 	   //Address checker
-	   public Boolean isAddress(String str) {
+	   public Boolean isAddress(String str) {// range a-zA-Z and 0-9 with S+ for spaces
 		   return (
 		           (str.matches("^[a-zA-Z0-9]*sS+"))); 
 		    

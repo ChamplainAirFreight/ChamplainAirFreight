@@ -411,8 +411,10 @@ DateTimePicker dtEnd = new DateTimePicker();
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     btnEnter.setOnAction(e->{
+    	// variables head for header and cont for content
     	String head="Flight ID";
 		String cont="Not a int";		
+		//check flightID
     	int flightID=valid.intChecker(txtID.getText(),head,cont);
     	
     	head ="Aircraft ID";
