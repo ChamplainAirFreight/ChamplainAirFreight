@@ -417,9 +417,11 @@ DateTimePicker dtEnd = new DateTimePicker();
 		//check flightID
     	int flightID=valid.intChecker(txtID.getText(),head,cont);
     	
+    	//check aircraftId
     	head ="Aircraft ID";
     	int airCraftID=valid.intChecker(txtAirID.getText(),head,cont);
     	
+    	//time
     	LocalDateTime start = dtStart.getDateTimeValue();
 		String startDate = start.toString();  
 		startDate = startDate.replace("T", " "); 
@@ -427,8 +429,8 @@ DateTimePicker dtEnd = new DateTimePicker();
 		String endDate = end.toString(); 
 		endDate = endDate.replace("T", " "); 
 		
-		System.out.println("start date: " + startDate); 
-		System.out.println("End date: " + endDate); 
+		//System.out.println("start date: " + startDate); 
+		//System.out.println("End date: " + endDate); 
     	head="Pilot ID";
     	int pilotID=valid.intChecker(txtPilotID.getText(),head,cont);
     	head="Starting Airport";
@@ -457,7 +459,10 @@ DateTimePicker dtEnd = new DateTimePicker();
     	}else if(endDate=="") {
     		valid.error.setError(head, cont);
     	}
-    	else {
+    	else if(valid.afterDateString(startDate, endDate)) {//check if start time is after end time
+    		valid.error.setError("Date Error", "Start time can't be before End time");
+    	} 
+    	else{
     		update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startDate, endDate);
     		 //clear textFields
     		flightSelect.valueProperty().set(null);

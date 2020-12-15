@@ -199,6 +199,17 @@ public class ValidateFields {
 		   
 		   
 	   }
+	  //compare Stirng date1 is after date2
+	   public boolean afterDateString(String date1, String date2)  {
+		   if (date1.compareTo(date2)>0) {
+			   return true;
+		   }else {
+			   
+			   	return false;
+		   }
+		   
+		   
+	   }
 	
 	   
 }
