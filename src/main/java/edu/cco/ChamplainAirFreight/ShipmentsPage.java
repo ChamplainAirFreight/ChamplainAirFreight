@@ -532,6 +532,7 @@ public class ShipmentsPage {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/** Created by: Matt Ridgway
 	 * editShipmentPane - GUI pane for editing a shipment. calls the DBUpdateShipment class. 
+	 * With validation
 	 * @return
 	 */
 	private VBox editShipmentPane() {
