@@ -453,6 +453,7 @@ finder.findAirports();
 		//System.out.println("start date: " + startDate); 
 		//System.out.println("End date: " + endDate); 
 		// pilot ID check
+		
     	head="Pilot ID";
     	int pilotID=cbPilotID.getValue();
     	
