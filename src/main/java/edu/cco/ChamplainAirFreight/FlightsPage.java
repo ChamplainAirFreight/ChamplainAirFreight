@@ -1,6 +1,11 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -376,9 +381,9 @@ finder.findAirports();
 	Label lbAirID = new Label("Aircraft ID: "); 
 	
     Label lblStartTime = new Label("Start Time: "); 
-    TextField txtStartTime = new TextField();  
+   
     Label lblEndTime = new Label("End Time: "); 
-    TextField txtEndTime = new TextField();  
+ 
     Label lblPilotID = new Label("Pilot ID: "); 
     
     Label lblStartAirport = new Label("Start Airport: "); 
@@ -393,9 +398,9 @@ finder.findAirports();
     grid.add(lbAirID, 0, 1);
     grid.add(cbAirID, 1,  1);
     grid.add(lblStartTime, 0,  2);
-    grid.add(txtStartTime, 1,  2);
+    grid.add(dtStart, 1,  2);
     grid.add(lblEndTime, 0, 3);
-    grid.add(txtEndTime, 1, 3);
+    grid.add(dtEnd, 1, 3);
     grid.add(lblPilotID, 0, 4);
     grid.add(cbPilotID,1 ,4);
     grid.add(lblStartAirport, 0, 5);
@@ -417,9 +422,10 @@ finder.findAirports();
 		cbStartAirport.setValue(view.getStartLoc());
 		cbEndAirport.setValue(view.getEndLoc());  
 
-    	txtID.setText(Integer.toString(view.getFlightID()));    	
-    	txtStartTime.setText(view.getStartTime());
-    	txtEndTime.setText(view.getEndTime());
+    	txtID.setText(Integer.toString(view.getFlightID()));   
+    	
+    	//dtStart.valueProperty().set(view.getStartTime().toLocalDate());
+    	//dtEnd.dateTimeValueProperty().setValue(view.getStartTime().toLocalDate());
     	
    
     	
@@ -496,8 +502,8 @@ finder.findAirports();
     		flightSelect.valueProperty().set(null);
     	    txtID.clear();
     	    cbAirID.valueProperty().set(null);
-    	    txtStartTime.clear();
-    	    txtEndTime.clear();
+    	    dtStart.valueProperty().set(null);
+    	    dtEnd.valueProperty().set(null);
     	    cbPilotID.valueProperty().set(null);
     	    cbStartAirport.valueProperty().set(null);
     	    cbEndAirport.valueProperty().set(null);
@@ -512,8 +518,8 @@ finder.findAirports();
     	flightSelect.valueProperty().set(null);
     	txtID.clear();
     	cbAirID.valueProperty().set(null);
-    	txtStartTime.clear();
-    	txtEndTime.clear(); 
+    	 dtStart.valueProperty().set(null);
+ 	    dtEnd.valueProperty().set(null);
         cbPilotID.valueProperty().set(null);
 	    cbStartAirport.valueProperty().set(null);
 	    cbEndAirport.valueProperty().set(null);
