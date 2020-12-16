@@ -86,6 +86,17 @@ public class ValidateFields {
 		return floatNumber;
 		   
 	   }
+	   // float boolean
+	   public boolean floatChecker(String num) {
+		   float  floatNumber;
+		   try { 
+			  floatNumber = Float.parseFloat(num);	 
+			  return true;
+		   } catch (NumberFormatException ex){
+			  return false;
+		   }
+		   
+	   }
 	   //phone number
 	   public String checkPhoneNumber(String phoneNumber,String head, String cont) {
 			//number format

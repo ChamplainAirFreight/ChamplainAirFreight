@@ -69,6 +69,8 @@ public class ShipmentsPage {
 	
     //variables
     BorderPane bPane = new BorderPane();
+    //used for validation
+    ValidateFields valid=new ValidateFields();
 
     /**
      * Constructor - pulls the border pane from CAF (main page)
@@ -399,7 +401,9 @@ public class ShipmentsPage {
 	    
 	    return centerBox; 
 	}
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//ADD
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * addShipmentPane - GUI pane for adding in new shipment. calls the DBAddShipment class. 
 	 * @return
@@ -460,26 +464,52 @@ public class ShipmentsPage {
 	    //actionables
 	    btnEnter.setOnAction(e->{
 	    	//variables for sql stored procedure
-	    	int clientIndex = viewClient.getID().indexOf(cbID.getValue()); 
-	    	int clientID = viewClient.getID().get(clientIndex);   
-	    	Float volume = Float.parseFloat(txtVolume.getText()); 
-	    	Float weight = Float.parseFloat(txtWeight.getText()); 
-	    	int statusIndex = finder.getStatusVals().indexOf(cbStatus.getValue()); 
-	    	int statusID = finder.getStatusIDs().get(statusIndex); 
+	    	int clientID=0;
+	    	int clientIndex=0;
+	    	int statusIndex=0;
+	    	int statusID=0;
+	    	clientIndex = viewClient.getID().indexOf(cbID.getValue()); 
+	    	clientID = viewClient.getID().get(clientIndex);   
+	    	statusIndex = finder.getStatusVals().indexOf(cbStatus.getValue()); 
+	    	statusID = finder.getStatusIDs().get(statusIndex); 
+	    	
 	    	Date startDate = Date.valueOf(dpStart.getValue());
 	    	Date endDate = Date.valueOf(dpEnd.getValue()); 
-	    	String notes = txtNotes.getText(); 
+	    	//get text for volume and weight
+	    	String vol=txtVolume.getText().toString();
+	    	String wght=txtWeight.getText().toString();
+	    	String notes = txtNotes.getText().toString();
+	    	String head="Float";
+	    	String cont="Float problem";
+	    	//check and return
+	    	Float volume =valid.floatChecker(vol, head, cont); 
+	    	Float weight =valid.floatChecker(wght, head, cont); 
 	    	
-	    	//add shipment
-	    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
-	    	//clear entry fields
-	    	cbID.valueProperty().set(null);
-	    	txtVolume.clear(); 
-	    	txtWeight.clear(); 
-	    	cbStatus.valueProperty().set(null);
-	    	dpStart.valueProperty().set(null);
-	    	dpEnd.valueProperty().set(null);
-	    	txtNotes.clear(); 
+	    	//validation check
+	    	if(clientID==0) {
+	    		valid.error.setError("Client ID", "Problem ClientID=0");
+	    	}else if(valid.floatChecker(vol)){
+	    		valid.error.setError("Float", "Problem with Volume");
+	    		txtVolume.clear();
+	    	}else if(valid.floatChecker(wght)){
+	    		valid.error.setError("Float", "Problem with Weight ");
+	    		txtWeight.clear();
+	    	}else if(valid.beforeDate(startDate, endDate)){
+	    		valid.error.setError("Date", "Start Date before End Date ");
+	    	}else {
+	    		//add shipment
+		    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
+		    	//clear entry fields
+		    	cbID.valueProperty().set(null);
+		    	txtVolume.clear(); 
+		    	txtWeight.clear(); 
+		    	cbStatus.valueProperty().set(null);
+		    	dpStart.valueProperty().set(null);
+		    	dpEnd.valueProperty().set(null);
+		    	txtNotes.clear(); 
+	    	}
+	    	
+	    
 	    });
 	    
 	    btnCancel.setOnAction(e->{
