@@ -578,9 +578,7 @@ public class ShipmentsPage {
 	    TextField txtWeight = new TextField();  
 	    Label lblStatus = new Label("Shipment Status: "); 
 	    ComboBox cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
-	    // ComboBox<String> cbStatus = new ComboBox();
-	    //ComboBox<Integer> cbStatus = new ComboBox();
-	    //cbStatus.getItems().addAll(all.getShipStatusID());
+	   
 	    Label lblStart = new Label("Start Date: "); 
 	    DatePicker dpStart = new DatePicker(); 
 	    Label lblEnd = new Label("End Date: "); 
@@ -657,55 +655,57 @@ public class ShipmentsPage {
 	    	
 	    	 
 	    	// variables head for header and cont for content
-	    	Float v=Float.parseFloat(txtVolume.getText());
-	    	Float w=Float.parseFloat(txtWeight.getText());
+	    	
 	    		    	
 	    	//get the client ID based on Client Name:
 	    	DBViewAllClient allClient = new DBViewAllClient(); 
 	    	int cIDindex = allClient.getName().indexOf(cbClientID.getValue()); 
-			int cID= allClient.getID().get(cIDindex);
+			int clientID= allClient.getID().get(cIDindex);
 			
 			//get status ID based on status value
 			DBFinder dbfinder = new DBFinder(); 
 			dbfinder.findStatusID(); 
 			int statIndex = dbfinder.getStatusVals().indexOf(cbStatus.getValue());
-	    	int sID = dbfinder.getStatusIDs().get(statIndex); 
-	    	String s= String.valueOf(sID); 
+	    	int statusID = dbfinder.getStatusIDs().get(statIndex); 
+	    	String stringStatusID= String.valueOf(statusID); 
+	    	
 	    	String head="Status ID";
 			String cont="status ID not integer";	
-			sID = valid.intChecker(s, head, cont);
+			statusID = valid.intChecker(stringStatusID, head, cont);
 			
 			//shipment ID
 			head = "Shipment ID"; 
 			cont = "shipment ID not integer"; 
-			String shipment = txtID.getText(); 
-			int shipID = valid.intChecker(shipment, head, cont); 
+			String shipmentID = txtID.getText(); 
+			int shipID = valid.intChecker(shipmentID, head, cont); 
 						
-			//Volume and Weight Validation
-	    	String vol=txtVolume.getText().toString();
-	    	String wght=txtWeight.getText().toString();
+			//Volume and Weight to string
+	    	String stringVolume=txtVolume.getText().toString();
+	    	String stringWeight=txtWeight.getText().toString();
 	    	String sNote = txtNotes.getText().toString();
+	    	
 	    	 head="Float";
 	    	 cont="Float Volume problem";
-	    	//check and return
-	    	Float sVol =valid.floatChecker(vol, head, cont); 
+	    	//Volume and Weight Validation check and return Float
+	    	Float sVolume =valid.floatChecker(stringVolume, head, cont); 
 	    	 cont="Float Weight problem";
-	    	Float sWeight =valid.floatChecker(wght, head, cont);     
+	    	Float sWeight =valid.floatChecker(stringWeight, head, cont);     
 			
 			Date sDate = Date.valueOf(dpStart.getValue());
 		    Date eDate = Date.valueOf(dpEnd.getValue()); 
-		    if(cID==0) {
+		    
+		    if(clientID==0) {
 		    	valid.error.setError("Client ID", "Problem");		    	
-		    }else if(sID == 0) {
+		    }else if(statusID == 0) {
 		    	valid.error.setError("Shipment ID", "Problem");		    	
-		    }else if (!valid.floatChecker(vol)) {
+		    }else if (!valid.floatChecker(stringVolume)) {
 		    	valid.error.setError("Volume", "Problem");
-		    }else if(!valid.floatChecker(wght)) {
+		    }else if(!valid.floatChecker(stringWeight)) {
 		    	valid.error.setError("Weight", "Problem");
 		    }else if(valid.afterDate(sDate, eDate)) {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
 		    }else {		    	
-		    	update.updateShipment(shipID, cID, v, w, sID, sDate, eDate, sNote);		    	
+		    	update.updateShipment(shipID, clientID, sVolume, sWeight, statusID, sDate, eDate, sNote);		    	
 				 //clear text fields
 		    	txtID.setText("");
 		    	txtVolume.clear();
