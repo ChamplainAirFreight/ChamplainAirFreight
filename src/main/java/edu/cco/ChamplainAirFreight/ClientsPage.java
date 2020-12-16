@@ -795,7 +795,7 @@ public class ClientsPage {
 	private VBox deletePane() {
 		DBViewAllClient view = new DBViewAllClient(); //for arraylist of clients
 		VBox box = new VBox(); 
-		box.setAlignment(Pos.CENTER); 
+		box.setAlignment(Pos.TOP_CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
 		box.setMinHeight(300);
