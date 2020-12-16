@@ -252,6 +252,9 @@ public class AircraftPage {
 		return hboxv;
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//VIEW ALL
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * This TextArea will display the output or result for the Aircraft information 
 	 * it will allow users to view a summary of the Aircraft information. Users will not be able to 
@@ -299,6 +302,9 @@ public class AircraftPage {
 				return box;
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//VIEW SELECTED
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * getViewSelected - the initial pane for the viewAircraft Page, 
 	 * will house a feature to view a selected aircraft based on 
@@ -397,7 +403,10 @@ public class AircraftPage {
 		    
 		return centerBox; 
 	}
-	
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//ADD
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * getAdd - method to house the pane for adding aircraft into the database. Calls the DBAddAircraft and DBAddAircraftModel classes
 	 */
@@ -446,6 +455,10 @@ public class AircraftPage {
 		
 		return centerBox; 
 	}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//UPDATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private VBox editAircraft() {
 		DBViewAllAircraft all  = new DBViewAllAircraft(); 
 		DBUpdateAircraft update=new DBUpdateAircraft();
@@ -549,7 +562,10 @@ public class AircraftPage {
 		return centerBox; 
 		
 	}
-	
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//DELETE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * getDelete - method for deleting an aircraft from the database
 	 * @return
@@ -571,7 +587,7 @@ public class AircraftPage {
 		    gpane.setPadding(new Insets(2,20,2,20)); 
 			gpane.setHgap(5);
 			gpane.setVgap(5);
-		    ComboBox cbAirID = new ComboBox(FXCollections.observableArrayList(view.getAircraftID())); 
+		    ComboBox<Integer> cbAirID = new ComboBox(FXCollections.observableArrayList(view.getAircraftID())); 
 		    Button btDelete = new Button("DELETE"); 
 		    gpane.add(cbAirID,  0,  0);
 		    gpane.add(btDelete, 1, 0);
@@ -580,9 +596,11 @@ public class AircraftPage {
 		    
 		   btDelete.setOnAction(e->{
 			   DBDeleteAircraft delete = new DBDeleteAircraft(); 
-			   delete.deleteAircraft(Integer.parseInt(cbAirID.getValue().toString()));
+			   delete.deleteAircraft(cbAirID.getValue());
 		   //clear combobox
 			   cbAirID.valueProperty().set(null);
+			   view.viewAll(); //reset the combobox
+			   cbAirID.setItems(FXCollections.observableArrayList(view.getAircraftID()));
 		   });
 		   
 		   btnCancel.setOnAction(e->{
