@@ -575,8 +575,10 @@ public class ShipmentsPage {
 	    Label lblWeight = new Label("Shipment Weight: "); 
 	    TextField txtWeight = new TextField();  
 	    Label lblStatus = new Label("Shipment Status: "); 
-	    ComboBox<Integer> cbStatus = new ComboBox();
-	    cbStatus.getItems().addAll(all.getShipStatusID());
+	    ComboBox cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
+	    // ComboBox<String> cbStatus = new ComboBox();
+	    //ComboBox<Integer> cbStatus = new ComboBox();
+	    //cbStatus.getItems().addAll(all.getShipStatusID());
 	    Label lblStart = new Label("Start Date: "); 
 	    DatePicker dpStart = new DatePicker(); 
 	    Label lblEnd = new Label("End Date: "); 
@@ -584,6 +586,8 @@ public class ShipmentsPage {
 	    Label lblNotes = new Label("Notes: "); 
 	    TextField txtNotes = new TextField();  
 	    Label lblClientID =new Label("Client ID");	 
+	    //ComboBox<String> cbClientID = new ComboBox(); 
+		//cbClientID.getItems().addAll(all..());
 	    ComboBox<Integer> cbClientID = new ComboBox();
 	    cbClientID.getItems().addAll(viewClient.getID());
 	    
@@ -643,12 +647,19 @@ public class ShipmentsPage {
 	    btnEnter.setOnAction(e->{
 	    	
 	    	// variables head for header and cont for content
-	    	String head="Client ID";
-			String cont="Not a int";
+	    	Float v=Float.parseFloat(txtVolume.getText());
+	    	Float w=Float.parseFloat(txtWeight.getText());
+	    	int statusID=0;
 			int cID=cbClientID.getValue();
 	    	int sID=Integer.parseInt(txtID.getText());
-	    	int status=cbStatus.getValue();
+	    	String s=cbStatus.getValue().toString();
+	    	String head="";
+			String cont="";
+			//Erroring array out of bounds Error using this code
+	    	//int statusIndex=all.getShipStatusID().indexOf(cbStatus.getValue());
+	    	//statusID=all.getShipStatusID().get(statusIndex);//StatusId based on index
 	    	
+			int status=valid.intChecker(s, head, cont);
 	    	String vol=txtVolume.getText().toString();
 	    	String wght=txtWeight.getText().toString();
 	    	String sNote = txtNotes.getText().toString();
@@ -663,7 +674,7 @@ public class ShipmentsPage {
 		    Date eDate = Date.valueOf(dpEnd.getValue()); 
 		    if(cID==0) {
 		    	valid.error.setError("Client ID", "Problem");		    	
-		    }else if(sID==0) {
+		    }else if(statusID==0) {
 		    	valid.error.setError("Shipment ID", "Problem");		    	
 		    }else if (valid.floatChecker(vol)) {
 		    	valid.error.setError("Volume", "Problem");
@@ -672,7 +683,7 @@ public class ShipmentsPage {
 		    }else if(valid.afterDate(sDate, eDate)) {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
 		    }else {		    	
-		    	update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);		    	
+		    	update.updateShipment(sID, cID, v, w, status, sDate, eDate, sNote);		    	
 				 //clear text fields
 		    	txtID.setText("");
 		    	txtVolume.clear();
