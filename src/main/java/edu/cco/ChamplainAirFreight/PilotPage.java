@@ -351,6 +351,8 @@ public class PilotPage {
 	    //grid of information: 
 	    GridPane grid = new GridPane(); 
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
 	    Label lbID = new Label("Pilot ID: "); 
 		Text txtID = new Text(); 
 		Label lbFirstName = new Label("First Name: "); 
@@ -460,7 +462,10 @@ public class PilotPage {
 	    
 	    //grid of information: 
 	    GridPane grid = new GridPane(); 
+	    grid.setPadding(new Insets(4,4,4,4));
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
 	    Label lbID = new Label("Pilot ID: "); 
 		TextField txtID = new TextField(); 
 		txtID.setEditable(false);// So this text field can't be edited
@@ -614,6 +619,7 @@ public class PilotPage {
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(2,20,2,20));
+		box.setStyle("-fx-background-color: white");
 		
 		DBFinder finder = new DBFinder(); 
 		
@@ -728,6 +734,7 @@ public class PilotPage {
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(2,20,2,20));
+		box.setStyle("-fx-background-color: white");
 		
 		 ArrayList<String> name = new ArrayList<>(); 
 		    for (int i =0; i < all.getFirstName().size(); i++) {

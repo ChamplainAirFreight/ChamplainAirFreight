@@ -353,12 +353,13 @@ finder.findAirports();
     /**
      * Add title and subtitle for instructions
      */
-    Text title = new Text("Select a Flight"); 
-    Text instructions = new Text("Use Drop Down Box to select a flight and hit select flight."); 
+    Text title = new Text("Update a Flight"); 
+    Text instructions = new Text("Use Drop Down Box to select a flight, then click Search. Edit any field(s), and then click Enter"); 
     
     // add a combobox and fill with all client names
     HBox selection = new HBox(); 
     selection.setAlignment(Pos.CENTER);
+    selection.setSpacing(4); 
     ComboBox flightSelect = new ComboBox(FXCollections.observableArrayList(all.getFlightID())); 
     flightSelect.setVisibleRowCount(5); 
     Button flightSearch = new Button("Select Flight"); 
@@ -381,6 +382,8 @@ finder.findAirports();
     //grid of information: 
     GridPane grid = new GridPane(); 
     grid.setAlignment(Pos.CENTER);
+    grid.setHgap(4);
+    grid.setVgap(4);
     Label lbID = new Label("Flight ID: "); 
 	TextField txtID = new TextField();
 	txtID.setEditable(false);
@@ -572,6 +575,8 @@ private VBox getViewSelected() {
     
     //grid of information: 
     GridPane grid = new GridPane(); 
+    grid.setHgap(4);
+    grid.setVgap(4);
     grid.setAlignment(Pos.CENTER);
     Label lbID = new Label("Flight ID: "); 
 	Text txtID = new Text(); 
@@ -671,6 +676,7 @@ private VBox addPane() {
 	box.setAlignment(Pos.CENTER); 
 	box.setSpacing(10);
 	box.setPadding(new Insets(2,20,2,20));
+	box.setStyle("-fx-background-color: white");
 	//add classes to grab ID arraylists
 	DBViewAllPilot pilot = new DBViewAllPilot(); 
 	DBViewAllAircraft aircraft = new DBViewAllAircraft();
@@ -813,6 +819,7 @@ public VBox deleteFlightPane() {
 	box.setAlignment(Pos.CENTER); 
 	box.setSpacing(10);
 	box.setPadding(new Insets(2,20,2,20));
+	box.setStyle("-fx-background-color: white");
 	
 	//title and instructions 
 	Text title = new Text("Delete Flight"); 

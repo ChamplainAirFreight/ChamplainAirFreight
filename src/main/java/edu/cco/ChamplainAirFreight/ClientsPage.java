@@ -365,6 +365,7 @@ public class ClientsPage {
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
+		box.setStyle("-fx-background-color: white");
 		//add client classes
 		DBAddClient add = new DBAddClient();
 		DBViewAllClientType dbtype = new DBViewAllClientType();
@@ -552,6 +553,7 @@ public class ClientsPage {
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
+		box.setStyle("-fx-background-color: white");
 		//update client classes
 		DBViewAllClient viewAll = new DBViewAllClient(); //used to get arraylist		 
 		DBUpdateClient updateClient = new DBUpdateClient();

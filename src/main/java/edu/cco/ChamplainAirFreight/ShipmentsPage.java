@@ -329,6 +329,10 @@ public class ShipmentsPage {
 	    //grid of information: 
 	    GridPane grid = new GridPane(); 
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
+	    grid.setPadding(new Insets(4,4,4,4));
+	    
 	    Label lbID = new Label("Shipment ID: "); 
 		Text txtID = new Text(); 
 		Label lbVolume = new Label("Shipment Volume: "); 
@@ -419,6 +423,9 @@ public class ShipmentsPage {
 	    //gridpane for information
 	    GridPane grid = new GridPane(); 
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
+	    grid.setPadding(new Insets(4,4,4,4));
 	    
 	    Label lbID = new Label("Client ID: "); 
 		ComboBox cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getID())); //get usable client IDs
@@ -521,6 +528,10 @@ public class ShipmentsPage {
 	    //grid of information: 
 	    GridPane grid = new GridPane(); 
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
+	    grid.setPadding(new Insets(4,4,4,4));
+	    
 	    Label lbID = new Label("Shipment ID: "); 
 		TextField txtID = new TextField(); 
 		txtID.setEditable(false);
@@ -639,6 +650,9 @@ public class ShipmentsPage {
 	    
 	    GridPane grid = new GridPane();
 	    grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+	    grid.setVgap(4);
+	    grid.setPadding(new Insets(4,4,4,4));
 	    Label lblID = new Label("Shipment ID: "); 
 	    ComboBox cbID = new ComboBox(FXCollections.observableArrayList(view.getShipID()));
 	    grid.add(lblID, 0,0);
