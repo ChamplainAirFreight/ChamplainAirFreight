@@ -67,10 +67,10 @@ public DBUpdateFlight() {
 */
 public void updateFlight(int fID, int aID, int pID, int sAirport, int eAirport,String sTime,String eTime) {
 try {
-	String storedP = "{call CAFDB.dbo.Update_Flight(?,?,?,?,?,?)}"; 
+	String storedP = "{call CAFDB.dbo.Update_Flight(?,?,?,?,?,?,?)}"; 
   
     callable = connection.prepareCall(storedP);
-    callable.setInt(2, fID);
+    callable.setInt(1, fID);
     callable.setInt(2,aID);
     callable.setInt(3, pID);
     callable.setInt(4,sAirport);
