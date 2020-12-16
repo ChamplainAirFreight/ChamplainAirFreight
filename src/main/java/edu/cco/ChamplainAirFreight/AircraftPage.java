@@ -7,7 +7,9 @@ import edu.cco.ChamplainAirFreight.Database.Aircraft.DBAddAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBDeleteAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBUpdateAircraft;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraft;
+import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewAllAircraftModel;
 import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewSelectAircraft;
+import edu.cco.ChamplainAirFreight.Database.Aircraft.DBViewSelectedAircraftModelByName;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -447,6 +449,8 @@ public class AircraftPage {
 	private VBox editAircraft() {
 		DBViewAllAircraft all  = new DBViewAllAircraft(); 
 		DBUpdateAircraft update=new DBUpdateAircraft();
+		DBViewAllAircraftModel model = new DBViewAllAircraftModel();
+		DBViewSelectedAircraftModelByName selectedModel = new DBViewSelectedAircraftModelByName();
 		
 		VBox centerBox = new VBox(); 
 		 centerBox.setAlignment(Pos.TOP_CENTER);
@@ -473,19 +477,19 @@ public class AircraftPage {
 		    Label lbID = new Label("Aircraft ID: "); 
 		  //  Label lbStatusID = new Label("Status ID: "); 
 		    
-		    Label lbModelID = new Label("Model ID: "); 
+		    Label lbModel = new Label("Model: "); 
 		   
 		    
 		    TextField txtID = new TextField(); 
 		 //   TextField txtStatusID = new TextField(); 		 
-		    TextField txtModelID = new TextField(); 
+		    ComboBox cbModel = new ComboBox(FXCollections.observableArrayList(model.getAircraftModel())); 
 		  
 		    
 		    grid.add(lbID, 0, 0);
-		    grid.add(lbModelID, 0, 1);
+		    grid.add(lbModel, 0, 1);
 		   // grid.add(lbStatusID, 0, 2);
 		    grid.add(txtID, 1, 0);
-		    grid.add(txtModelID, 1, 1);
+		    grid.add(cbModel, 1, 1);
 		  //  grid.add(txtStatusID, 1, 2);
 		
 		    
@@ -497,7 +501,7 @@ public class AircraftPage {
 		    	
 		    	txtID.setText(Integer.toString(view.getAircraftID()));
 		    	//txtStatusID.setText(Integer.toString(view.getStatusID()));
-		    	txtModelID.setText(Integer.toString(view.getModelID()));
+		    	cbModel.valueProperty().set(view.getModel());
 		    	
 		    });
 		    
@@ -510,18 +514,20 @@ public class AircraftPage {
 		    	String cont="Not and Int";
 		    	int aID=valid.intChecker(txtID.getText(),head,cont);
 		    	head ="Model ID";
-		    	int modelID=valid.intChecker(txtModelID.getText(),head,cont);
+		    	String eModel = cbModel.getSelectionModel().getSelectedItem().toString();
+		    	selectedModel.viewSelected(eModel);
+		    	int modelID =valid.intChecker(Integer.toString(selectedModel.getModelID()),head,cont);
 		    	//if zero for aID and or modelID call error message
 		        if(aID==0 && modelID==0) {
 		        	valid.error.setError("AirCraft ID and Model ID", "need to be reentered");
 		        	 txtID.clear();
-		        	  txtModelID.clear();
+		        	  cbModel.valueProperty().set(null);
 		        }else if(aID==0) {
 		        	valid.error.setError("AirCraft ID ", "needs to be reentered");
 		        	 txtID.clear();
 		        }else if(modelID==0) {
 		        	valid.error.setError("Model ID", "needs to be reentered");
-		        	  txtModelID.clear();
+		        	  cbModel.valueProperty().set(null);
 		        }else {
 		        	//good send to DB 
 		        	update.updateAircraft(aID, modelID);
@@ -532,13 +538,13 @@ public class AircraftPage {
 		    //clear fields to cancel 
 		    btnCancel.setOnAction(e->{
 		    	txtID.clear(); 
-		    	txtModelID.clear(); 
+		    	cbModel.valueProperty().set(null); 
 		    	airSelect.valueProperty().set(null);
 		    });
 		    //clear
 		    txtID.clear();
 		   // txtStatusID.clear();
-		    txtModelID.clear();
+		    cbModel.valueProperty().set(null);
 		    
 		return centerBox; 
 		
