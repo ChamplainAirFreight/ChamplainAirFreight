@@ -547,14 +547,14 @@ public class ShipmentsPage {
 	    centerBox.setStyle("-fx-background-color: white");	    
 	    
 	    // Add title and subtitle for instructions
-	    Text title = new Text("View Selected Shipment"); 
+	    Text title = new Text("View Selected Shipment to EDIT"); 
 	    Text instructions = new Text("Select a ShipmentID and hit find shipment."); 
 	    
 	    // add a combobox and fill with all client names
 	    HBox selection = new HBox(); 
 	    selection.setAlignment(Pos.CENTER);
 	   
-	    ComboBox shipSelect = new ComboBox(FXCollections.observableArrayList(all.getShipID())); 
+	    ComboBox<Integer> shipSelect = new ComboBox(FXCollections.observableArrayList(all.getShipID())); 
 	   shipSelect.setVisibleRowCount(5); 
 	    
 	    Button shipSearch = new Button("Find Shipment"); 
@@ -568,8 +568,8 @@ public class ShipmentsPage {
 	    grid.setPadding(new Insets(4,4,4,4));
 	    
 	    Label lbID = new Label("Shipment ID: "); 
-		TextField txtID = new TextField(); 
-		txtID.setEditable(false);
+		Text txtID = new Text(); 
+			
 		Label lbVolume = new Label("Shipment Volume: "); 
 		TextField txtVolume = new TextField(); 
 	    Label lblWeight = new Label("Shipment Weight: "); 
@@ -607,23 +607,29 @@ public class ShipmentsPage {
 	   // fill text with selected flight information
 	    shipSearch.setOnAction(e->{
 		   try {
-			   DBViewSelectShipment vss = new DBViewSelectShipment(); //to view a select flight
-			   String index = shipSelect.getValue().toString(); 
-			   int id = Integer.parseInt(index);  
-			   vss.viewSelected(id);
-			   int clientIndex = viewClient.getID().indexOf(txtID.getText()); 
-			   int clientID = viewClient.getID().get(clientIndex); 	  
-
-	    	txtID.setText(Integer.toString(vss.getShipID()));
-	    	cbClientID.setValue(vss.getClientID());
-	    	cbStatus.setValue(vss.getStatusID());
+			   //clear fields
+				txtID.setText("");
+		    	txtVolume.setText("");
+		    	txtWeight.setText("");
+		    	cbClientID.valueProperty().set(null);
+		    	cbStatus.valueProperty().set(null);
+		    	dpStart.valueProperty().set(null);
+		    	dpEnd.valueProperty().set(null);
+		    	txtNotes.setText("");
+		    	//Get selected shipment
+			   DBViewSelectShipment vss = new DBViewSelectShipment(); 
+			   vss.viewSelected(shipSelect.getValue());	
+            
+			   txtID.setText(Integer.toString(vss.getShipID()));
+			   cbClientID.setValue(vss.getClientID());
+			   cbStatus.setValue(vss.getStatusID());
 	    	
-	    	txtVolume.setText(Double.toString(vss.getShipVolume()));
-	    	txtWeight.setText(Double.toString(vss.getShipWeight()));
-	    	txtNotes.setText(vss.getNotes()); 
+			   txtVolume.setText(Double.toString(vss.getShipVolume()));
+			   txtWeight.setText(Double.toString(vss.getShipWeight()));
+			   txtNotes.setText(vss.getNotes()); 
 	    		    	
-	    	dpStart.setValue(vss.getStartDate().toLocalDate());	    	
-	    	dpEnd.setValue(vss.getEndDate().toLocalDate());
+			   dpStart.setValue(vss.getStartDate().toLocalDate());	    	
+			   dpEnd.setValue(vss.getEndDate().toLocalDate());
 	    	
 	    	   	   	
 	    	
@@ -667,8 +673,8 @@ public class ShipmentsPage {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
 		    }else {		    	
 		    	update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);		    	
-				 //clear textfields
-		    	txtID.clear();
+				 //clear text fields
+		    	txtID.setText("");
 		    	txtVolume.clear();
 		    	txtWeight.clear();
 		    	cbClientID.valueProperty().set(null);
