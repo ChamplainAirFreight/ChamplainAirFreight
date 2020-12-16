@@ -817,14 +817,21 @@ public class ClientsPage {
 		btDelete.setOnAction(e->{
 			DBDeleteClient delete = new DBDeleteClient(); 
 			DBDeleteClientAddress deleteAdd = new DBDeleteClientAddress(); 
+			
 			//get client ID based on name
 			int index = view.getName().indexOf(cbClients.getValue()); 
 			int id = view.getID().get(index); 
 			delete.deleteClient(id);
-			// deleteAdd.deleteClientAddress(id); 
+			
+			
+			int addressIndex = view.getID().indexOf(id); 
+			int addressID = view.getAddressID().get(addressIndex); 
+			deleteAdd.deleteClientAddress(addressID); 
 			// need to delete client address by clientaddressid, not clientid
 			
 			//clear combobox
+			DBViewAllClient viewAgain = new DBViewAllClient();  
+			cbClients.setItems(FXCollections.observableArrayList(viewAgain.getName()));
 			cbClients.valueProperty().set(null);
 		});
 		

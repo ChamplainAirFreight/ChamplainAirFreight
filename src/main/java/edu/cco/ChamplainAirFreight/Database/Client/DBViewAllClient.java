@@ -31,6 +31,7 @@ private ArrayList<String> address2 = new ArrayList<>();
 private ArrayList<String> city = new ArrayList<>(); 
 private ArrayList<String> state = new ArrayList<>(); 
 private ArrayList<String> zip = new ArrayList<>(); 
+private ArrayList<Integer> addressID = new ArrayList<>(); 
 
 /**
  * Default Constructor
@@ -69,6 +70,7 @@ public void viewAll() {
 		 * 7 = city
 		 * 8 = state
 		 * 9 = zip
+		 * 10 = ClientAddressID
 		 */
 		
 		while(rs.next()) {
@@ -81,6 +83,7 @@ public void viewAll() {
 			city.add(rs.getString(7)); 
 			state.add(rs.getString(8)); 
 			zip.add(rs.getString(9));   
+			addressID.add(rs.getInt(10)); 
 		}
 		
 	}catch (SQLException ex) {
@@ -132,6 +135,9 @@ public ArrayList<String> getState(){
 
 public ArrayList<String> getZip(){
 	return zip; 
+}
+public ArrayList<Integer> getAddressID(){
+	return addressID; 
 }
 
 /**
