@@ -587,10 +587,8 @@ public class ShipmentsPage {
 	    Label lblNotes = new Label("Notes: "); 
 	    TextField txtNotes = new TextField();  
 	    Label lblClientID =new Label("Client ID");	 
-	    //ComboBox<String> cbClientID = new ComboBox(); 
-		//cbClientID.getItems().addAll(all..());
-	    ComboBox<Integer> cbClientID = new ComboBox();
-	    cbClientID.getItems().addAll(viewClient.getID());
+	    ComboBox cbClientID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //puts name in box. 
+	    
 	    
 	    grid.add(lbID, 0,  0);
 	    grid.add(txtID, 1,  0);
@@ -622,12 +620,21 @@ public class ShipmentsPage {
 		    	dpEnd.valueProperty().set(null);
 		    	txtNotes.setText("");
 		    	//Get selected shipment
-			   DBViewSelectShipment vss = new DBViewSelectShipment(); 
+			   DBViewSelectShipment vss = new DBViewSelectShipment();
+			   DBViewAllClient vac = new DBViewAllClient(); 
+			   DBFinder dbf = new DBFinder(); 
 			   vss.viewSelected(shipSelect.getValue());	
             
 			   txtID.setText(Integer.toString(vss.getShipID()));
-			   cbClientID.setValue(vss.getClientID());
-			   cbStatus.setValue(vss.getStatusID());
+			   
+			   //get client ID name
+			   int cbClientIDIndex = vac.getID().indexOf(vss.getClientID()); 
+			   cbClientID.setValue(vac.getName().get(cbClientIDIndex));
+			   
+			   //get status value based on ID
+			   dbf.findStatusID(); 
+			   int statusIndex = dbf.getStatusIDs().indexOf(vss.getStatusID()); 
+			   cbStatus.setValue(dbf.getStatusVals().get(statusIndex));
 	    	
 			   txtVolume.setText(Double.toString(vss.getShipVolume()));
 			   txtWeight.setText(Double.toString(vss.getShipWeight()));
@@ -651,7 +658,12 @@ public class ShipmentsPage {
 	    	Float v=Float.parseFloat(txtVolume.getText());
 	    	Float w=Float.parseFloat(txtWeight.getText());
 	    	int statusID=0;
-			int cID=cbClientID.getValue();
+	    	
+	    	//get the client ID based on Client Name:
+	    	DBViewAllClient allClient = new DBViewAllClient(); 
+	    	int cIDindex = allClient.getName().indexOf(cbClientID.getValue()); 
+			int cID= allClient.getID().get(cIDindex);
+			
 	    	int sID=Integer.parseInt(txtID.getText());
 	    	String s=cbStatus.getValue().toString();
 	    	String head="";
