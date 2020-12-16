@@ -124,6 +124,17 @@ public class DBViewAllPilot extends DBConnection{
 	public ArrayList<Date> getDateLeftCAF(){
 		return dateLeftCAF; 
 	}
+	
+	//appends first and last name into an arrayList
+	public ArrayList<String> getFullName(){
+		ArrayList<String> fullName = new ArrayList<>(); 
+		
+		for(int i =0; i<firstName.size(); i++) {
+			fullName.add(firstName.get(i) + " " + lastName.get(i)); 
+		}
+		
+		return fullName; 		
+	}
 
 	/**
 	 * clearAllPilot - method to clear all the ArrayLists with pilot information

@@ -263,7 +263,7 @@ public class FlightsPage {
 				
 		Label lbFlightID = new Label ("Flight ID"); 
 		Label lbACID = new Label("Aircraft ID"); 
-		Label lbPilotID = new Label("Pilot ID"); 
+		Label lbPilotID = new Label("Pilot Name"); 
 		Label lbStartLoc = new Label("Start Location"); 
 		Label lbStartTime = new Label("Start Time"); 
 		Label lbEndLoc = new Label ("End Location"); 
@@ -362,8 +362,8 @@ finder.findAirports();
     ComboBox<Integer> cbAirID = new ComboBox(); 
 	cbAirID.getItems().addAll(aircraft.getAircraftID()); 
 	
-	ComboBox<Integer> cbPilotID = new ComboBox(); 
-	cbPilotID.getItems().addAll(pilot.getPilotID());
+	ComboBox<String> cbPilotID = new ComboBox(); 
+	cbPilotID.getItems().addAll(pilot.getFullName());
 	
 	ComboBox<String> cbStartAirport = new ComboBox(); 
 	cbStartAirport.getItems().addAll(finder.getAirportNames()); 
@@ -389,9 +389,7 @@ finder.findAirports();
     Label lblStartAirport = new Label("Start Airport: "); 
        
     Label lblEndAirport = new Label("End Airport: "); 
-    
-    
- 
+     
     
     grid.add(lbID, 0,  0);
     grid.add(txtID, 1,  0);
@@ -418,7 +416,9 @@ finder.findAirports();
     	view.viewSelected(id);
     	
     	cbAirID.setValue(view.getAircraftID());    	
-		cbPilotID.setValue(view.getPilotID());
+    	int idIndex = pilot.getPilotID().indexOf(view.getPilotID()); //index of the ID
+		cbPilotID.setValue(pilot.getFullName().get(idIndex)); //use that index to show full name
+		
 		cbStartAirport.setValue(view.getStartLoc());
 		cbEndAirport.setValue(view.getEndLoc());  
 
@@ -461,18 +461,15 @@ finder.findAirports();
 		String endDate = end.toString(); 
 		endDate = endDate.replace("T", " "); 
 		
-		//System.out.println("start date: " + startDate); 
-		//System.out.println("End date: " + endDate); 
-		// pilot ID check
 		
     	head="Pilot ID";
-    	int pilotID=cbPilotID.getValue();
-    	
-    	
+    	int pilotIndex = pilot.getFullName().indexOf(cbPilotID.getValue()); //get index of the name in combobox
+    	int pilotID= pilot.getPilotID().get(pilotIndex); //set the pilotID based on that index 
+    	    	
     	
     	String startLoc = cbStartAirport.getValue(); 
-		int index = finder.getAirportNames().indexOf(startLoc); 
-		int startLocID = finder.getAirportIDs().get(index); 
+		int startIndex = finder.getAirportNames().indexOf(startLoc); 
+		int startLocID = finder.getAirportIDs().get(startIndex); 
 		
 		String endLoc = cbEndAirport.getValue(); 
 		int endIndex = finder.getAirportNames().indexOf(endLoc); 
@@ -672,14 +669,14 @@ private VBox addPane() {
 	Text instructions = new Text("Enter valid information for a Flight, and then press Enter"); 
 	//labels
 	Label lblAirID = new Label ("AircraftID: "); 
-	Label lblPilotID = new Label ("PilotID: "); 
+	Label lblPilot = new Label ("Pilot: "); 
 	Label lblStartLoc = new Label ("Start Airport: "); 
 	Label lblEndLoc = new Label("End Airport: "); 
 	Label lblStartTime = new Label("Start Time: "); 
 	Label lblEndTime = new Label("End Time: "); 
 	
 	//style labels
-	Arrays.asList(lblAirID, lblPilotID, lblStartLoc, lblEndLoc, lblStartTime, lblEndTime).stream().map((b)->{
+	Arrays.asList(lblAirID, lblPilot, lblStartLoc, lblEndLoc, lblStartTime, lblEndTime).stream().map((b)->{
 		b.setStyle(s.clientLB); 
 		return b; 
 	}); 
@@ -688,8 +685,8 @@ private VBox addPane() {
 	ComboBox<Integer> cbAirID = new ComboBox(); 
 	cbAirID.getItems().addAll(aircraft.getAircraftID()); 
 	
-	ComboBox<Integer> cbPilotID = new ComboBox(); 
-	cbPilotID.getItems().addAll(pilot.getPilotID());
+	ComboBox<String> cbPilotID = new ComboBox(); 
+	cbPilotID.getItems().addAll(pilot.getFullName());
 	
 	ComboBox<String> cbStartLoc = new ComboBox(); 
 	cbStartLoc.getItems().addAll(finder.getAirportNames()); 
@@ -707,7 +704,7 @@ private VBox addPane() {
 	grid.setHgap(10);
 	grid.setVgap(4);
 	grid.add(lblAirID, 0, 0);
-	grid.add(lblPilotID, 0, 1);
+	grid.add(lblPilot, 0, 1);
 	grid.add(lblStartLoc, 0, 2);
 	grid.add(lblEndLoc, 0, 3);
 	grid.add(lblStartTime, 0, 4);
@@ -727,7 +724,8 @@ private VBox addPane() {
 		int airID =0;
 		airID = cbAirID.getValue(); 
 		int pilotID =0;
-		pilotID = cbPilotID.getValue(); 
+		int pilotIndex = pilot.getFullName().indexOf(cbPilotID.getValue()); //index of full name
+		pilotID = pilot.getPilotID().get(pilotIndex); //index of pilotID to get actual pilotID
 		
 		//grab the location id from the lookup table
 		String startLoc = cbStartLoc.getValue(); 
