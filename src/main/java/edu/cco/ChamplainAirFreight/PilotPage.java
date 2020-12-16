@@ -536,8 +536,7 @@ public class PilotPage {
 		  
 		  Date dob = Date.valueOf(txtDob.getValue());		
 		  Date hireDate = Date.valueOf(txtDateOfHire.getValue());
-		  Date leftDate=Date.valueOf(txtDateLeft.getValue()); 
-		  
+		  		  
 	if(pilotID==0) {
 		txtID.clear();
 	}else if(firstName=="") {
@@ -552,7 +551,7 @@ public class PilotPage {
 	}
 	else {
 		 try {
-			  leftDate = Date.valueOf(txtDateLeft.getValue()); 
+			  Date leftDate = Date.valueOf(txtDateLeft.getValue()); 
 			  update.updatePilot(pilotID, firstName, lastName, dob, eNumber, hireDate, leftDate);
 			  System.out.println("date left - " + leftDate);
 			  //clear textFields
