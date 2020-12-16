@@ -419,8 +419,8 @@ finder.findAirports();
     	int idIndex = pilot.getPilotID().indexOf(view.getPilotID()); //index of the ID
 		cbPilotID.setValue(pilot.getFullName().get(idIndex)); //use that index to show full name
 		
-		cbStartAirport.setValue(view.getStartLoc());
-		cbEndAirport.setValue(view.getEndLoc());  
+		cbStartAirport.setValue(view.getStartName());
+		cbEndAirport.setValue(view.getEndName());  
 
     	txtID.setText(Integer.toString(view.getFlightID()));   
     
@@ -442,6 +442,7 @@ finder.findAirports();
     centerBox.getChildren().addAll(title, instructions, selection, grid);
     
     btnEnter.setOnAction(e->{
+    	finder.findAirports(); 
     	// variables head for header and cont for content
     	String head="Flight ID";
 		String cont="Not a int";		
@@ -468,7 +469,7 @@ finder.findAirports();
     	    	
     	
     	String startLoc = cbStartAirport.getValue(); 
-		int startIndex = finder.getAirportNames().indexOf(startLoc); 
+    	int startIndex = finder.getAirportNames().indexOf(startLoc); 
 		int startLocID = finder.getAirportIDs().get(startIndex); 
 		
 		String endLoc = cbEndAirport.getValue(); 
