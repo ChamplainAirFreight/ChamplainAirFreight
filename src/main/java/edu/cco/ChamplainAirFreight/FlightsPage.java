@@ -423,12 +423,17 @@ finder.findAirports();
 		cbEndAirport.setValue(view.getEndLoc());  
 
     	txtID.setText(Integer.toString(view.getFlightID()));   
-    	
-    	//dtStart.valueProperty().set(view.getStartTime().toLocalDate());
-    	//dtEnd.dateTimeValueProperty().setValue(view.getEndTime().toLocalDate());
-    	
-   
-    	
+    
+    	//convert string to localdatetime value (change space to "T")
+    	String startDateString =  view.getStartTime().toString(); 
+    	startDateString = startDateString.replace(" ", "T"); 
+    	String endDateString = view.getEndTime().toString(); 
+    	endDateString = endDateString.replace(" ", "T"); 
+        	
+    	//set datetimepicker values 
+    	dtStart.dateTimeValueProperty().set(LocalDateTime.parse(startDateString));
+    	dtEnd.dateTimeValueProperty().set(LocalDateTime.parse(endDateString));
+    	 	
 	   } catch(Exception ex) {
 		   flightSelect.requestFocus(); 
 	   }
