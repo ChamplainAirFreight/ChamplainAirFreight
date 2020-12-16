@@ -587,7 +587,7 @@ public class ShipmentsPage {
 	    DatePicker dpEnd = new DatePicker(); 
 	    Label lblNotes = new Label("Notes: "); 
 	    TextField txtNotes = new TextField();  
-	    Label lblClientID =new Label("Client ID");	 
+	    Label lblClientID =new Label("Client Name: ");	 
 	    ComboBox cbClientID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //puts name in box. 
 	    
 	    

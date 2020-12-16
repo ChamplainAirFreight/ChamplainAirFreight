@@ -390,7 +390,7 @@ finder.findAirports();
 	Label lbAirID = new Label("Aircraft ID: "); 	
     Label lblStartTime = new Label("Start Time: ");    
     Label lblEndTime = new Label("End Time: ");  
-    Label lblPilotID = new Label("Pilot ID: "); 
+    Label lblPilotID = new Label("Pilot Name: "); 
     Label lblStartAirport = new Label("Start Airport: ");        
     Label lblEndAirport = new Label("End Airport: "); 
      
