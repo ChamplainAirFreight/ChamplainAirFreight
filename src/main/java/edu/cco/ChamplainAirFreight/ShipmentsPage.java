@@ -569,7 +569,8 @@ public class ShipmentsPage {
 	    grid.setPadding(new Insets(4,4,4,4));
 	    
 	    Label lbID = new Label("Shipment ID: "); 
-		Text txtID = new Text(); 
+		TextField txtID = new TextField();
+		txtID.setEditable(false);
 			
 		Label lbVolume = new Label("Shipment Volume: "); 
 		TextField txtVolume = new TextField(); 
@@ -654,25 +655,33 @@ public class ShipmentsPage {
 	    //enter for update
 	    btnEnter.setOnAction(e->{
 	    	
+	    	 
 	    	// variables head for header and cont for content
 	    	Float v=Float.parseFloat(txtVolume.getText());
 	    	Float w=Float.parseFloat(txtWeight.getText());
-	    	int statusID=0;
-	    	
+	    		    	
 	    	//get the client ID based on Client Name:
 	    	DBViewAllClient allClient = new DBViewAllClient(); 
 	    	int cIDindex = allClient.getName().indexOf(cbClientID.getValue()); 
 			int cID= allClient.getID().get(cIDindex);
 			
-	    	int sID=Integer.parseInt(txtID.getText());
-	    	String s=cbStatus.getValue().toString();
-	    	String head="";
-			String cont="";
-			//Erroring array out of bounds Error using this code
-	    	//int statusIndex=all.getShipStatusID().indexOf(cbStatus.getValue());
-	    	//statusID=all.getShipStatusID().get(statusIndex);//StatusId based on index
-	    	
-			int status=valid.intChecker(s, head, cont);
+			//get status ID based on status value
+			DBFinder dbfinder = new DBFinder(); 
+			dbfinder.findStatusID(); 
+			int statIndex = dbfinder.getStatusVals().indexOf(cbStatus.getValue());
+	    	int sID = dbfinder.getStatusIDs().get(statIndex); 
+	    	String s= String.valueOf(sID); 
+	    	String head="Status ID";
+			String cont="status ID not integer";	
+			sID = valid.intChecker(s, head, cont);
+			
+			//shipment ID
+			head = "Shipment ID"; 
+			cont = "shipment ID not integer"; 
+			String shipment = txtID.getText(); 
+			int shipID = valid.intChecker(shipment, head, cont); 
+						
+			//Volume and Weight Validation
 	    	String vol=txtVolume.getText().toString();
 	    	String wght=txtWeight.getText().toString();
 	    	String sNote = txtNotes.getText().toString();
@@ -687,7 +696,7 @@ public class ShipmentsPage {
 		    Date eDate = Date.valueOf(dpEnd.getValue()); 
 		    if(cID==0) {
 		    	valid.error.setError("Client ID", "Problem");		    	
-		    }else if(statusID==0) {
+		    }else if(sID == 0) {
 		    	valid.error.setError("Shipment ID", "Problem");		    	
 		    }else if (!valid.floatChecker(vol)) {
 		    	valid.error.setError("Volume", "Problem");
@@ -696,7 +705,7 @@ public class ShipmentsPage {
 		    }else if(valid.afterDate(sDate, eDate)) {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
 		    }else {		    	
-		    	update.updateShipment(sID, cID, v, w, status, sDate, eDate, sNote);		    	
+		    	update.updateShipment(shipID, cID, v, w, sID, sDate, eDate, sNote);		    	
 				 //clear text fields
 		    	txtID.setText("");
 		    	txtVolume.clear();
@@ -706,6 +715,7 @@ public class ShipmentsPage {
 		    	dpStart.valueProperty().set(null);
 		    	dpEnd.valueProperty().set(null);
 		    	txtNotes.clear();  
+		    	shipSelect.valueProperty().set(null); 
 		    }					 	
 	    	
 	    	
