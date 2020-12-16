@@ -557,6 +557,7 @@ public class ClientsPage {
 		DBUpdateClient updateClient = new DBUpdateClient();
 		DBViewAllClientType viewType = new DBViewAllClientType();
 		DBViewSelectClient select = new DBViewSelectClient();
+		DBViewSelectedClientTypeByName selectClientType = new DBViewSelectedClientTypeByName();
 		
 		//call the get client id from viewAll 
 		ComboBox<Integer> cbClientID = new ComboBox(FXCollections.observableArrayList(viewAll.getID()));
@@ -644,7 +645,7 @@ public class ClientsPage {
     		
     		//fill with new values
     		txtName.setText(vsc.getClientName());
-    		cbType.equals(vsc.getClientType());
+    		cbType.valueProperty().set(vsc.getClientType());
     		txtPhone.setText(vsc.getPhone());
     		txtAdd1.setText(vsc.getAddress1());
     		txtAdd2.setText(vsc.getAddress2());
@@ -670,7 +671,9 @@ public class ClientsPage {
     		
     		head="Client type";
     		cont="Not a int";
-    		int type = valid.intChecker(cbType.getValue().toString(), head, cont); 
+    		String cType = cbType.getValue().toString();
+    		selectClientType.viewSelected(cType);
+    		int type = valid.intChecker(Integer.toString(selectClientType.getID()), head, cont); 
     		head="Client Phone Number";
     		cont="Not Correct";
     		String phone = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
