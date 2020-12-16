@@ -1,6 +1,7 @@
 package edu.cco.ChamplainAirFreight;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -480,9 +481,10 @@ public class ShipmentsPage {
 	    	String wght=txtWeight.getText().toString();
 	    	String notes = txtNotes.getText().toString();
 	    	String head="Float";
-	    	String cont="Float problem";
+	    	String cont="Float Volume problem";
 	    	//check and return
 	    	Float volume =valid.floatChecker(vol, head, cont); 
+	    	 cont="Float Weight problem";
 	    	Float weight =valid.floatChecker(wght, head, cont); 
 	    	
 	    	//validation check
@@ -494,8 +496,8 @@ public class ShipmentsPage {
 	    	}else if(valid.floatChecker(wght)){
 	    		valid.error.setError("Float", "Problem with Weight ");
 	    		txtWeight.clear();
-	    	}else if(valid.beforeDate(startDate, endDate)){
-	    		valid.error.setError("Date", "Start Date before End Date ");
+	    	}else if(valid.afterDate(startDate, endDate)){
+	    		valid.error.setError("Date", "Start Date after End Date ");
 	    	}else {
 	    		//add shipment
 		    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
@@ -535,7 +537,10 @@ public class ShipmentsPage {
 		DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
 		DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
 		DBUpdateShipment update =new DBUpdateShipment();	//update
-
+		DBFinder finder = new DBFinder(); 
+		finder.findStatusID(); //set the values in the lookup table arraylists 		
+		DBViewAllClient viewClient = new DBViewAllClient(); 
+		
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
 	    centerBox.setMinHeight(300);
@@ -570,49 +575,57 @@ public class ShipmentsPage {
 	    Label lblWeight = new Label("Shipment Weight: "); 
 	    TextField txtWeight = new TextField();  
 	    Label lblStatus = new Label("Shipment Status: "); 
-	    TextField txtStatus = new TextField();  
+	    ComboBox<Integer> cbStatus = new ComboBox();
+	    cbStatus.getItems().addAll(all.getShipStatusID());
 	    Label lblStart = new Label("Start Date: "); 
-	    TextField txtStart = new TextField();  
+	    DatePicker dpStart = new DatePicker(); 
 	    Label lblEnd = new Label("End Date: "); 
-	    TextField txtEnd = new TextField(); 
+	    DatePicker dpEnd = new DatePicker(); 
 	    Label lblNotes = new Label("Notes: "); 
 	    TextField txtNotes = new TextField();  
-	    Label lblClientID =new Label("Client ID");
-	    TextField txtClientID=new TextField();
-	     	    
+	    Label lblClientID =new Label("Client ID");	 
+	    ComboBox<Integer> cbClientID = new ComboBox();
+	    cbClientID.getItems().addAll(viewClient.getID());
+	    
 	    grid.add(lbID, 0,  0);
 	    grid.add(txtID, 1,  0);
 	    grid.add(lblClientID,0,1);
-	    grid.add(txtClientID, 1,1);
+	    grid.add(cbClientID, 1,1);
 	    grid.add(lbVolume, 0, 2);
 	    grid.add(txtVolume, 1,  2);
 	    grid.add(lblWeight, 0,  3);
 	    grid.add(txtWeight, 1,  3);
 	    grid.add(lblStatus, 0, 4);
-	    grid.add(txtStatus, 1, 4);
+	    grid.add(cbStatus, 1, 4);
 	    grid.add(lblStart, 0, 5);
-	    grid.add(txtStart,1 ,5);
+	    grid.add(dpStart,1 ,5);
 	    grid.add(lblEnd, 0, 6);
-	    grid.add(txtEnd, 1, 6);
+	    grid.add(dpEnd, 1, 6);
 	    grid.add(lblNotes, 0, 7);
 	    grid.add(txtNotes, 1, 7);
-	   
+	     
 	   // fill text with selected flight information
 	    shipSearch.setOnAction(e->{
 		   try {
 			   DBViewSelectShipment vss = new DBViewSelectShipment(); //to view a select flight
-			String index = shipSelect.getValue().toString(); 
-	    	int id = Integer.parseInt(index);  
-	    	vss.viewSelected(id);
+			   String index = shipSelect.getValue().toString(); 
+			   int id = Integer.parseInt(index);  
+			   vss.viewSelected(id);
+			   int clientIndex = viewClient.getID().indexOf(txtID.getText()); 
+			   int clientID = viewClient.getID().get(clientIndex); 	  
 
 	    	txtID.setText(Integer.toString(vss.getShipID()));
-	    	txtClientID.setText(Integer.toString(vss.getClientID()));
+	    	cbClientID.setValue(vss.getClientID());
+	    	cbStatus.setValue(vss.getStatusID());
+	    	
 	    	txtVolume.setText(Double.toString(vss.getShipVolume()));
 	    	txtWeight.setText(Double.toString(vss.getShipWeight()));
-	    	txtStatus.setText(Integer.toString(vss.getStatusID()));
-	    	txtStart.setText(String.valueOf(vss.getStartDate()));
-	    	txtEnd.setText(String.valueOf(vss.getEndDate()));
-	    	txtNotes.setText(vss.getNotes());    	   	
+	    	txtNotes.setText(vss.getNotes()); 
+	    		    	
+	    	dpStart.setValue(vss.getStartDate().toLocalDate());	    	
+	    	dpEnd.setValue(vss.getEndDate().toLocalDate());
+	    	
+	    	   	   	
 	    	
 		   } catch(Exception ex) {
 			   shipSelect.requestFocus(); 
@@ -623,41 +636,61 @@ public class ShipmentsPage {
 	    //enter for update
 	    btnEnter.setOnAction(e->{
 	    	
-	    	int cID=Integer.parseInt(txtClientID.getText());
-			float sVol=Float.parseFloat(txtVolume.getText());
-			float sWeight=Float.parseFloat(txtWeight.getText());
-			int sID=Integer.parseInt(txtID.getText());
-			int status=Integer.parseInt(txtStatus.getText());
-			Date sDate = null;
-			Date eDate = null;
-			String sNote=txtNotes.getText();
-			
-			update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);
-
+	    	// variables head for header and cont for content
+	    	String head="Client ID";
+			String cont="Not a int";
+			int cID=cbClientID.getValue();
+	    	int sID=Integer.parseInt(txtID.getText());
+	    	int status=cbStatus.getValue();
 	    	
-			 //clear textfields
-
-	    	txtID.clear();
-	    	txtVolume.clear();
-	    	txtWeight.clear();
-	    	txtStatus.clear();
-	    	txtStart.clear();
-	    	txtEnd.clear();
-	    	txtNotes.clear();    	
+	    	String vol=txtVolume.getText().toString();
+	    	String wght=txtWeight.getText().toString();
+	    	String sNote = txtNotes.getText().toString();
+	    	 head="Float";
+	    	 cont="Float Volume problem";
+	    	//check and return
+	    	Float sVol =valid.floatChecker(vol, head, cont); 
+	    	 cont="Float Weight problem";
+	    	Float sWeight =valid.floatChecker(wght, head, cont);     
+			
+			Date sDate = Date.valueOf(dpStart.getValue());
+		    Date eDate = Date.valueOf(dpEnd.getValue()); 
+		    if(cID==0) {
+		    	valid.error.setError("Client ID", "Problem");		    	
+		    }else if(sID==0) {
+		    	valid.error.setError("Shipment ID", "Problem");		    	
+		    }else if (valid.floatChecker(vol)) {
+		    	valid.error.setError("Volume", "Problem");
+		    }else if(valid.floatChecker(wght)) {
+		    	valid.error.setError("Weight", "Problem");
+		    }else if(valid.afterDate(sDate, eDate)) {
+		    	valid.error.setError("Date", "Problem Start Date after EndDate");
+		    }else {		    	
+		    	update.updateShipment(sID, cID, sVol, sWeight, status, sDate, eDate, sNote);		    	
+				 //clear textfields
+		    	txtID.clear();
+		    	txtVolume.clear();
+		    	txtWeight.clear();
+		    	cbClientID.valueProperty().set(null);
+		    	cbStatus.valueProperty().set(null);
+		    	dpStart.valueProperty().set(null);
+		    	dpEnd.valueProperty().set(null);
+		    	txtNotes.clear();  
+		    }					 	
 	    	
 	    	
 	    });
 	    
 	    btnCancel.setOnAction(e->{
 	    	shipSelect.valueProperty().set(null);
-	    	txtID.setText(""); 
-	    	txtClientID.setText(""); 
+	    	txtID.setText("");	    	
 	    	txtVolume.setText(""); 
-	    	txtWeight.setText(""); 
-	    	txtStatus.setText(""); 
-	    	txtStart.setText(""); 
-	    	txtEnd.setText(""); 
+	    	txtWeight.setText("");	    	
 	    	txtNotes.setText("");  
+	    	cbClientID.valueProperty().set(null);
+	    	cbStatus.valueProperty().set(null);
+	    	dpStart.valueProperty().set(null);
+	    	dpEnd.valueProperty().set(null);
 	    });
 	     
 	    return centerBox; 

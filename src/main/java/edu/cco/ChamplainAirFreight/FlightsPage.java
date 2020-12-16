@@ -378,8 +378,7 @@ finder.findAirports();
 	ComboBox<String> cbEndAirport = new ComboBox(); 
 	cbEndAirport.getItems().addAll(finder.getAirportNames());
 
-    
-    //grid of information: 
+        //grid of information: 
     GridPane grid = new GridPane(); 
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(4);
@@ -387,16 +386,12 @@ finder.findAirports();
     Label lbID = new Label("Flight ID: "); 
 	TextField txtID = new TextField();
 	txtID.setEditable(false);
-	Label lbAirID = new Label("Aircraft ID: "); 
 	
-    Label lblStartTime = new Label("Start Time: "); 
-   
-    Label lblEndTime = new Label("End Time: "); 
- 
+	Label lbAirID = new Label("Aircraft ID: "); 	
+    Label lblStartTime = new Label("Start Time: ");    
+    Label lblEndTime = new Label("End Time: ");  
     Label lblPilotID = new Label("Pilot ID: "); 
-    
-    Label lblStartAirport = new Label("Start Airport: "); 
-       
+    Label lblStartAirport = new Label("Start Airport: ");        
     Label lblEndAirport = new Label("End Airport: "); 
      
     

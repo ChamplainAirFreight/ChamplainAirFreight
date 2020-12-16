@@ -86,7 +86,7 @@ public class ValidateFields {
 		return floatNumber;
 		   
 	   }
-	   // float boolean
+	   // float boolean used to check float for if statement
 	   public boolean floatChecker(String num) {
 		   float  floatNumber;
 		   try { 
