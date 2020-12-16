@@ -677,9 +677,9 @@ public class ShipmentsPage {
 		    	valid.error.setError("Client ID", "Problem");		    	
 		    }else if(statusID==0) {
 		    	valid.error.setError("Shipment ID", "Problem");		    	
-		    }else if (valid.floatChecker(vol)) {
+		    }else if (!valid.floatChecker(vol)) {
 		    	valid.error.setError("Volume", "Problem");
-		    }else if(valid.floatChecker(wght)) {
+		    }else if(!valid.floatChecker(wght)) {
 		    	valid.error.setError("Weight", "Problem");
 		    }else if(valid.afterDate(sDate, eDate)) {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
