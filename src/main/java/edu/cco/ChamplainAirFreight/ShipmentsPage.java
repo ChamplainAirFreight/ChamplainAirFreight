@@ -432,8 +432,8 @@ public class ShipmentsPage {
 	    grid.setVgap(4);
 	    grid.setPadding(new Insets(4,4,4,4));
 	    
-	    Label lbID = new Label("Client ID: "); 
-		ComboBox cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getID())); //get usable client IDs
+	    Label lbID = new Label("Client Name: "); 
+		ComboBox cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //get usable client IDs
 		Label lbVolume = new Label("Shipment Volume: "); 
 		TextField txtVolume = new TextField(); 
 	    Label lblWeight = new Label("Shipment Weight: "); 
@@ -469,7 +469,8 @@ public class ShipmentsPage {
 	    	int clientIndex=0;
 	    	int statusIndex=0;
 	    	int statusID=0;
-	    	clientIndex = viewClient.getID().indexOf(cbID.getValue()); 
+	    	
+	    	clientIndex = viewClient.getName().indexOf(cbID.getValue()); 
 	    	clientID = viewClient.getID().get(clientIndex);   
 	    	statusIndex = finder.getStatusVals().indexOf(cbStatus.getValue()); 
 	    	statusID = finder.getStatusIDs().get(statusIndex); 
@@ -490,10 +491,10 @@ public class ShipmentsPage {
 	    	//validation check
 	    	if(clientID==0) {
 	    		valid.error.setError("Client ID", "Problem ClientID=0");
-	    	}else if(valid.floatChecker(vol)){
+	    	}else if(!valid.floatChecker(vol)){
 	    		valid.error.setError("Float", "Problem with Volume");
 	    		txtVolume.clear();
-	    	}else if(valid.floatChecker(wght)){
+	    	}else if(!valid.floatChecker(wght)){
 	    		valid.error.setError("Float", "Problem with Weight ");
 	    		txtWeight.clear();
 	    	}else if(valid.afterDate(startDate, endDate)){
