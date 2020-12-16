@@ -510,8 +510,7 @@ public class ShipmentsPage {
 		    	dpStart.valueProperty().set(null);
 		    	dpEnd.valueProperty().set(null);
 		    	txtNotes.clear(); 
-	    	}
-	    	
+	    	}	    	
 	    
 	    });
 	    
@@ -528,19 +527,21 @@ public class ShipmentsPage {
 	    return centerBox; 
 	}
 	
-	
-	/**
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//UPDATE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/** Created by: Matt Ridgway
 	 * editShipmentPane - GUI pane for editing a shipment. calls the DBUpdateShipment class. 
 	 * @return
 	 */
 	private VBox editShipmentPane() {
 		
 		DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
-		DBViewSelectShipment view = new DBViewSelectShipment(); //to view a select flight
-		DBUpdateShipment update =new DBUpdateShipment();	//update
+		DBViewSelectShipment viewSelectShipment = new DBViewSelectShipment(); //to view a select flight		
 		DBFinder finder = new DBFinder(); 
 		finder.findStatusID(); //set the values in the lookup table arraylists 		
 		DBViewAllClient viewClient = new DBViewAllClient(); 
+		DBUpdateShipment update=new DBUpdateShipment();		
 		
 	    VBox centerBox = new VBox();
 	    centerBox.setAlignment(Pos.TOP_CENTER);
@@ -556,7 +557,7 @@ public class ShipmentsPage {
 	    selection.setAlignment(Pos.CENTER);
 	   
 	    ComboBox<Integer> shipSelect = new ComboBox(FXCollections.observableArrayList(all.getShipID())); 
-	   shipSelect.setVisibleRowCount(5); 
+	    shipSelect.setVisibleRowCount(5); 
 	    
 	    Button shipSearch = new Button("Find Shipment"); 
 	    selection.getChildren().addAll(shipSelect, shipSearch); 
@@ -587,8 +588,7 @@ public class ShipmentsPage {
 	    TextField txtNotes = new TextField();  
 	    Label lblClientID =new Label("Client Name: ");	 
 	    ComboBox cbClientID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //puts name in box. 
-	    
-	    
+	     
 	    grid.add(lbID, 0,  0);
 	    grid.add(txtID, 1,  0);
 	    grid.add(lblClientID,0,1);
@@ -619,30 +619,26 @@ public class ShipmentsPage {
 		    	dpEnd.valueProperty().set(null);
 		    	txtNotes.setText("");
 		    	//Get selected shipment
-			   DBViewSelectShipment vss = new DBViewSelectShipment();
-			   DBViewAllClient vac = new DBViewAllClient(); 
-			   DBFinder dbf = new DBFinder(); 
-			   vss.viewSelected(shipSelect.getValue());	
+			   
+		    	viewSelectShipment.viewSelected(shipSelect.getValue());	
             
-			   txtID.setText(Integer.toString(vss.getShipID()));
+			   txtID.setText(Integer.toString(viewSelectShipment.getShipID()));
 			   
 			   //get client ID name
-			   int cbClientIDIndex = vac.getID().indexOf(vss.getClientID()); 
-			   cbClientID.setValue(vac.getName().get(cbClientIDIndex));
+			   int cbClientIDIndex = viewClient.getID().indexOf(viewSelectShipment.getClientID()); 
+			   cbClientID.setValue(viewClient.getName().get(cbClientIDIndex));
 			   
 			   //get status value based on ID
-			   dbf.findStatusID(); 
-			   int statusIndex = dbf.getStatusIDs().indexOf(vss.getStatusID()); 
-			   cbStatus.setValue(dbf.getStatusVals().get(statusIndex));
+			   finder.findStatusID(); 
+			   int statusIndex = finder.getStatusIDs().indexOf(viewSelectShipment.getStatusID()); 
+			   cbStatus.setValue(finder.getStatusVals().get(statusIndex));
 	    	
-			   txtVolume.setText(Double.toString(vss.getShipVolume()));
-			   txtWeight.setText(Double.toString(vss.getShipWeight()));
-			   txtNotes.setText(vss.getNotes()); 
+			   txtVolume.setText(Double.toString(viewSelectShipment.getShipVolume()));
+			   txtWeight.setText(Double.toString(viewSelectShipment.getShipWeight()));
+			   txtNotes.setText(viewSelectShipment.getNotes()); 
 	    		    	
-			   dpStart.setValue(vss.getStartDate().toLocalDate());	    	
-			   dpEnd.setValue(vss.getEndDate().toLocalDate());
-	    	
-	    	   	   	
+			   dpStart.setValue(viewSelectShipment.getStartDate().toLocalDate());	    	
+			   dpEnd.setValue(viewSelectShipment.getEndDate().toLocalDate());   	
 	    	
 		   } catch(Exception ex) {
 			   shipSelect.requestFocus(); 
@@ -651,22 +647,20 @@ public class ShipmentsPage {
 	    });
 	    centerBox.getChildren().addAll(title, instructions, selection, grid);
 	    //enter for update
-	    btnEnter.setOnAction(e->{
-	    	
+	    btnEnter.setOnAction(e->{    	
 	    	 
-	    	// variables head for header and cont for content
-	    	
+	    	// variables     	
 	    		    	
 	    	//get the client ID based on Client Name:
-	    	DBViewAllClient allClient = new DBViewAllClient(); 
-	    	int cIDindex = allClient.getName().indexOf(cbClientID.getValue()); 
-			int clientID= allClient.getID().get(cIDindex);
+	    
+	    	int cIDindex = viewClient.getName().indexOf(cbClientID.getValue()); 
+			int clientID= viewClient.getID().get(cIDindex);
 			
 			//get status ID based on status value
-			DBFinder dbfinder = new DBFinder(); 
-			dbfinder.findStatusID(); 
-			int statIndex = dbfinder.getStatusVals().indexOf(cbStatus.getValue());
-	    	int statusID = dbfinder.getStatusIDs().get(statIndex); 
+		
+			finder.findStatusID(); 
+			int statIndex = finder.getStatusVals().indexOf(cbStatus.getValue());
+	    	int statusID = finder.getStatusIDs().get(statIndex); 
 	    	String stringStatusID= String.valueOf(statusID); 
 	    	
 	    	String head="Status ID";
@@ -676,8 +670,8 @@ public class ShipmentsPage {
 			//shipment ID
 			head = "Shipment ID"; 
 			cont = "shipment ID not integer"; 
-			String shipmentID = txtID.getText(); 
-			int shipID = valid.intChecker(shipmentID, head, cont); 
+			String stringShipmentID = txtID.getText(); 
+			int shipmentID = valid.intChecker(stringShipmentID, head, cont); 
 						
 			//Volume and Weight to string
 	    	String stringVolume=txtVolume.getText().toString();
@@ -704,8 +698,8 @@ public class ShipmentsPage {
 		    	valid.error.setError("Weight", "Problem");
 		    }else if(valid.afterDate(sDate, eDate)) {
 		    	valid.error.setError("Date", "Problem Start Date after EndDate");
-		    }else {		    	
-		    	update.updateShipment(shipID, clientID, sVolume, sWeight, statusID, sDate, eDate, sNote);		    	
+		    }else {	
+		     	update.updateShipment(shipmentID, clientID, sVolume, sWeight, statusID, sDate, eDate, sNote);		    	
 				 //clear text fields
 		    	txtID.setText("");
 		    	txtVolume.clear();
@@ -735,6 +729,9 @@ public class ShipmentsPage {
 	     
 	    return centerBox; 
 	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//DELETE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * deleteShipmentPane - pane for deleting a shipment functionality
 	 * @return
