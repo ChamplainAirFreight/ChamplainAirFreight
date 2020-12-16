@@ -57,7 +57,7 @@ public class ValidateFields {
 		}
 	   //int checker
 	   public int intChecker(String num, String head, String cont) {
-		   Scanner sc = new Scanner(System.in);
+		 
 		   int intNumber = 0;
 		  
 		   try {
@@ -69,6 +69,21 @@ public class ValidateFields {
 			   System.out.print("int error");
 		   }
 		return intNumber;
+		   
+	   }
+	   // float Checker
+	   public float floatChecker(String num, String head, String cont) {
+		   
+		   float floatNumber = 0;		  
+		   try {
+			   floatNumber = Float.parseFloat(num);
+		     
+		   } catch (NumberFormatException ex) {
+		       //Error not float
+			   error.setError(head, cont);
+			   System.out.print("Float error");
+		   }
+		return floatNumber;
 		   
 	   }
 	   //phone number
