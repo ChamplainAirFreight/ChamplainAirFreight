@@ -425,7 +425,7 @@ finder.findAirports();
     	txtID.setText(Integer.toString(view.getFlightID()));   
     	
     	//dtStart.valueProperty().set(view.getStartTime().toLocalDate());
-    	//dtEnd.dateTimeValueProperty().setValue(view.getStartTime().toLocalDate());
+    	//dtEnd.dateTimeValueProperty().setValue(view.getEndTime().toLocalDate());
     	
    
     	
