@@ -329,6 +329,10 @@ DBViewAllFlights all = new DBViewAllFlights(); // for filling the combo box
 DBUpdateFlight update =new DBUpdateFlight();
 DateTimePicker dtStart = new DateTimePicker();  
 DateTimePicker dtEnd = new DateTimePicker(); 
+DBViewAllPilot pilot = new DBViewAllPilot(); 
+DBViewAllAircraft aircraft = new DBViewAllAircraft();
+DBFinder finder = new DBFinder(); 
+finder.findAirports(); 
 
     VBox centerBox = new VBox();
     centerBox.setAlignment(Pos.TOP_CENTER);
@@ -349,6 +353,20 @@ DateTimePicker dtEnd = new DateTimePicker();
     Button flightSearch = new Button("Select Flight"); 
     selection.getChildren().addAll(flightSelect, flightSearch); 
     
+    //comboboxes
+    ComboBox<Integer> cbAirID = new ComboBox(); 
+	cbAirID.getItems().addAll(aircraft.getAircraftID()); 
+	
+	ComboBox<Integer> cbPilotID = new ComboBox(); 
+	cbPilotID.getItems().addAll(pilot.getPilotID());
+	
+	ComboBox<String> cbStartAirport = new ComboBox(); 
+	cbStartAirport.getItems().addAll(finder.getAirportNames()); 
+	
+	ComboBox<String> cbEndAirport = new ComboBox(); 
+	cbEndAirport.getItems().addAll(finder.getAirportNames());
+
+    
     //grid of information: 
     GridPane grid = new GridPane(); 
     grid.setAlignment(Pos.CENTER);
@@ -356,34 +374,34 @@ DateTimePicker dtEnd = new DateTimePicker();
 	TextField txtID = new TextField();
 	txtID.setEditable(false);
 	Label lbAirID = new Label("Aircraft ID: "); 
-	TextField txtAirID = new TextField(); 
+	
     Label lblStartTime = new Label("Start Time: "); 
     TextField txtStartTime = new TextField();  
     Label lblEndTime = new Label("End Time: "); 
     TextField txtEndTime = new TextField();  
     Label lblPilotID = new Label("Pilot ID: "); 
-    TextField txtPilotID = new TextField();  
+    
     Label lblStartAirport = new Label("Start Airport: "); 
-    TextField txtStartAirport = new TextField();     
+       
     Label lblEndAirport = new Label("End Airport: "); 
-    TextField txtEndAirport = new TextField(); 
+    
     
  
     
     grid.add(lbID, 0,  0);
     grid.add(txtID, 1,  0);
     grid.add(lbAirID, 0, 1);
-    grid.add(txtAirID, 1,  1);
+    grid.add(cbAirID, 1,  1);
     grid.add(lblStartTime, 0,  2);
     grid.add(txtStartTime, 1,  2);
     grid.add(lblEndTime, 0, 3);
     grid.add(txtEndTime, 1, 3);
     grid.add(lblPilotID, 0, 4);
-    grid.add(txtPilotID,1 ,4);
+    grid.add(cbPilotID,1 ,4);
     grid.add(lblStartAirport, 0, 5);
-    grid.add(txtStartAirport, 1, 5);
+    grid.add(cbStartAirport, 1, 5);
     grid.add(lblEndAirport, 0, 6);
-    grid.add(txtEndAirport, 1, 6);
+    grid.add(cbEndAirport, 1, 6);
  
     
    // fill text with selected flight information
@@ -393,14 +411,16 @@ DateTimePicker dtEnd = new DateTimePicker();
 		
     	int id = Integer.parseInt(flightSelect.getValue().toString()); 
     	view.viewSelected(id);
+    	
+    	cbAirID.setValue(view.getAircraftID());    	
+		cbPilotID.setValue(view.getPilotID());
+		cbStartAirport.setValue(view.getStartLoc());
+		cbEndAirport.setValue(view.getEndLoc());  
 
-    	txtID.setText(Integer.toString(view.getFlightID()));
-    	txtAirID.setText(Integer.toString(view.getAircraftID()));
+    	txtID.setText(Integer.toString(view.getFlightID()));    	
     	txtStartTime.setText(view.getStartTime());
-    	txtEndTime.setText(view.getEndTime()); 
-    	txtPilotID.setText(Integer.toString(view.getPilotID()));
-    	txtStartAirport.setText(Integer.toString(view.getStartAirport()));
-    	txtEndAirport.setText(Integer.toString(view.getEndAirport())); 
+    	txtEndTime.setText(view.getEndTime());
+    	
    
     	
 	   } catch(Exception ex) {
@@ -419,7 +439,8 @@ DateTimePicker dtEnd = new DateTimePicker();
     	
     	// check aircraftId
     	head ="Aircraft ID";
-    	int airCraftID=valid.intChecker(txtAirID.getText(),head,cont);
+    	int airCraftID=cbAirID.getValue();
+    	
     	
     	//time
     	LocalDateTime start = dtStart.getDateTimeValue();
@@ -433,13 +454,19 @@ DateTimePicker dtEnd = new DateTimePicker();
 		//System.out.println("End date: " + endDate); 
 		// pilot ID check
     	head="Pilot ID";
-    	int pilotID=valid.intChecker(txtPilotID.getText(),head,cont);
+    	int pilotID=cbPilotID.getValue();
     	
-    	head="Starting Airport";
-    	int startAirport =valid.intChecker(txtStartAirport.getText(),head,cont);
     	
-    	head="Ending Airport";
-    	int endAirport =valid.intChecker(txtEndAirport.getText(),head,cont);
+    	
+    	String startLoc = cbStartAirport.getValue(); 
+		int index = finder.getAirportNames().indexOf(startLoc); 
+		int startLocID = finder.getAirportIDs().get(index); 
+		
+		String endLoc = cbEndAirport.getValue(); 
+		int endIndex = finder.getAirportNames().indexOf(endLoc); 
+		int endLocID = finder.getAirportIDs().get(endIndex);
+    	
+    
     	//for start end time
     	head="Time";
     	cont="Not Blank";
@@ -447,13 +474,13 @@ DateTimePicker dtEnd = new DateTimePicker();
     	if (flightID==0) {
     		txtID.clear();
     	}else if(airCraftID==0) {
-    		txtAirID.clear();
+    		
     	}else if(pilotID==0) {
-    		txtPilotID.clear();
-    	}else if(startAirport==0) {
-    		txtStartAirport.clear();
-    	}else if (endAirport==0) {	
-           	txtEndAirport.clear(); 	
+    		
+    	}else if(startLocID==0) {
+    		
+    	}else if (endLocID==0) {	
+          	
     	}else if (startDate=="") {    		
     		valid.error.setError(head, cont);
     	}else if(endDate=="") {
@@ -463,16 +490,16 @@ DateTimePicker dtEnd = new DateTimePicker();
     		valid.error.setError("Date Error", "Start time can't be before End time");
     	} 
     	else{
-    		update.updateFlight(flightID, airCraftID, pilotID, startAirport, endAirport, startDate, endDate);
+    		update.updateFlight(flightID, airCraftID, pilotID, startLocID, endLocID, startDate, endDate);
     		 //clear textFields after update has been sent
     		flightSelect.valueProperty().set(null);
     	    txtID.clear();
-    	    txtAirID.clear();
+    	    cbAirID.valueProperty().set(null);
     	    txtStartTime.clear();
     	    txtEndTime.clear();
-    	    txtPilotID.clear();
-    	    txtStartAirport.clear();
-    	    txtEndAirport.clear();
+    	    cbPilotID.valueProperty().set(null);
+    	    cbStartAirport.valueProperty().set(null);
+    	    cbEndAirport.valueProperty().set(null);
     	}
     	
     	
@@ -483,12 +510,12 @@ DateTimePicker dtEnd = new DateTimePicker();
     btnCancel.setOnAction(e->{
     	flightSelect.valueProperty().set(null);
     	txtID.clear();
-    	txtAirID.clear();
+    	cbAirID.valueProperty().set(null);
     	txtStartTime.clear();
     	txtEndTime.clear(); 
-    	txtPilotID.clear();
-    	txtStartAirport.clear();
-    	txtEndAirport.clear(); 
+        cbPilotID.valueProperty().set(null);
+	    cbStartAirport.valueProperty().set(null);
+	    cbEndAirport.valueProperty().set(null);
     });
    
     return centerBox; 
