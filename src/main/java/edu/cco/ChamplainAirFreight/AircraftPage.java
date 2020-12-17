@@ -579,7 +579,7 @@ public class AircraftPage {
 		 
 		// add title and subtitle instructions 
 		    Text title = new Text("Delete Aircraft"); 
-		    Text instructions = new Text("Select the AircraftID for the aircraft you wish to delete, then click DELETE");
+		    Text instructions = new Text("Select the AircraftID for the aircraft you wish to delete, then click Enter");
 		
 		//add selection fields
 		    GridPane gpane = new GridPane(); 
@@ -588,13 +588,11 @@ public class AircraftPage {
 			gpane.setHgap(5);
 			gpane.setVgap(5);
 		    ComboBox<Integer> cbAirID = new ComboBox(FXCollections.observableArrayList(view.getAircraftID())); 
-		    Button btDelete = new Button("DELETE"); 
 		    gpane.add(cbAirID,  0,  0);
-		    gpane.add(btDelete, 1, 0);
-		    
+	
 		    centerBox.getChildren().addAll(title, instructions, gpane); 
 		    
-		   btDelete.setOnAction(e->{
+		   btnEnter.setOnAction(e->{
 			   DBDeleteAircraft delete = new DBDeleteAircraft(); 
 			   delete.deleteAircraft(cbAirID.getValue());
 		   //clear combobox
