@@ -237,24 +237,17 @@ public class ContactPage {
     		}
     		// set focus
     		 txfname.requestFocus();
-    		 // clearing the text fields
-     		 txfname.clear();
-      		 txlname.clear();
-      		 txsubject.clear();
-      		 texReaOne.clear(); 
+    		 // clearing the text fields -- took this off so that users wont lose info -- kelly
+     		 //txfname.clear();
+      		 //txlname.clear();
+      		 //txsubject.clear();
+      		 //texReaOne.clear(); 
         });
        	    
         return box;
     }
 
-	private ScrollPane viewContact() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(400);
-        chart.setMaxHeight(400);
-        //add text for Contact information (could be pulled from a text file)
-        return chart;
-    }
-    /**
+	 /**
      * The function below is to display the bottom section button that allows a user to cancel
      * submit or exit the contact page
      * @return
