@@ -478,27 +478,32 @@ public class ShipmentsPage {
 	    	Date startDate = Date.valueOf(dpStart.getValue());
 	    	
 	    	//get text for volume and weight
-	    	String vol=txtVolume.getText().toString();
-	    	String wght=txtWeight.getText().toString();
-	    	String notes = txtNotes.getText().toString();
-	    	String head="Float";
-	    	String cont="Float Volume problem";
-	    	//check and return
-	    	Float volume =valid.floatChecker(vol, head, cont); 
-	    	 cont="Float Weight problem";
-	    	Float weight =valid.floatChecker(wght, head, cont); 
+	    	Float weight = null;
+	    	Float volume = null;	    	   
 	    	
-	    	//validation check
-	    	if(clientID==0) {
-	    		valid.error.setError("Client ID", "Problem ClientID=0");
-	    	}else if(!valid.floatChecker(vol)){
+	    	if (!valid.isString(txtVolume.getText())) {//if not string parseFloat
+	    		volume=Float.parseFloat(txtVolume.getText());
+	    	}else {
 	    		valid.error.setError("Float", "Problem with Volume");
 	    		txtVolume.clear();
-	    	}else if(!valid.floatChecker(wght)){
-	    		valid.error.setError("Float", "Problem with Weight ");
-	    		txtWeight.clear();
-	    	} 
+	    	}
+	    	if (!valid.isString(txtWeight.getText())) {//if not string parseFloat
+	    		weight=Float.parseFloat(txtWeight.getText());
+	    	}else{
+	    		valid.error.setError("Float", "Problem with weight");
+	    		txtVolume.clear();
+	    	}
+	    	String notes = txtNotes.getText().toString();
 	    	
+	    	
+	    	//validation check and if error don't sent to DB
+	    	if(clientID==0) {
+	    		valid.error.setError("Client ID", "Problem ClientID=0");
+	    	} else if(volume==null) {
+	    		valid.error.setError("Float", "Problem with Volume");
+	    	} else if(weight==null) {
+	    		valid.error.setError("Float", "Problem with Weight");
+	    	}
 	    	else {
 	    		try {
 		    		Date endDate = Date.valueOf(dpEnd.getValue()); 		    		
