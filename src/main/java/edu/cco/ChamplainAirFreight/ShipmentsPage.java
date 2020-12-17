@@ -270,12 +270,11 @@ public class ShipmentsPage {
 		
 		 GridPane gpane = new GridPane(); 		 
 		 gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
-		 gpane.setPadding(new Insets(10,10,10,10));
+		 gpane.setPadding(new Insets(10,0,10,20));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
-		 gpane.setHgap(100);
+		 gpane.setHgap(90);
 		 gpane.setVgap(5);
-		 gpane.setPrefWidth(700); 
-		 		 
+				 		 
 		 int row = 1; 
 		 int i =0; 
 		 while(i < view.getShipID().size()) {
@@ -794,20 +793,22 @@ public class ShipmentsPage {
 	    grid.setVgap(4);
 	    grid.setPadding(new Insets(4,4,4,4));
 	    Label lblID = new Label("Shipment ID: "); 
-	    ComboBox cbID = new ComboBox(FXCollections.observableArrayList(view.getShipID()));
+	    ComboBox<Integer> cbShipID = new ComboBox(FXCollections.observableArrayList(view.getShipID()));
 	    grid.add(lblID, 0,0);
-	    grid.add(cbID, 1, 0);
+	    grid.add(cbShipID, 1, 0);
 	    
 	    centerBox.getChildren().addAll(title,instructions, grid); 
 	    
 	    btnEnter.setOnAction(e->{
-	    	int shipID = Integer.parseInt(cbID.getValue().toString());
+	    	int shipID = Integer.parseInt(cbShipID.getValue().toString());
 	    	delete.deleteShipment(shipID);
-	    	cbID.valueProperty().set(null);
+	    	cbShipID.valueProperty().set(null);
+	    	DBViewAllShipments viewAgain = new DBViewAllShipments(); 
+	    	cbShipID.setItems(FXCollections.observableArrayList(viewAgain.getShipID()));	    	
 	    }); 
 	    
 	    btnCancel.setOnAction(e->{
-	    	cbID.valueProperty().set(null);
+	    	cbShipID.valueProperty().set(null);
 	    });
 	    
 	    return centerBox; 
