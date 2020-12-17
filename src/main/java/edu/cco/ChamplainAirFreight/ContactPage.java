@@ -233,10 +233,10 @@ public class ContactPage {
     		// set focus
     		 txfname.requestFocus();
     		 // clearing the text fields -- took this off so that users wont lose info -- kelly
-     		 //txfname.clear();
-      		 //txlname.clear();
-      		 //txsubject.clear();
-      		 //texReaOne.clear(); 
+     		 txfname.clear();
+      		 txlname.clear();
+      		 txsubject.clear();
+      		 texReaOne.clear(); 
         });
        	    
         return box;

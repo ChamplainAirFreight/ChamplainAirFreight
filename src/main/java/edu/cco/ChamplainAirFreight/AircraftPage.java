@@ -462,6 +462,7 @@ public class AircraftPage {
 		    	view.viewSelected(entry);
 		    	
 		    	txtID.setText(Integer.toString(view.getAircraftID()));
+		    	txtID.setEditable(false);
 		    	//txtStatusID.setText(Integer.toString(view.getStatusID()));
 		    	cbModel.valueProperty().set(view.getModel());
 		    	
