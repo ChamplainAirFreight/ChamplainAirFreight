@@ -445,7 +445,7 @@ finder.findAirports();
     		valid.error.setError(head, cont);
     	}
     	else if(valid.afterDateString(startDate, endDate)) {//check if start time is after end time
-    		valid.error.setError("Date Error", "Start time can't be before End time");
+    		valid.error.setError("Date Error", "Start time can't be after End time");
     	} 
     	else{
     		update.updateFlight(flightID, airCraftID, pilotID, startLocID, endLocID, startDate, endDate);
