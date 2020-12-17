@@ -167,61 +167,6 @@ public class ShipmentsPage {
         return box;
     }
 
-
-    /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getClientLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll( getShipInfolb(), getClientInfotx() );
-    	return hboxlb;
-    }   
-    /**
-     * This function displays the labels for the shipments.
-     * @return
-     */
-    private VBox getShipInfolb() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(20);
-    	vboxi.setPadding(new Insets(23,30,0,20));
-    	Label lbShipmentID = new Label("Shipment ID"); 
-		Label lbShipmentVolume = new Label("Shipment Volume");
-		Label lbShipmentWeight = new Label("Shipment Weight");
-		Label lbShipmentStartDate = new Label("Shipment Start Date");
-		Label lbShipmentEndDate = new Label("Shipment End Date");
-		Label lbShipmentNotes = new Label("Shipment Notes");
-    	vboxi.getChildren().addAll(lbShipmentID, lbShipmentVolume, lbShipmentWeight, lbShipmentStartDate,
-    			lbShipmentEndDate, lbShipmentNotes);
-    	return vboxi;
-    }
-    /**
-     * This function displays the text fields. User's will be able to enter information in the textfields
-     * @return
-     */
-    private VBox getClientInfotx() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(12);
-    	vboxi.setPadding(new Insets(20,10,0,20));
-    	TextField txShipmentID = new TextField();
-    	TextField txShipmentVolume = new TextField();
-    	TextField txShipmentWeight = new TextField();
-    	TextField txShipmentStartDate = new TextField();
-    	TextField txShipmentEndDate = new TextField();
-        texRea = new TextArea("");
-        texRea = new TextArea();
-        texRea.setStyle("-fx-border-color: black");
-        texRea.setFont(new Font("Time New Roman", 10));
-        texRea.setEditable(true);
-        texRea.setWrapText(true);
-        texRea.setPrefSize(600, 120);
-    	vboxi.getChildren().addAll(txShipmentID,txShipmentVolume, txShipmentWeight, txShipmentStartDate, 
-    			txShipmentEndDate,texRea);
-    	return vboxi;
-    }
     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
@@ -279,8 +224,8 @@ public class ShipmentsPage {
 		 int i =0; 
 		 while(i < view.getShipID().size()) {
 			 Label gridShipID = new Label(String.valueOf(view.getShipID().get(i))); 
-			 Label gridShipVol = new Label(String.valueOf(view.getShipVolume().get(i))); 
-			 Label gridShipWeight = new Label(String.valueOf(view.getShipWeight().get(i))); 
+			 Label gridShipVol = new Label(String.format("%.02f",view.getShipVolume().get(i))); 
+			 Label gridShipWeight = new Label(String.format("%.02f",view.getShipWeight().get(i))); 
 			 Label gridShipStart = new Label(String.valueOf(view.getStartDate().get(i))); 
 			 Label gridShipEnd = new Label(String.valueOf(view.getEndDate().get(i))); 
 			 Label gridShipNotes = new Label(String.valueOf(view.getNotes().get(i))); 
