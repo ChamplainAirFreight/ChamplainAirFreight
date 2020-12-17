@@ -603,6 +603,7 @@ public class ShipmentsPage {
 		TextField txtVolume = new TextField(); 
 	    Label lblWeight = new Label("Shipment Weight: "); 
 	    TextField txtWeight = new TextField();  
+	    
 	    Label lblStatus = new Label("Shipment Status: "); 
 	    ComboBox<String> cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
 	   
@@ -700,17 +701,25 @@ public class ShipmentsPage {
 			int shipmentID = valid.intChecker(stringShipmentID, head, cont); 
 						
 			//Volume and Weight to string
-	    	String stringVolume=txtVolume.getText().toString();
-	    	String stringWeight=txtWeight.getText().toString();
+			Float sWeight = null;
+	    	Float sVolume = null;	    	   
+	    	
+	    	if (!valid.isString(txtVolume.getText())) {//if not string parseFloat
+	    		sVolume=Float.parseFloat(txtVolume.getText());
+	    	}else {
+	    		valid.error.setError("Float", "Problem with Volume");
+	    		txtVolume.clear();
+	    	}
+	    	if (!valid.isString(txtWeight.getText())) {//if not string parseFloat
+	    		sWeight=Float.parseFloat(txtWeight.getText());
+	    	}else{
+	    		valid.error.setError("Float", "Problem with weight");
+	    		txtVolume.clear();
+	    	}
+	    	
 	    	String sNote = txtNotes.getText().toString();
 	    	
-	    	 head="Float";
-	    	 cont="Float Volume problem";
-	    	//Volume and Weight Validation check and return Float
-	    	Float sVolume =valid.floatChecker(stringVolume, head, cont); 
-	    	 cont="Float Weight problem";
-	    	Float sWeight =valid.floatChecker(stringWeight, head, cont);     
-			
+	    			
 			Date sDate = Date.valueOf(dpStart.getValue());
 		     
 		    
@@ -718,9 +727,9 @@ public class ShipmentsPage {
 		    	valid.error.setError("Client ID", "Problem");		    	
 		    }else if(statusID == 0) {
 		    	valid.error.setError("Shipment ID", "Problem");		    	
-		    }else if (!valid.floatChecker(stringVolume)) {
+		    }else if (sVolume==null) {
 		    	valid.error.setError("Volume", "Problem");
-		    }else if(!valid.floatChecker(stringWeight)) {
+		    }else if(sWeight==null) {
 		    	valid.error.setError("Weight", "Problem");
 		    }else {	
 		    	try {
