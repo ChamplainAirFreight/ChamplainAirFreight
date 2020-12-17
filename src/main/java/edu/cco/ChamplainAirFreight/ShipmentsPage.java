@@ -320,8 +320,8 @@ public class ShipmentsPage {
 	    	view.viewSelected(id);
 
 	    	txtID.setText(Integer.toString(view.getShipID()));
-	    	txtVolume.setText(Double.toString(view.getShipVolume()));
-	    	txtWeight.setText(Double.toString(view.getShipWeight()));
+	    	txtVolume.setText(String.format("%.02f",view.getShipVolume()));
+	    	txtWeight.setText(String.format("%.02f",view.getShipWeight()));
 	    	txtStatus.setText(Integer.toString(view.getStatusID()));
 	    	txtStart.setText(String.valueOf(view.getStartDate()));
 	    	txtEnd.setText(String.valueOf(view.getEndDate()));
