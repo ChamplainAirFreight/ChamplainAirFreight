@@ -454,7 +454,7 @@ public class PilotPage {
 	    for (int i =0; i < all.getFirstName().size(); i++) {
 	    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
 	    }
-	    ComboBox pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
+	    ComboBox<String> pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
 	    pilotSelect.setVisibleRowCount(5); 
 	    
 	    Button pilotSearch = new Button("Select Pilot"); 
@@ -621,9 +621,6 @@ public class PilotPage {
 		box.setPadding(new Insets(2,20,2,20));
 		box.setStyle("-fx-background-color: white");
 		
-		DBFinder finder = new DBFinder(); 
-		
-		
 		//title and instructions 
 		Text title = new Text("Add a new Pilot"); 
 		Text instructions = new Text("Enter valid information for a Pilot, and then press Enter"); 
@@ -751,7 +748,7 @@ public class PilotPage {
 		grid.setVgap(4);
 		
 		Label lblPilotName = new Label("Pilot Name: "); 
-		ComboBox cbPilotName = new ComboBox(FXCollections.observableArrayList(name)); 
+		ComboBox<String> cbPilotName = new ComboBox(FXCollections.observableArrayList(name)); 
 		grid.add(lblPilotName, 0, 0);
 		grid.add(cbPilotName, 1, 0);
 		
@@ -765,6 +762,12 @@ public class PilotPage {
 	    	delete.deletePilot(id); //delete pilot based on pilot ID
 	    	
 	    	cbPilotName.valueProperty().set(null);
+	    	DBViewAllPilot viewAgain = new DBViewAllPilot(); 
+	    	name.clear(); 
+	    	for (int i =0; i < viewAgain.getFirstName().size(); i++) {
+		    	name.add(all.getFirstName().get(i) + " " + viewAgain.getLastName().get(i)); 
+		    }
+	    	cbPilotName.setItems(FXCollections.observableArrayList(name));
 	    	deletePilotPane(); //reopen deletePilotPane
 		});
 		
