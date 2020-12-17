@@ -434,13 +434,13 @@ public class ShipmentsPage {
 	    grid.setPadding(new Insets(4,4,4,4));
 	    
 	    Label lbID = new Label("Client Name: "); 
-		ComboBox cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //get usable client IDs
+		ComboBox<String> cbID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //get usable client IDs
 		Label lbVolume = new Label("Shipment Volume: "); 
 		TextField txtVolume = new TextField(); 
 	    Label lblWeight = new Label("Shipment Weight: "); 
 	    TextField txtWeight = new TextField();  
 	    Label lblStatus = new Label("Shipment Status: "); 
-	    ComboBox cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
+	    ComboBox<String> cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
 	    Label lblStart = new Label("Start Date: "); 
 	    DatePicker dpStart = new DatePicker();   
 	    Label lblEnd = new Label("End Date: "); 
@@ -477,7 +477,7 @@ public class ShipmentsPage {
 	    	statusID = finder.getStatusIDs().get(statusIndex); 
 	    	
 	    	Date startDate = Date.valueOf(dpStart.getValue());
-	    	Date endDate = Date.valueOf(dpEnd.getValue()); 
+	    	
 	    	//get text for volume and weight
 	    	String vol=txtVolume.getText().toString();
 	    	String wght=txtWeight.getText().toString();
@@ -498,19 +498,39 @@ public class ShipmentsPage {
 	    	}else if(!valid.floatChecker(wght)){
 	    		valid.error.setError("Float", "Problem with Weight ");
 	    		txtWeight.clear();
-	    	}else if(valid.afterDate(startDate, endDate)){
-	    		valid.error.setError("Date", "Start Date after End Date ");
-	    	}else {
-	    		//add shipment
-		    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
-		    	//clear entry fields
-		    	cbID.valueProperty().set(null);
-		    	txtVolume.clear(); 
-		    	txtWeight.clear(); 
-		    	cbStatus.valueProperty().set(null);
-		    	dpStart.valueProperty().set(null);
-		    	dpEnd.valueProperty().set(null);
-		    	txtNotes.clear(); 
+	    	} 
+	    	
+	    	else {
+	    		try {
+		    		Date endDate = Date.valueOf(dpEnd.getValue()); 		    		
+		    		if(startDate.after(endDate)) {
+		    			valid.error.setError("Date", "Start Date after End Date");
+		    		}
+		    		else {
+		    			//add shipment
+				    	add.insertSQL(clientID, volume, weight, statusID, startDate, endDate, notes);
+				    	//clear entry fields
+				    	cbID.valueProperty().set(null);
+				    	txtVolume.clear(); 
+				    	txtWeight.clear(); 
+				    	cbStatus.valueProperty().set(null);
+				    	dpStart.valueProperty().set(null);
+				    	dpEnd.valueProperty().set(null);
+				    	txtNotes.clear(); 
+		    		}		    		
+		    	}catch(NullPointerException ex){
+		    		//add shipment with no endDate
+			    	add.insertSQL(clientID, volume, weight, statusID, startDate, null, notes);
+			    	//clear entry fields
+			    	cbID.valueProperty().set(null);
+			    	txtVolume.clear(); 
+			    	txtWeight.clear(); 
+			    	cbStatus.valueProperty().set(null);
+			    	dpStart.valueProperty().set(null);
+			    	dpEnd.valueProperty().set(null);
+			    	txtNotes.clear(); 
+		    	}
+	    		
 	    	}	    	
 	    
 	    });
@@ -580,7 +600,7 @@ public class ShipmentsPage {
 	    Label lblWeight = new Label("Shipment Weight: "); 
 	    TextField txtWeight = new TextField();  
 	    Label lblStatus = new Label("Shipment Status: "); 
-	    ComboBox cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
+	    ComboBox<String> cbStatus = new ComboBox(FXCollections.observableArrayList(finder.getStatusVals()));   //add status values
 	   
 	    Label lblStart = new Label("Start Date: "); 
 	    DatePicker dpStart = new DatePicker(); 
@@ -589,7 +609,7 @@ public class ShipmentsPage {
 	    Label lblNotes = new Label("Notes: "); 
 	    TextField txtNotes = new TextField();  
 	    Label lblClientID =new Label("Client Name: ");	 
-	    ComboBox cbClientID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //puts name in box. 
+	    ComboBox<String> cbClientID = new ComboBox(FXCollections.observableArrayList(viewClient.getName())); //puts name in box. 
 	     
 	    grid.add(lbID, 0,  0);
 	    grid.add(txtID, 1,  0);
@@ -688,7 +708,7 @@ public class ShipmentsPage {
 	    	Float sWeight =valid.floatChecker(stringWeight, head, cont);     
 			
 			Date sDate = Date.valueOf(dpStart.getValue());
-		    Date eDate = Date.valueOf(dpEnd.getValue()); 
+		     
 		    
 		    if(clientID==0) {
 		    	valid.error.setError("Client ID", "Problem");		    	
@@ -698,9 +718,13 @@ public class ShipmentsPage {
 		    	valid.error.setError("Volume", "Problem");
 		    }else if(!valid.floatChecker(stringWeight)) {
 		    	valid.error.setError("Weight", "Problem");
-		    }else if(valid.afterDate(sDate, eDate)) {
-		    	valid.error.setError("Date", "Problem Start Date after EndDate");
 		    }else {	
+		    	try {
+		    	Date eDate = Date.valueOf(dpEnd.getValue());
+		    	if(sDate.after(eDate)) {
+		    		valid.error.setError("Date", "Start Date after End Date");
+		    	}
+		    	else { //update shipment with an end date 
 		     	update.updateShipment(shipmentID, clientID, sVolume, sWeight, statusID, sDate, eDate, sNote);		    	
 				 //clear text fields
 		    	txtID.setText("");
@@ -712,7 +736,21 @@ public class ShipmentsPage {
 		    	dpEnd.valueProperty().set(null);
 		    	txtNotes.clear();  
 		    	shipSelect.valueProperty().set(null); 
-		    }					 	
+		    	}
+		    }catch(NullPointerException ex) { //if no end date
+		    	update.updateShipment(shipmentID, clientID, sVolume, sWeight, statusID, sDate, null, sNote);		    	
+				 //clear text fields
+		    	txtID.setText("");
+		    	txtVolume.clear();
+		    	txtWeight.clear();
+		    	cbClientID.valueProperty().set(null);
+		    	cbStatus.valueProperty().set(null);
+		    	dpStart.valueProperty().set(null);
+		    	dpEnd.valueProperty().set(null);
+		    	txtNotes.clear();  
+		    	shipSelect.valueProperty().set(null); 
+		    }
+		    }
 	    	
 	    	
 	    });
