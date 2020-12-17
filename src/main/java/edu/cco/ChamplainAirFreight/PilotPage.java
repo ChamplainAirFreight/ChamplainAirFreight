@@ -41,7 +41,7 @@ import javafx.scene.text.Text;
  * @Date: Oct 30, 2020
  * @Subclass PilotPage Description: GUI panes for pilot information
  */
-//Imports
+
 //Begin Subclass PilotPage
 public class PilotPage {
 
@@ -177,63 +177,6 @@ public class PilotPage {
     }
 
     /**
-     * will connect to the db to view pilot information
-     *
-     * @return
-     */
-    private ScrollPane viewPilots() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(360);
-        chart.setMaxHeight(360);
-
-        return chart;
-    }
-    /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getClientLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
-    	return hboxlb;
-    }   
-    /*
-     * This function will display the pilot information for the pilot page
-     */
-    private VBox getClientInfolb() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(20);
-    	vboxi.setPadding(new Insets(23,30,0,20));
-        GridPane gPane = new GridPane();
-		 lbfname = new Label("First Name");
-		 lblname = new Label("Last Name");
-		 lbbirthdate = new Label("Date of Birth");
-		 lbdatehire = new Label("Date Hired");
-		 lbdateresign  = new Label("Date Resigned");
-    	
-    	vboxi.getChildren().addAll(lbfname,lblname,lbbirthdate,lbdatehire,lbdateresign);
-    	return vboxi;
-    }
-
-    /*
-     * This function will display the pilot information for the pilot page
-     */
-    private VBox getClientInfotx() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(12);
-    	vboxi.setPadding(new Insets(20,10,0,20));
-    	 txfname = new TextField();
-    	 txlname = new TextField();
-    	 txbirthdate = new TextField();
-    	 txdatehire = new TextField();
-    	 txdateresign = new TextField();
-    	vboxi.getChildren().addAll(txfname,txlname ,txbirthdate,txdatehire,txdateresign );//, getClientInfotxZip());
-    	return vboxi;
-    } 
-    /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
@@ -342,7 +285,7 @@ public class PilotPage {
 	    for (int i =0; i < all.getFirstName().size(); i++) {
 	    	name.add(all.getFirstName().get(i) + " " + all.getLastName().get(i)); 
 	    }
-	    ComboBox pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
+	    ComboBox<String> pilotSelect = new ComboBox(FXCollections.observableArrayList(name)); 
 	    pilotSelect.setVisibleRowCount(5); 
 	    
 	    Button pilotSearch = new Button("Search"); 

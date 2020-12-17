@@ -86,11 +86,6 @@ public class ContactPage {
         bPane = bp;
     }
     
-//    private HomePage HomePage(BorderPane bPane2) {
-//		// TODO Auto-generated method stu	
-//		return null;
-//	}
-
 	public VBox getPane() {
         VBox vbox = new VBox();
         vbox.getChildren().add(contacts());

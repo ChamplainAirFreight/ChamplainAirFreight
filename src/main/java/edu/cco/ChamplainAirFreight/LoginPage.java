@@ -49,7 +49,7 @@ public class LoginPage {
 	//passed borderpane from CAF
 	BorderPane bPane = new BorderPane();
 
-	//constructor takes borderpane from CAF
+	//default constructor
 	LoginPage(){
 		//does nothing just used to call the class
 	}
@@ -120,20 +120,7 @@ public class LoginPage {
         loginBPane.setCenter(grid); //call a method to show db of clients  
         loginBPane.setBottom(buttonBox);
 
-        //add actionables to change the setCenter based on button responses:
-        //btnLogin.setOnAction(e -> {
-        	//DBValidateUserPassword validatePassword = new DBValidateUserPassword();
-
-        	//String userName = tfUsername.getText();
-        	//String password = tfPassword.getText();
-
-        //if(validatePassword.validateUser(userName, password)) {
-        	//logSuccess = true; 
-        	//System.out.println("user validated " + logSuccess);  
-        //	}
-        //});
-
-        btnExit.setOnAction(e -> {
+            btnExit.setOnAction(e -> {
         	Platform.exit(); 
         });
 
@@ -154,10 +141,6 @@ public class LoginPage {
 	 */
 	public Scene loginStage() {
 		Scene logScene = new Scene(getPane(), 400, 200); 
-		//Stage logStage = new Stage(); 
-		//logStage.setTitle("Log into Champlain AirFreight");
-		//logStage.setScene(logScene); 
-		
 		return logScene; 
 	}
 	
