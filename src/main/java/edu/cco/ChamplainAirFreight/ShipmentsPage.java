@@ -514,7 +514,7 @@ public class ShipmentsPage {
 	private VBox editShipmentPane() {
 		
 		DBViewAllShipments all = new DBViewAllShipments(); // for filling the combo box
-		DBViewSelectShipment viewSelectShipment = new DBViewSelectShipment(); //to view a select flight		
+				
 		DBFinder finder = new DBFinder(); 
 		finder.findStatusID(); //set the values in the lookup table arraylists 		
 		DBViewAllClient viewClient = new DBViewAllClient(); 
@@ -587,22 +587,24 @@ public class ShipmentsPage {
 	   // fill text with selected flight information
 	    shipSearch.setOnAction(e->{
 		   try {
+			   DBViewSelectShipment viewSelectShipment = new DBViewSelectShipment(); //to view a select flight
 			   //clear fields
-				txtID.setText("");
-		    	txtVolume.setText("");
-		    	txtWeight.setText("");
+				txtID.clear(); 
+		    	txtVolume.clear();
+		    	txtWeight.clear();
 		    	cbClientID.valueProperty().set(null);
 		    	cbStatus.valueProperty().set(null);
 		    	dpStart.valueProperty().set(null);
 		    	dpEnd.valueProperty().set(null);
-		    	txtNotes.setText("");
+		    	txtNotes.clear();
 		    	//Get selected shipment
-			   
-		    	viewSelectShipment.viewSelected(shipSelect.getValue());	
+			   int selectedShipment; 
+			   selectedShipment = shipSelect.getValue(); 
+		       viewSelectShipment.viewSelected(selectedShipment);	
             
 			   txtID.setText(Integer.toString(viewSelectShipment.getShipID()));
 			   
-			   //get client ID name
+			   //get client ID name 
 			   int cbClientIDIndex = viewClient.getID().indexOf(viewSelectShipment.getClientID()); 
 			   cbClientID.setValue(viewClient.getName().get(cbClientIDIndex));
 			   

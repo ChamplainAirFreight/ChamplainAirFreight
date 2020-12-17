@@ -80,6 +80,7 @@ public class DBViewSelectShipment extends DBConnection {
 			endDate = rs.getDate(7); 
 			notes = rs.getString(8); 
 			}
+		rs.close(); 
 		
 		}catch (SQLException ex) {
 			Logger.getLogger(DBViewAllClient.class.getName()).log(Level.SEVERE, null, ex);
