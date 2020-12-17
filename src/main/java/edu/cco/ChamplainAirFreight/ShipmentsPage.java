@@ -268,12 +268,13 @@ public class ShipmentsPage {
 		box.setStyle("-fx-background-color: white; -fx-border-color: black"); 
 		
 		
-		 GridPane gpane = new GridPane(); 
+		 GridPane gpane = new GridPane(); 		 
 		 gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
-		 gpane.setPadding(new Insets(2,20,2,20));
+		 gpane.setPadding(new Insets(10,10,10,10));
 		 gpane.setAlignment(Pos.TOP_CENTER); 
 		 gpane.setHgap(100);
 		 gpane.setVgap(5);
+		 gpane.setPrefWidth(700); 
 		 		 
 		 int row = 1; 
 		 int i =0; 

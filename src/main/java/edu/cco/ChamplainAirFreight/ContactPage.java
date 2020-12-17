@@ -301,10 +301,14 @@ public class ContactPage {
      */
     private VBox getContactInfolb() {
     	VBox vboxi = new VBox();
+    	vboxi.setSpacing(10);
+    	vboxi.setAlignment(Pos.TOP_RIGHT); 
         lbfname = new Label("First Name");
 		 lblname = new Label("Last Name");
 		 lbsubject = new Label("Subject");
-    	
+    	lbfname.setStyle(s.contTextCol);
+    	lblname.setStyle(s.contTextCol);
+    	lbsubject.setStyle(s.contTextCol);
     	vboxi.getChildren().addAll(lbfname,lblname,lbsubject);
     	return vboxi;
     }
