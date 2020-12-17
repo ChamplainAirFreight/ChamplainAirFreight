@@ -168,59 +168,8 @@ public class AircraftPage {
         return box;
     }
 
-     /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getCraftViewLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER);
-    	hboxlb.getChildren().addAll(getCraftInfolb(),getCraftlInfotx());
-    	return hboxlb;
-    }   
-    /*
-     * This function will display the Aircraft information for the AircraftPage 
-     */
-    private VBox getCraftInfolb() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(20);
-    	vboxi.setPadding(new Insets(23,0,0,20));
-    	lbcraftMake = new Label("AirCraft Make");
-        lbcraftModel = new Label("AirCraft Model");
-        lbcraftRang = new Label("AirCraft Range");
-        lbcraftRC = new Label("Range Clasification");
-        lbtxPayload = new Label("Payload");
-        lbtxLoadVolume = new Label("Load Volume");
-        //Adding Styles
-        Arrays.asList(lbcraftMake, lbcraftModel, lbcraftRang, lbcraftRC, lbtxPayload, lbtxLoadVolume).forEach((b)->{
-        	b.setStyle(s.LBTextColor);
-        	b.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 15)); 
-        }); 
-        vboxi.getChildren().addAll(lbcraftMake, lbcraftModel, lbcraftRang, lbcraftRC,
-    			lbtxPayload, lbtxLoadVolume);
-    	return vboxi;
-    }
-/**
- * This function displays the text field	
- * @return
- */
-    private VBox getCraftlInfotx() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(12);
-    	vboxi.setPadding(new Insets(20,10,0,20));
-    	txcraftMake = new TextField();
-    	txcraftModel = new TextField();
-    	txcraftRang = new TextField();
-    	txcraftRC = new TextField();
-    	txPayload = new TextField();
-    	txLoadVolume = new TextField();
-    	vboxi.getChildren().addAll(txcraftMake, txcraftModel, txcraftRang, txcraftRC, txPayload, txLoadVolume);//, getClientInfotxZip());
-    	return vboxi;
-    } 
-
-    /**
+      
+   /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
@@ -432,7 +381,7 @@ public class AircraftPage {
 		    for(int i=0; i < add.getModelID().size(); i++) {
 		    	modelMake.add(add.getMake().get(i) + ", " + add.getModel().get(i)); 
 		    }
-		    ComboBox cbModels = new ComboBox(FXCollections.observableArrayList(modelMake)); //call a list of current models to choose from 
+		    ComboBox<String> cbModels = new ComboBox(FXCollections.observableArrayList(modelMake)); //call a list of current models to choose from 
 		    gpane.add(cbModels, 0,  0);
 		    		    
 		    centerBox.getChildren().addAll(title, instructions, gpane);  
@@ -495,7 +444,7 @@ public class AircraftPage {
 		    
 		    TextField txtID = new TextField(); 
 		 //   TextField txtStatusID = new TextField(); 		 
-		    ComboBox cbModel = new ComboBox(FXCollections.observableArrayList(model.getAircraftModel())); 
+		    ComboBox<String> cbModel = new ComboBox(FXCollections.observableArrayList(model.getAircraftModel())); 
 		  
 		    
 		    grid.add(lbID, 0, 0);
