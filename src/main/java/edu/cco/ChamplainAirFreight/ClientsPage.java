@@ -365,9 +365,7 @@ public class ClientsPage {
 		box.setAlignment(Pos.CENTER); 
 		box.setSpacing(10);
 		box.setPadding(new Insets(23,30,0,20));
-		box.setStyle("-fx-background-color: white");
-		//add client classes
-		DBAddClient add = new DBAddClient();
+		box.setStyle("-fx-background-color: white");		
 		DBViewAllClientType dbtype = new DBViewAllClientType();
 		//title and instructions 
 		Text title = new Text("Add a new Client"); 
@@ -389,7 +387,7 @@ public class ClientsPage {
 				
 		//entry fields
 		TextField txtName = new TextField(); 
-		ComboBox cbType = new ComboBox(FXCollections.observableArrayList(dbtype.getClientType())); //combobox with type names 
+		ComboBox<String> cbType = new ComboBox(FXCollections.observableArrayList(dbtype.getClientType())); //combobox with type names 
 		TextField txtPhone = new TextField(); 
 		TextField txtAdd1 = new TextField(); 
 		TextField txtAdd2 = new TextField(); 
@@ -426,29 +424,36 @@ public class ClientsPage {
     	
     	box.getChildren().addAll(title,instructions,grid); 
     	btnEnter.setOnAction(e->{
-    		//strings for validation
-    		String head="Name";
-    		String cont="Not a string";
     		
-    		//variables for SQL stored procedure
-    		String name;
+    		//client name validation 
+    		String head="Name";
+    		String cont="Not a string";    		
+    		String nameValid;
     				if(valid.isString(txtName.getText().toString())) {
-    				name =txtName.getText();	
+    				nameValid =txtName.getText();	
     				} else {
     					valid.error.setError(head, cont);
-    					name ="";
+    					nameValid ="";
     				}
     		head="Client type";
     		cont="Not a int";
     		
-    		String typeString = cbType.getValue().toString();
-    		int typeIndex = dbtype.getClientType().indexOf(typeString); 
+    		//get clientTypeID from the client Type value
+    		String typeString = cbType.getValue();    		 
+    		int typeIndex = dbtype.getClientType().indexOf(typeString);
+    		int type = valid.intChecker(dbtype.getID().get(typeIndex).toString(), head, cont);
+    		//validate client type id
+    		int clientTypeValid = valid.intChecker(String.valueOf(type), head, cont); 
+    		System.out.println("client type: " + typeString);
+    		System.out.println("index: " + typeIndex); 
+    		System.out.println("type id: " + type); 
     		
-    		int type = valid.intChecker(dbtype.getID().get(typeIndex).toString(), head, cont); 
+    		//phone number validation
     		head="Client Phone Number";
     		cont="Not Correct";
-    		String phone = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
-    		//add client IF 
+    		String phoneValid = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
+    		
+    		//client Address - must have Address line 1, but dont need add2
     		head="Client Address 1";
     		cont="Empty";
     		String add1 = txtAdd1.getText(); 
@@ -459,57 +464,46 @@ public class ClientsPage {
     		}
     		head="Client Address 2";
     		String add2 = txtAdd2.getText(); 
-    		//check string length
-    		int add2L=valid.stringLength(add2);
-    		if (add2L==0) {
-    			valid.error.setError(head, cont);
-    		}
-    		String city;
+    		
+    		//client City validation 
+    		String cityValid;
     		head="Client City";
     		cont="Empty";
     		if(valid.isString(txtCity.getText().toString())) {
-				city =txtCity.getText();	
+				cityValid =txtCity.getText();	
 				} else {
 					valid.error.setError(head, cont);
-			     city ="";
+			     cityValid ="";
 				}
     		
-    		String state = cbState.getValue(); 
+    		//client state validation 
+    		String stateValid = cbState.getValue(); 
+    		
+    		//client zip code validation
     		head="Client Zip";
     		cont="Not Correct";
-    		String zip = valid.zipCodeUS(txtZip.getText(), head, cont);
-    		//find new clientID for adding address1
-    		DBFinder find = new DBFinder(); 
-    		int id = find.findClientID(name, type, phone); 
-    		System.out.println(id); 
-    		if (name=="") {
-    			//error
-    			txtName.clear();    			
-    		}else if(type==0) {
-    			valid.error.setError("Type", "Error");
+    		String zipValid = valid.zipCodeUS(txtZip.getText(), head, cont);
+    		if (nameValid=="") {
     			
-    		}else if(phone=="") {
-    			//error
+    			txtName.clear();    			
+    		}else if(clientTypeValid==0) {
+    			valid.error.setError("Type", "Error");
+    		}else if(phoneValid=="") {
     			txtPhone.clear();
     		}else if(add1L==0) {
-    			txtAdd1.clear();
-    			
-    		}else if(add2L==0) {
-    			txtAdd2.clear();
-    			
-    		}
-    		else if(city=="") {
-    			//error
+    			txtAdd1.clear();			
+    		}else if(cityValid=="") {
     			txtCity.clear();
-    			
-    		}
-    		else if(zip=="") {
-    			//error
+    		}else if(zipValid=="") {
     			txtZip.clear();
     		}
     		else {//good send to DB
-    			add.insertSQL(name, type, phone);
-    			DBAddClientAddress ca = new DBAddClientAddress(add1, add2, city, state, zip, id);
+    			DBAddClient add = new DBAddClient();
+    			add.insertSQL(nameValid, clientTypeValid, phoneValid);
+    			//find new clientID after adding the new client so you can use the ID to add clientAddress
+        		DBFinder find = new DBFinder(); 
+        		int id = find.findClientID(nameValid, clientTypeValid, phoneValid);
+    			DBAddClientAddress ca = new DBAddClientAddress(add1, add2, cityValid, stateValid, zipValid, id);
     			//clear entry fields
         		txtName.clear(); 
         		txtPhone.clear(); 
