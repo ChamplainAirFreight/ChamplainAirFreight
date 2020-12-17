@@ -11,6 +11,7 @@ import edu.cco.ChamplainAirFreight.Database.DBConnection;
 import edu.cco.ChamplainAirFreight.Database.Client.DBViewAllClient;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 /**
  * 
@@ -26,10 +27,11 @@ public class DBViewAllFlights extends DBConnection{
 	private ArrayList<Integer> id = new ArrayList<>(); //flightID
 	private ArrayList<Integer> aircraftID = new ArrayList<>(); //aircraftID
 	private ArrayList<Integer> pilotID = new ArrayList<>(); 
-	private ArrayList<Integer> start = new ArrayList<>(); //StartAirport
-	private ArrayList<Integer> end = new ArrayList<>(); //EndAirport
-	private ArrayList<Time> startTime = new ArrayList<>(); //start time
-	private ArrayList<Time> endTime = new ArrayList<>(); // end time
+	private ArrayList<String> start = new ArrayList<>(); //StartAirport
+	private ArrayList<String> end = new ArrayList<>(); //EndAirport
+	private ArrayList<String> startTime = new ArrayList<>(); //start time
+	private ArrayList<String> endTime = new ArrayList<>(); // end time
+	private ArrayList<String> pilotName = new ArrayList<>(); //first name and last name together
 	
 	
 	/**
@@ -71,10 +73,11 @@ public class DBViewAllFlights extends DBConnection{
 				id.add(rs.getInt(1)); 
 				aircraftID.add(rs.getInt(2)); 
 				pilotID.add(rs.getInt(3)); 
-				start.add(rs.getInt(4)); 
-				end.add(rs.getInt(5)); 
-				startTime.add(rs.getTime(6)); 
-				endTime.add(rs.getTime(7)); 				
+				start.add(rs.getString(20)); 
+				end.add(rs.getString(25)); 
+				startTime.add(rs.getString(6)); 
+				endTime.add(rs.getString(7)); 
+				pilotName.add(rs.getString(12) + " " + rs.getString(13)); //first and last name
 			}
 			
 		}catch (SQLException ex) {
@@ -100,17 +103,20 @@ public class DBViewAllFlights extends DBConnection{
 	public ArrayList<Integer> getPilotID(){
 		return pilotID; 
 	}
-	public ArrayList<Integer> getStartLocation(){
+	public ArrayList<String> getStartLocation(){
 		return start; 
 	}
-	public ArrayList<Integer> getEndLocation(){
+	public ArrayList<String> getEndLocation(){
 		return end; 
 	}
-	public ArrayList<Time> getStartTime(){
+	public ArrayList<String> getStartTime(){
 		return startTime; 
 	}
-	public ArrayList<Time> getEndTime(){
+	public ArrayList<String> getEndTime(){
 		return endTime; 
+	}
+	public ArrayList<String> getPilotName(){
+		return pilotName; 
 	}
 	
 	/**

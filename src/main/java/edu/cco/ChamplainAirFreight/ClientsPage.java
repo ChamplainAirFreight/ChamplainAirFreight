@@ -427,7 +427,7 @@ public class ClientsPage {
     		
     		//client name validation 
     		String head="Name";
-    		String cont="Not a string";    		
+    		String cont="invalid client name entry";    		
     		String nameValid;
     				if(valid.isString(txtName.getText().toString())) {
     				nameValid =txtName.getText();	
@@ -436,7 +436,7 @@ public class ClientsPage {
     					nameValid ="";
     				}
     		head="Client type";
-    		cont="Not a int";
+    		cont="invalid client type entry";
     		
     		//get clientTypeID from the client Type value
     		String typeString = cbType.getValue();    		 
@@ -450,25 +450,24 @@ public class ClientsPage {
     		
     		//phone number validation
     		head="Client Phone Number";
-    		cont="Not Correct";
+    		cont="invalid phone number entry";
     		String phoneValid = valid.checkPhoneNumber(txtPhone.getText(), head, cont); 
     		
     		//client Address - must have Address line 1, but dont need add2
     		head="Client Address 1";
-    		cont="Empty";
+    		cont="Must have a client address";
     		String add1 = txtAdd1.getText(); 
     		//check string length
     		int add1L=valid.stringLength(add1);
     		if (add1L==0) {
     			valid.error.setError(head, cont);
     		}
-    		head="Client Address 2";
     		String add2 = txtAdd2.getText(); 
     		
     		//client City validation 
     		String cityValid;
     		head="Client City";
-    		cont="Empty";
+    		cont="invalid city entry";
     		if(valid.isString(txtCity.getText().toString())) {
 				cityValid =txtCity.getText();	
 				} else {
@@ -481,7 +480,7 @@ public class ClientsPage {
     		
     		//client zip code validation
     		head="Client Zip";
-    		cont="Not Correct";
+    		cont="Invalid zip code entry";
     		String zipValid = valid.zipCodeUS(txtZip.getText(), head, cont);
     		if (nameValid=="") {
     			
@@ -505,6 +504,7 @@ public class ClientsPage {
         		int id = find.findClientID(nameValid, clientTypeValid, phoneValid);
     			DBAddClientAddress ca = new DBAddClientAddress(add1, add2, cityValid, stateValid, zipValid, id);
     			//clear entry fields
+    			cbType.valueProperty().set(null);
         		txtName.clear(); 
         		txtPhone.clear(); 
         		txtAdd1.clear(); 
@@ -513,12 +513,12 @@ public class ClientsPage {
         		cbState.valueProperty().set(null);
         		txtZip.clear(); 
     		}
-    		
-    		
-    		
+ 	
     	});
     	
+    	//cancel button clears all fields 
     	btnCancel.setOnAction(e->{
+    		cbType.valueProperty().set(null);
     		txtName.clear(); 
     		txtPhone.clear(); 
     		txtAdd1.clear(); 
@@ -682,14 +682,9 @@ public class ClientsPage {
     		if (add1L==0) {
     			valid.error.setError(head, cont);
     		}
-    		head="Client Address 2";
+    		//address 2 can be empty
     		String add2 = txtAdd2.getText(); 
-    		//check string length
-    		int add2L=valid.stringLength(add2);
-    		if (add2L==0) {
-    			valid.error.setError(head, cont);
-    		}
-    		
+    		    		
     		head="Client City";
     		cont="Not a String";
     		String city;
@@ -699,8 +694,7 @@ public class ClientsPage {
 				valid.error.setError(head, cont);
 				city ="";
 			}
-    		
-    		
+    		    		
     		String state = cbState.getValue(); 
     		head="Client Zip";
     		cont="Not Correct";
@@ -714,29 +708,16 @@ public class ClientsPage {
     			valid.error.setError("Type", "Error");
     			
     		}else if(phone=="") {
-    			//error
     			txtPhone.clear();
     		}else if(add1L==0) {
     			txtAdd1.clear();
-    			
-    		}else if(add2L==0) {
-    			txtAdd2.clear();
-    			
-    		}
-    		else if(city=="") {
-    			//error
-    			txtCity.clear();
-    			
-    		}
-    		else if(zip=="") {
-    			//error
+    		}else if(city=="") {
+    			txtCity.clear();    			
+    		}else if(zip=="") {
     			txtZip.clear();
-    		}
-    		else {//good send to DB
-    				//update client Class
+    		}else {//good send to DB
     		updateClient.updateC(clientID, name, type, phone);	
     		//get index of clientID  
-    		//problem here
     		select.viewSelected(clientID);
     		int clientAddressID =select.getAddressID();	
     			if(clientAddressID == 0) {
@@ -753,6 +734,7 @@ public class ClientsPage {
     	    	
         		//clear text fields    		
         		cbClientID.valueProperty().set(null);
+        		cbType.valueProperty().set(null);
         		txtName.clear(); 
         		txtPhone.clear(); 
         		txtAdd1.clear(); 
@@ -767,6 +749,7 @@ public class ClientsPage {
     	
     	btnCancel.setOnAction(e->{
     		cbClientID.valueProperty().set(null);
+    		cbType.valueProperty().set(null);
     		txtName.clear(); 
     		txtPhone.clear(); 
     		txtAdd1.clear(); 
@@ -814,28 +797,28 @@ public class ClientsPage {
 			DBDeleteClient delete = new DBDeleteClient(); 
 			DBDeleteClientAddress deleteAdd = new DBDeleteClientAddress(); 
 			
-			//get client ID based on name
+			//get client ID based on name, delete client
 			int index = view.getName().indexOf(cbClients.getValue()); 
 			int id = view.getID().get(index); 
 			delete.deleteClient(id);
 			
-			
+			//get addressID to delete clientAddress
 			int addressIndex = view.getID().indexOf(id); 
 			int addressID = view.getAddressID().get(addressIndex); 
 			deleteAdd.deleteClientAddress(addressID); 
-			// need to delete client address by clientaddressid, not clientid
-			
+	
+	
 			//clear combobox
 			DBViewAllClient viewAgain = new DBViewAllClient();  
 			cbClients.setItems(FXCollections.observableArrayList(viewAgain.getName()));
 			cbClients.valueProperty().set(null);
+			deletePane(); 
 		});
 		
 		btnCancel.setOnAction(e->{
 			cbClients.valueProperty().set(null);
 		});
 		return box; 
-		
 	}
   
 } //End Subclass ClientsPage

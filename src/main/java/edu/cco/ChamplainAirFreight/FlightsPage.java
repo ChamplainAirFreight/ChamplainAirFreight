@@ -181,64 +181,7 @@ public class FlightsPage {
         return box;
     }
 
-    /**
-     * viewFlights - generates a chart of the flight information, which can be
-     * added to flights() will have to call the database flights table
-     *
-     * @return
-     */
-    private ScrollPane viewFlights() {
-        ScrollPane chart = new ScrollPane();
-        chart.setMinHeight(360);
-        chart.setMaxHeight(360);
-
-        return chart;
-    }
-    /**
-     * This is a function used to display the header section and the TextArea section for the result.
-     * @return
-     */
-    private HBox getClientLBs() {
-    	HBox hboxlb = new HBox();
-    	hboxlb.setMinHeight(300);
-    	hboxlb.setStyle("-fx-background-color: white");
-    	hboxlb.setAlignment(Pos.CENTER_LEFT);
-    	hboxlb.getChildren().addAll(getClientInfolb(),getClientInfotx());
-    	return hboxlb;
-    }   
-    /*
-     * This function will display the flight information for the flight page
-     */
-    private VBox getClientInfolb() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(20);
-   	 	vboxi.setPadding(new Insets(23,30,0,20));
-   	 	
-		 lbstartairport = new Label("Start Airport");
-		 lbendairport = new Label("End Airport");
-		 lbflightstarttime = new Label("Flight Start Time");
-		 lbShipmentEndDate = new Label("Flight End Time");
-    	
-    	vboxi.getChildren().addAll(lbstartairport,lbendairport,lbflightstarttime,lbShipmentEndDate);
-    	return vboxi;
-    }
-
-    /*
-     * This function will display the flight information for the flight page
-     */
-    private VBox getClientInfotx() {
-    	VBox vboxi = new VBox();
-    	vboxi.setSpacing(12);
-    	vboxi.setPadding(new Insets(20,10,0,20));
-    	 txstartairport = new TextField();
-    	 txendairport = new TextField();
-    	 txflightstarttime = new TextField();
-    	 txflightendtime = new TextField();
-    	vboxi.getChildren().addAll(txstartairport,txendairport ,txflightstarttime,txflightendtime);//, getClientInfotxZip());
-    	return vboxi;
-    } 
-
-    /**
+     /**
      * This is a function used to display the header section and the TextArea section for the result.
      * @return
      */
@@ -255,21 +198,22 @@ public class FlightsPage {
 	private HBox getViewLabel() {
 		HBox hboxv = new HBox();
 		hboxv.setAlignment(Pos.CENTER);
-		hboxv.setPadding(new Insets(3, 20, 3, 20));
-		hboxv.setSpacing(60);
+		hboxv.setPadding(new Insets(2, 5, 2, 20));
+		hboxv.setSpacing(55);
 		hboxv.setPrefWidth(700);
 		hboxv.setMaxWidth(900);
 		hboxv.setStyle("-fx-background-color: white; -fx-border-color: black");
 				
-		Label lbFlightID = new Label ("Flight ID"); 
-		Label lbACID = new Label("Aircraft ID"); 
-		Label lbPilotID = new Label("Pilot Name"); 
+		Label lbFlightID = new Label ("Flight"); 
+		Label lbACID = new Label("Aircraft"); 
+		Label lbPilotID = new Label("Pilot Name  "); 
 		Label lbStartLoc = new Label("Start Location"); 
-		Label lbStartTime = new Label("Start Time"); 
+		Label lbStartDate = new Label("  Start Date and Time  "); 
 		Label lbEndLoc = new Label ("End Location"); 
-		Label lbEndTime = new Label("End Time"); 
+		Label lbEndDate = new Label("  End Date and Time  "); 
+	 
 
-		hboxv.getChildren().addAll(lbFlightID, lbACID, lbPilotID, lbStartLoc, lbStartTime, lbEndLoc, lbEndTime);
+		hboxv.getChildren().addAll(lbFlightID, lbACID, lbPilotID, lbStartLoc,lbStartDate, lbEndLoc,lbEndDate);
 		return hboxv;
 	}
 
@@ -292,8 +236,8 @@ public class FlightsPage {
 		GridPane gpane = new GridPane();
 		gpane.setStyle("-fx-background-color: white; -fx-border-color: black");
 		gpane.setAlignment(Pos.TOP_CENTER);
-		gpane.setPadding(new Insets(2,20,2,20)); 
-		gpane.setHgap(90);
+		gpane.setPadding(new Insets(2,5,2,5)); 
+		gpane.setHgap(50);
 		gpane.setVgap(5);
 		
 		// dynamically add values from the database to the gridpane table 
@@ -302,7 +246,7 @@ public class FlightsPage {
 		 while(i < viewAllFlights.getFlightID().size()) {
 			 Label gridFlightID = new Label (String.valueOf(viewAllFlights.getFlightID().get(i))); 
 			 Label gridACID = new Label (String.valueOf(viewAllFlights.getAircraftID().get(i))); 
-			 Label gridPilotID = new Label(String.valueOf(viewAllFlights.getPilotID().get(i))); 
+			 Label gridPilotID = new Label(String.valueOf(viewAllFlights.getPilotName().get(i))); 
 			 Label gridStartLoc = new Label(String.valueOf(viewAllFlights.getStartLocation().get(i))); 
 			 Label gridStartTime = new Label(String.valueOf(viewAllFlights.getStartTime().get(i))); 
 			 Label gridEndLoc = new Label(String.valueOf(viewAllFlights.getEndLocation().get(i))); 
