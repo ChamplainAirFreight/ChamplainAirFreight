@@ -710,6 +710,7 @@ public class ShipmentsPage {
 	    		valid.error.setError("Float", "Problem with Volume");
 	    		txtVolume.clear();
 	    	}
+	    	
 	    	if (!valid.isString(txtWeight.getText())) {//if not string parseFloat
 	    		sWeight=Float.parseFloat(txtWeight.getText());
 	    	}else{
