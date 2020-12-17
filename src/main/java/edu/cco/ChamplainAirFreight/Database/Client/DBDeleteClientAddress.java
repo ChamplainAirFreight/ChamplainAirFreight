@@ -39,7 +39,7 @@ public class DBDeleteClientAddress extends DBConnection{
 			callable.executeQuery();
 						
 		}catch (SQLException ex) {
-			Logger.getLogger(DBDeleteClientAddress.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(DBDeleteClientAddress.class.getName()).log(Level.SEVERE, null, ex);
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("delete client address could not be completed"); 

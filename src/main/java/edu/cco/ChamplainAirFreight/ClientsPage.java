@@ -781,31 +781,33 @@ public class ClientsPage {
 		DBAddClient add = new DBAddClient();
 		//title and instructions 
 		Text title = new Text("Delete a Client"); 
-		Text instructions = new Text("Select a client, then click DELETE"); 
+		Text instructions = new Text("Select a client, then click Enter"); 
 		
-		ComboBox cbClients = new ComboBox(FXCollections.observableArrayList(view.getName())); 
-		Button btDelete = new Button("DELETE"); 
+		ComboBox<String> cbClients = new ComboBox(FXCollections.observableArrayList(view.getName())); 
 		GridPane gpane = new GridPane(); 
 		gpane.setHgap(11);
     	gpane.setVgap(5);
 		gpane.setAlignment(Pos.CENTER);
 		gpane.add(cbClients, 0,0);
-		gpane.add(btDelete, 1, 0);
 		
 		box.getChildren().addAll(title,instructions,gpane); 
-		btDelete.setOnAction(e->{
+		btnEnter.setOnAction(e->{
 			DBDeleteClient delete = new DBDeleteClient(); 
 			DBDeleteClientAddress deleteAdd = new DBDeleteClientAddress(); 
 			
 			//get client ID based on name, delete client
 			int index = view.getName().indexOf(cbClients.getValue()); 
 			int id = view.getID().get(index); 
-			delete.deleteClient(id);
 			
 			//get addressID to delete clientAddress
 			int addressIndex = view.getID().indexOf(id); 
 			int addressID = view.getAddressID().get(addressIndex); 
-			deleteAdd.deleteClientAddress(addressID); 
+			
+			//delete address, then delete client
+			deleteAdd.deleteClientAddress(addressID); 	
+			System.out.println("id - " + id); 
+			delete.deleteClient(id);
+					
 	
 	
 			//clear combobox
